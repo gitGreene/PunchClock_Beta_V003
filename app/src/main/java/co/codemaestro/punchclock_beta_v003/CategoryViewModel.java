@@ -18,5 +18,5 @@ public class CategoryViewModel extends AndroidViewModel {
         allCategories = repository.getAllCategories();
     }
 
-    
+
 }
