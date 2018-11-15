@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PunchClock_Beta_V003</string>
+    <string name="bottom_nav_add_cat">add category</string>
+    <string name="bottom_nav_settings">settings</string>
+</resources>
