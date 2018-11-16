@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -9,11 +11,10 @@
 
         <TextView
             android:id="@+id/timeBankTitle"
+            style="@style/time_bank_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryColor"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="24sp"/>
+            android:background="@color/primaryColor" />
 
         <!-- TODO: Fix Style for timeBankValue -->
         <TextView
@@ -22,5 +23,4 @@
             android:layout_height="wrap_content"
             android:textSize="24sp"/>
     </LinearLayout>
-
 </android.support.v7.widget.CardView>
