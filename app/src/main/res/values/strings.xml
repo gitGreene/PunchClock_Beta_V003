@@ -10,4 +10,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="category_name_hint">Category Name</string>
     <string name="add_category_save_button">Save</string>
+    <string name="add_category_fragment_create">Create</string>
+    <string name="add_category_fragment_cancel">Cancel</string>
 </resources>

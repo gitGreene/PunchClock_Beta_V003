@@ -13,7 +13,8 @@ import android.view.MenuItem;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        AddCategoryFragment.AddCategoryFragmentListener{
     private CategoryViewModel catViewModel;
     private BottomNavigationView bottomNav;
 
@@ -52,5 +53,11 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setCategories(categories);
             }
         });
+    }
+
+
+    @Override
+    public void onChoice(boolean choice) {
+
     }
 }
