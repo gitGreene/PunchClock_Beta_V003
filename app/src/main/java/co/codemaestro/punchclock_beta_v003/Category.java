@@ -20,10 +20,16 @@ public class Category {
     @ColumnInfo
     private String timeValue;
 
+//    @Ignore
+//    public Category(int id, @NonNull String category) {
+//        this.id = id;
+//        this.category = category;
+//    }
+
     @Ignore
-    public Category(int id, @NonNull String category) {
-        this.id = id;
+    public Category(@NonNull String category, String timeValue) {
         this.category = category;
+        this.timeValue = timeValue;
     }
 
     public Category(int id, @NonNull String category, String timeValue) {
@@ -31,6 +37,8 @@ public class Category {
         this.category = category;
         this.timeValue = timeValue;
     }
+
+
 
     @NonNull
     public int getId() {
