@@ -5,4 +5,9 @@
     <string name="no_title">No title</string>
     <string name="new_title">New Title</string>
     <string name="new_title2">New Title2</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="category_name_hint">Category Name</string>
+    <string name="add_category_save_button">Save</string>
 </resources>

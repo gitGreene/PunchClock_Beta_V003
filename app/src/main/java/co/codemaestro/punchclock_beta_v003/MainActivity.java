@@ -27,7 +27,11 @@ public class MainActivity extends AppCompatActivity {
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
+                        switch (menuItem.getItemId()) {
+                            case R.id.action_add_category:
+                                AddCategoryFragment addCategoryFragment = AddCategoryFragment.newInstance();
+                                addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
+                        }
 
                         return false;
                     }
