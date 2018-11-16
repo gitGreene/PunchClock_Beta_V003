@@ -13,12 +13,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private CategoryViewModel catViewModel;
+    private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final CategoryAdapter adapter = new CategoryAdapter(this);

@@ -47,6 +47,7 @@ public abstract class CategoryDatabase extends RoomDatabase {
             dao = db.categoryDao();
         }
 
+        // TODO: Fix Default start-up values
         @Override
         protected Void doInBackground(Void... voids) {
 

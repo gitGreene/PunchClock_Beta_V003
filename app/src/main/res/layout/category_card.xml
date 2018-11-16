@@ -14,13 +14,15 @@
             style="@style/time_bank_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryColor" />
+            android:background="@color/primaryColor"
+            android:textColor="@color/primaryTextColor"/>
 
         <!-- TODO: Fix Style for timeBankValue -->
         <TextView
             android:id="@+id/timeBankValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            android:textColor="@color/primaryColor"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

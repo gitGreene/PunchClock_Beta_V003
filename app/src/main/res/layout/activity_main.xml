@@ -1,36 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <FrameLayout
+    <include
+        layout="@layout/content_main"
+        app:layout_dodgeInsetEdges="bottom" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"
-            tools:listitem="@layout/category_card" />
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/primaryColor"
+        app:itemIconTint="@color/primaryTextColor"
+        app:itemTextColor="@color/primaryTextColor"
+        app:layout_insetEdge="bottom"
+        app:menu="@menu/bottom_nav" />
 
-
-
-
-
-    <!--<android.support.design.widget.BottomNavigationView-->
-        <!--android:id="@+id/bottom_nav"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom"-->
-        <!--android:background="@color/primaryColor"-->
-        <!--app:itemIconTint="@color/secondaryTextColor"-->
-        <!--app:itemTextColor="@color/secondaryTextColor"-->
-        <!--app:menu="@menu/bottom_nav">-->
-
-    <!--</android.support.design.widget.BottomNavigationView>-->
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
