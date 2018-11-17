@@ -68,7 +68,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         public void onClick(View v) {
             Category currentCategory = categories.get(getAdapterPosition());
 
-            // TODO: implement DetailActivity.class
             Intent detailIntent = new Intent(context, DetailActivity.class);
             detailIntent.putExtra("category_title", currentCategory.getCategory());
             context.startActivity(detailIntent);
