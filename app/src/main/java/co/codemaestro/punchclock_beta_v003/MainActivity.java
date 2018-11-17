@@ -15,6 +15,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements
         AddCategoryFragment.AddCategoryFragmentListener{
+
     private CategoryViewModel catViewModel;
     private BottomNavigationView bottomNav;
 
