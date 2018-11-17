@@ -40,7 +40,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             Category current = categories.get(position);
             holder.timeBankTitleView.setText(current.getCategory());
             holder.timeBankValueView.setText(current.getTimeValue());
-            holder.playButton.setText("PLAY");
+            holder.playButton.setText("Play");
         } else {
             holder.timeBankTitleView.setText(R.string.new_title);
         }
