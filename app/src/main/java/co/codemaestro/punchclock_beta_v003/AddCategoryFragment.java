@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Add Category Fragment
  */
 public class AddCategoryFragment extends AppCompatDialogFragment {
     AddCategoryFragmentListener listener;
