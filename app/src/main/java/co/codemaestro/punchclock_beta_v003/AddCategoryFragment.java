@@ -36,24 +36,26 @@ public class AddCategoryFragment extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.fragment_add_category, null);
 
         final EditText newCategory = view.findViewById(R.id.edit_category);
-//        final Button saveButton = view.findViewById(R.id.button_save);
+        final Button createCategory = view.findViewById(R.id.create_category_button);
+        final Button cancelDialog = view.findViewById(R.id.cancel_category_button);
 
-        AlertDialog.Builder newCategoryFragmentBuilder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder newCategoryFragmentBuilder = new AlertDialog.Builder(getActivity());
         newCategoryFragmentBuilder.setView(view);
 
-        newCategoryFragmentBuilder.setPositiveButton(R.string.add_category_fragment_create, new DialogInterface.OnClickListener() {
+        // TODO: Send New Category Name back to MainActivity/ViewModel
+        createCategory.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 listener.onChoice(true);
-            }
-        }).setNegativeButton(R.string.add_category_fragment_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                listener.onChoice(false);
-                dialog.cancel();
             }
         });
 
+        cancelDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onChoice(false);
+            }
+        });
 
         return newCategoryFragmentBuilder.create();
     }

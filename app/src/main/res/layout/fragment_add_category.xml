@@ -20,12 +20,27 @@
             android:inputType="textAutoComplete"
             android:textSize="18sp" />
 
-        <!--<Button-->
-            <!--android:id="@+id/button_save"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/primaryColor"-->
-            <!--android:text="@string/add_category_save_button" />-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/create_category_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingStart="10dp"
+                android:text="@string/add_category_fragment_create"/>
+            <Button
+                android:id="@+id/cancel_category_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/add_category_fragment_cancel"/>
+            </LinearLayout>
 
     </LinearLayout>
 
