@@ -56,6 +56,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         private final TextView timeBankTitleView;
         private final TextView timeBankValueView;
 
+
         private CategoryViewHolder(View itemView) {
             super(itemView);
             timeBankTitleView = itemView.findViewById(R.id.timeBankTitle);
