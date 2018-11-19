@@ -41,7 +41,7 @@ public abstract class CategoryDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final CategoryDao dao;
         String[] defaultCategories = {"Work", "School", "Gym"};
-        String[] defaultTimeValues = {"00:00:00", "00:00:00", "00:00:00"};
+        String defaultTimeValues = "00:00:00";
 
         PopulateDbAsync(CategoryDatabase db) {
             dao = db.categoryDao();
@@ -53,7 +53,7 @@ public abstract class CategoryDatabase extends RoomDatabase {
 
             if(dao.getAnyCategory().length < 1) {
                 for(int i = 0; i <= defaultCategories.length - 1; i++) {
-                    Category category = new Category(defaultCategories[i], defaultTimeValues[i]);
+                    Category category = new Category(defaultCategories[i], defaultTimeValues);
                     dao.insert(category);
                 }
             }
