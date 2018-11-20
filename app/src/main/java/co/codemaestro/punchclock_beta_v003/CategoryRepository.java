@@ -33,6 +33,10 @@ public class CategoryRepository {
         new insertAsyncTask(categoryDao).execute(category);
     }
 
+    public void deleteAll() {
+        new deleteAllAsyncTask(categoryDao).execute();
+    }
+
 
     /**
      * AsyncTask Inner Classes
@@ -48,6 +52,20 @@ public class CategoryRepository {
         @Override
         protected Void doInBackground(Category... categories) {
             asyncTaskDao.insert(categories[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
+        private CategoryDao asyncTaskDao;
+
+        deleteAllAsyncTask(CategoryDao dao) {
+            asyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            asyncTaskDao.deleteAll();
             return null;
         }
     }

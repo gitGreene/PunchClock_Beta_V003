@@ -7,7 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -36,9 +38,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         if(categories != null) {
-            Category current = categories.get(position);
+            final Category current = categories.get(position);
             holder.timeBankTitleView.setText(current.getCategory());
             holder.timeBankValueView.setText(current.getTimeValue());
+            holder.playButton.setText(R.string.play_button);
+            holder.playButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Damn son: " + current.getCategory(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
         } else {
             holder.timeBankTitleView.setText(R.string.new_title);
         }
@@ -47,6 +57,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = inflater.inflate(R.layout.category_card, parent, false);
+
+
         return new CategoryViewHolder(itemView);
     }
 
@@ -55,12 +67,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView timeBankTitleView;
         private final TextView timeBankValueView;
+        private final Button playButton;
 
 
         private CategoryViewHolder(View itemView) {
             super(itemView);
             timeBankTitleView = itemView.findViewById(R.id.timeBankTitle);
             timeBankValueView = itemView.findViewById(R.id.timeBankValue);
+            playButton = itemView.findViewById(R.id.playButton);
 
             itemView.setOnClickListener(this);
         }

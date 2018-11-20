@@ -12,4 +12,5 @@
     <string name="add_category_save_button">Save</string>
     <string name="add_category_fragment_create">Create</string>
     <string name="add_category_fragment_cancel">Cancel</string>
+    <string name="play_button">PLAY</string>
 </resources>
