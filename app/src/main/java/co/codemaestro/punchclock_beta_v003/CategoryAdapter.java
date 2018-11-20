@@ -35,6 +35,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         } else return 0;
     }
 
+    // Test Branch
+
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         if(categories != null) {
