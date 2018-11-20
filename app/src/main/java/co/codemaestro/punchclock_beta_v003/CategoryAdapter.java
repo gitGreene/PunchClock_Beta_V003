@@ -47,6 +47,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             holder.playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // TODO: Make this open DetailActivity + Start Timer
                     Toast.makeText(context, "Damn son: " + current.getCategory(), Toast.LENGTH_SHORT).show();
                 }
             });

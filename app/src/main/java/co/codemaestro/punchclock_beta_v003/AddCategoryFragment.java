@@ -26,7 +26,7 @@ public class AddCategoryFragment extends AppCompatDialogFragment {
     }
 
     interface AddCategoryFragmentListener {
-        void onChoice(boolean choice);
+        void onChoice(boolean choice, String newCategory);
     }
 
 
@@ -39,6 +39,7 @@ public class AddCategoryFragment extends AppCompatDialogFragment {
         final Button createCategory = view.findViewById(R.id.create_category_button);
         final Button cancelDialog = view.findViewById(R.id.cancel_category_button);
 
+
         final AlertDialog.Builder newCategoryFragmentBuilder = new AlertDialog.Builder(getActivity());
         newCategoryFragmentBuilder.setView(view);
 
@@ -46,14 +47,14 @@ public class AddCategoryFragment extends AppCompatDialogFragment {
         createCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onChoice(true);
+                listener.onChoice(true, newCategory.getText().toString());
             }
         });
 
         cancelDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onChoice(false);
+                listener.onChoice(false, null);
             }
         });
 
