@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements
                             case R.id.action_add_category:
                                 AddCategoryFragment addCategoryFragment = AddCategoryFragment.newInstance();
                                 addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
+                            case R.id.action_settings:
+                                // TODO: add activity for settings
                         }
 
                         return false;
@@ -58,7 +60,10 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onChoice(boolean choice) {
+    public void onChoice(boolean choice, String newCategory) {
+        // TODO: Return category name and create new category
+//        Category category = new Category(newCategory);
+//        catViewModel.insert(category);
 
     }
 }
