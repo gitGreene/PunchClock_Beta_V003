@@ -58,6 +58,7 @@ public abstract class CategoryDatabase extends RoomDatabase {
                 }
             }
 
+
 //            dao.deleteAll();
 //            Category category = new Category(1,"Work", "12345");
 //            dao.insert(category);

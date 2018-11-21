@@ -1,9 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_detail"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".DetailActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/categoryView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/category_default_detail_activity"
+        android:textSize="70sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/primaryColor"
+        android:textColor="@color/primaryTextColor"
+        android:layout_margin="10dp"
+        android:padding="1dp"
+
+        />
+    
+    <TextView
+        android:id="@+id/timerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/default_timer"
+        android:textSize="70sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        />
+    
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            tools:showIn="@layout/activity_main">
+
+            <Button
+                android:id="@+id/startButton"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+                android:layout_weight="1"
+
+                android:text="@string/start_button"
+                />
+
+            <Button
+                android:id="@+id/pauseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+                android:layout_weight="1"
+                android:text="@string/pause_button"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            tools:showIn="@layout/activity_main">
+
+            <Button
+                android:id="@+id/resetButton"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+                android:layout_weight="1"
+                android:text="@string/reset_button"
+                />
+
+            <Button
+                android:id="@+id/commitButton"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+                android:layout_weight="1"
+                android:text="@string/commit_button"
+                />
+        </TableRow>
+
+        <TableRow>
+
+
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
