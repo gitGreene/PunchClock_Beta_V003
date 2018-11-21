@@ -84,10 +84,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         @Override
         public void onClick(View v) {
+            // Create category object to hold category
             Category currentCategory = categories.get(getAdapterPosition());
 
+            // Change category into String for easier use in DetailActivity
+            String categoryString = currentCategory.getCategory();
+
+            // Send category over and start the detail activity
             Intent detailIntent = new Intent(context, DetailActivity.class);
-            detailIntent.putExtra("category_title", currentCategory.getCategory());
+            detailIntent.putExtra("category_title", categoryString);
             context.startActivity(detailIntent);
         }
     }

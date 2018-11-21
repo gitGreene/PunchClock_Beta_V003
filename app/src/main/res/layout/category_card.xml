@@ -30,11 +30,11 @@
                 android:id="@+id/timeBankValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
                 android:textColor="@color/primaryColor"
                 android:textSize="24sp"
-                tools:text="Time Bank Value"
-                android:layout_weight="1"
-                android:paddingLeft="10dp"/>
+                tools:text="Time Bank Value" />
 
             <Button
                 android:id="@+id/playButton"
@@ -44,7 +44,7 @@
                 android:textColor="@color/primaryColor"
                 android:textSize="12sp"
                 tools:text="PLAY"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
         </LinearLayout>
     </LinearLayout>

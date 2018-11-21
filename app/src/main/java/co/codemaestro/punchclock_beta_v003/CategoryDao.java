@@ -29,4 +29,5 @@ public interface CategoryDao {
 
     @Update
     void updateTimeValue(Category category);
+
 }
