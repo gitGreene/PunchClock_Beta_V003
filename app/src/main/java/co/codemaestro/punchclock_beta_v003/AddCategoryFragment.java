@@ -3,6 +3,7 @@ package co.codemaestro.punchclock_beta_v003;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,15 +26,21 @@ public class AddCategoryFragment extends AppCompatDialogFragment {
         return fragment;
     }
 
-    interface AddCategoryFragmentListener {
+    public interface AddCategoryFragmentListener {
         void onChoice(boolean choice, String newCategory);
     }
 
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (AddCategoryFragmentListener) context;
+    }
+
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_add_category, null);
+        final View view = inflater.inflate(R.layout.fragment_add_category, null);
 
         final EditText newCategory = view.findViewById(R.id.edit_category);
         final Button createCategory = view.findViewById(R.id.create_category_button);
@@ -48,13 +55,14 @@ public class AddCategoryFragment extends AppCompatDialogFragment {
             @Override
             public void onClick(View v) {
                 listener.onChoice(true, newCategory.getText().toString());
+                dismiss();
             }
         });
 
         cancelDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onChoice(false, null);
+                dismiss();
             }
         });
 

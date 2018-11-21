@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 
 import java.util.List;
@@ -61,9 +62,9 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onChoice(boolean choice, String newCategory) {
-        // TODO: Return category name and create new category
-//        Category category = new Category(newCategory);
-//        catViewModel.insert(category);
-
+        // Add category to database
+        Log.d("LOG", newCategory);
+        Category addedCategory = new Category(newCategory);
+        catViewModel.insert(addedCategory);
     }
 }

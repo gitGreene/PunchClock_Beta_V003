@@ -11,13 +11,14 @@ public class Category {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
+    @ColumnInfo(name = "id")
     private int id;
 
     @NonNull
     @ColumnInfo(name = "category")
     private String category;
 
-    @ColumnInfo
+    @ColumnInfo(name = "time value")
     private String timeValue;
 
 //    @Ignore
@@ -25,6 +26,11 @@ public class Category {
 //        this.id = id;
 //        this.category = category;
 //    }
+
+    @Ignore
+    public Category(@NonNull String category) {
+        this.category = category;
+    }
 
     @Ignore
     public Category(@NonNull String category, String timeValue) {
