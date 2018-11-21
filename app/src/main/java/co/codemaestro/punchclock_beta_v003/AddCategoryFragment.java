@@ -46,6 +46,7 @@ public class AddCategoryFragment extends AppCompatDialogFragment {
         final Button createCategory = view.findViewById(R.id.create_category_button);
         final Button cancelDialog = view.findViewById(R.id.cancel_category_button);
 
+
         final AlertDialog.Builder newCategoryFragmentBuilder = new AlertDialog.Builder(getActivity());
         newCategoryFragmentBuilder.setView(view);
 
