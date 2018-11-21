@@ -38,10 +38,6 @@ public class Category {
         this.timeValue = timeValue;
     }
 
-    @Ignore
-    public Category(@NonNull String category) {
-        this.category = category;
-    }
 
     public Category(int id, @NonNull String category, String timeValue) {
         this.id = id;
