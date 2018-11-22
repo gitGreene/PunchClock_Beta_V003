@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav = findViewById(R.id.bottom_nav);
 
         bottomNav.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements
                             case R.id.action_add_category:
                                 AddCategoryFragment addCategoryFragment = AddCategoryFragment.newInstance();
                                 addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
+                            case R.id.action_favorites:
+                                // TODO: code that reloads the recyclerView with favorites
                             case R.id.action_settings:
                                 // TODO: add activity for settings
                         }
