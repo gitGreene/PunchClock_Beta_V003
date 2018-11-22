@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +39,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     // Test Branch
 
     @Override
-    public void onBindViewHolder(CategoryViewHolder holder, int position) {
+    public void onBindViewHolder(final CategoryViewHolder holder, int position) {
         if(categories != null) {
+            final boolean isChecked;
             final Category current = categories.get(position);
             holder.timeBankTitleView.setText(current.getCategory());
             holder.timeBankValueView.setText(current.getTimeValue());
@@ -51,6 +53,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     Toast.makeText(context, "Damn son: " + current.getCategory(), Toast.LENGTH_SHORT).show();
                 }
             });
+
+            // TODO: FIX THIS GOD DAMN MESS
+//            holder.favoriteIcon.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if(!isChecked) {
+//                        Toast.makeText(context, "Favorite'd", Toast.LENGTH_SHORT).show();
+//                        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_black_24dp);
+//                        boolean isChecked = true;
+//                    } else {
+//                        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_hollow_black_24dp);
+//                    }
+//                }
+//            });
 
         } else {
             holder.timeBankTitleView.setText(R.string.new_title);
@@ -71,12 +87,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         private final TextView timeBankTitleView;
         private final TextView timeBankValueView;
         private final Button playButton;
+//        private final ImageView favoriteIcon;
+//        private final FavoriteIcon favoriteIcon;
 
 
         private CategoryViewHolder(View itemView) {
             super(itemView);
             timeBankTitleView = itemView.findViewById(R.id.timeBankTitle);
             timeBankValueView = itemView.findViewById(R.id.timeBankValue);
+//            favoriteIcon = itemView.findViewById(R.id.favorite_heart);
             playButton = itemView.findViewById(R.id.playButton);
 
             itemView.setOnClickListener(this);

@@ -11,6 +11,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -19,12 +23,17 @@ public class MainActivity extends AppCompatActivity implements
 
     private CategoryViewModel catViewModel;
     private BottomNavigationView bottomNav;
+    private ImageView favoriteHeart;
+//    private FavoriteIcon favoriteIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNav = findViewById(R.id.bottom_nav);
+        favoriteHeart = findViewById(R.id.favorite_heart);
+//        favoriteIcon = findViewById(R.id.favorite_heart);
+
 
         bottomNav.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
