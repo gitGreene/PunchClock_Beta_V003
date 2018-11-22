@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class DetailActivity extends AppCompatActivity {
-//    private CategoryViewModel catViewModel;
+//    private CategoryViewModel DetailViewModel;
 
     // References for buttons, timerView and creating a Handler for the runnable
     private Button startButton, pauseButton, resetButton, commitButton;
@@ -31,6 +31,8 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+//        DetailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
 
         // Initiate buttons/textViews and Handler
