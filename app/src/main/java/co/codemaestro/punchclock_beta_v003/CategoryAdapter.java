@@ -36,7 +36,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         } else return 0;
     }
 
-    // Test Branch
 
     @Override
     public void onBindViewHolder(final CategoryViewHolder holder, int position) {
@@ -58,12 +57,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 //            holder.favoriteIcon.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
-//                    if(!isChecked) {
-//                        Toast.makeText(context, "Favorite'd", Toast.LENGTH_SHORT).show();
-//                        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_black_24dp);
-//                        boolean isChecked = true;
+//                    if(!holder.favoriteIcon.isChecked()) {
+//                        holder.favoriteIcon.setChecked(true);
 //                    } else {
-//                        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_hollow_black_24dp);
+//                        holder.favoriteIcon.setChecked(false);
 //                    }
 //                }
 //            });
@@ -76,7 +73,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = inflater.inflate(R.layout.category_card, parent, false);
-
 
         return new CategoryViewHolder(itemView);
     }
@@ -95,8 +91,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             super(itemView);
             timeBankTitleView = itemView.findViewById(R.id.timeBankTitle);
             timeBankValueView = itemView.findViewById(R.id.timeBankValue);
-//            favoriteIcon = itemView.findViewById(R.id.favorite_heart);
             playButton = itemView.findViewById(R.id.playButton);
+
+            // TODO: ClassCastException
+//            favoriteIcon = itemView.findViewById(R.id.favorite_heart);
+//            favoriteIcon.setChecked(false);
 
             itemView.setOnClickListener(this);
         }
