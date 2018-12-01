@@ -40,7 +40,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(final CategoryViewHolder holder, int position) {
         if(categories != null) {
-            final boolean isChecked;
             final Category current = categories.get(position);
             holder.timeBankTitleView.setText(current.getCategory());
             holder.timeBankValueView.setText(current.getTimeValue());
@@ -53,17 +52,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 }
             });
 
-            // TODO: FIX THIS GOD DAMN MESS
-//            holder.favoriteIcon.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(!holder.favoriteIcon.isChecked()) {
-//                        holder.favoriteIcon.setChecked(true);
-//                    } else {
-//                        holder.favoriteIcon.setChecked(false);
-//                    }
-//                }
-//            });
 
         } else {
             holder.timeBankTitleView.setText(R.string.new_title);
@@ -83,8 +71,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         private final TextView timeBankTitleView;
         private final TextView timeBankValueView;
         private final Button playButton;
-//        private final ImageView favoriteIcon;
-//        private final FavoriteIcon favoriteIcon;
 
 
         private CategoryViewHolder(View itemView) {
@@ -93,9 +79,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             timeBankValueView = itemView.findViewById(R.id.timeBankValue);
             playButton = itemView.findViewById(R.id.playButton);
 
-            // TODO: ClassCastException
-//            favoriteIcon = itemView.findViewById(R.id.favorite_heart);
-//            favoriteIcon.setChecked(false);
 
             itemView.setOnClickListener(this);
         }
