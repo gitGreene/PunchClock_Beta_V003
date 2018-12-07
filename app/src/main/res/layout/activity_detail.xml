@@ -24,17 +24,16 @@
         android:padding="1dp"
 
         />
-    
-    <TextView
-        android:id="@+id/timerView"
+
+    <Chronometer
+        android:id="@+id/detailChronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="@string/default_timer"
         android:textSize="70sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        />
+        android:textStyle="bold" />
     
     <TableLayout
         android:layout_width="match_parent"
