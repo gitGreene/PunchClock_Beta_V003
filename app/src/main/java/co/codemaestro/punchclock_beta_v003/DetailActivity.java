@@ -30,9 +30,9 @@ public class DetailActivity extends AppCompatActivity {
     // Variables for sharedPrefs
     private static final String PREFS_FILE_MAIN = "mySharedPreferences";
     private static final int PREFS_MODE_MAIN = Context.MODE_PRIVATE;
-    private static final String totalTimeKey = "com.deltorostudios.abhichronometer.GreenKey";
-    private static final String timerRunningKey = "com.deltorostudios.abhichronometer.BlueKey";
-    private static final String timeOnDestroyKey = "com.deltorostudios.abhichronometer.RedKey";
+    private static final String totalTimeKey = "co.codemaestro.punchclock_beta_v003.GreenKey";
+    private static final String timerRunningKey = "co.codemaestro.punchclock_beta_v003.BlueKey";
+    private static final String timeOnDestroyKey = "co.codemaestro.punchclock_beta_v003.RedKey";
 
     FormatMillis format = new FormatMillis();
 
