@@ -9,10 +9,15 @@ import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 public class DetailActivity extends AppCompatActivity {
 //    private CategoryViewModel DetailViewModel;
@@ -20,6 +25,8 @@ public class DetailActivity extends AppCompatActivity {
     // References for Chronometer, buttons, timerView and creating a Handler for the runnable
     private Chronometer chronometer;
     private Button startButton, pauseButton, resetButton, commitButton;
+    private ToggleButton favoriteIcon;
+    private boolean startPauseToggle;
     private TextView categoryView;
 
     // Variables for timer code
@@ -50,10 +57,25 @@ public class DetailActivity extends AppCompatActivity {
         // Initiate buttons/textViews and Handler
         startButton = findViewById(R.id.startButton);
         pauseButton = findViewById(R.id.pauseButton);
+        startPauseToggle = false;
         resetButton = findViewById(R.id.resetButton);
+
         commitButton = findViewById(R.id.commitButton);
         chronometer = findViewById(R.id.detailChronometer);
         categoryView = findViewById(R.id.categoryView);
+
+        favoriteIcon = findViewById(R.id.favorite_icon);
+
+        final ScaleAnimation scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
+        scaleAnimation.setDuration(200);
+        BounceInterpolator bounceInterpolator = new BounceInterpolator();
+        scaleAnimation.setInterpolator(bounceInterpolator);
+        favoriteIcon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                buttonView.startAnimation(scaleAnimation);
+            }
+        });
 
         // Get intent that gives use the category
         categoryString = getIntent().getStringExtra("category_title");
@@ -94,6 +116,11 @@ public class DetailActivity extends AppCompatActivity {
 //      catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
     }
 
+    public void startPause(View view) {
+
+
+    }
+
 
 
     public void ButtonsOnClick() {
@@ -114,6 +141,8 @@ public class DetailActivity extends AppCompatActivity {
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
                 chronometer.stop();
 
@@ -185,6 +214,5 @@ public class DetailActivity extends AppCompatActivity {
         editor.putBoolean(timerRunningKey, timerRunning);
         editor.apply();
     }
-
 
 }

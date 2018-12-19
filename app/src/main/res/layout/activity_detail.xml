@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_detail"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -13,17 +11,13 @@
         android:id="@+id/categoryView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:text="@string/category_default_detail_activity"
+        android:textColor="@color/testTextColor"
         android:textSize="70sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/primaryColor"
-        android:textColor="@color/primaryTextColor"
-        android:layout_margin="10dp"
-        android:padding="1dp"
+        android:textStyle="bold" />
 
-        />
 
     <Chronometer
         android:id="@+id/detailChronometer"
@@ -32,70 +26,57 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="@string/default_timer"
-        android:textSize="70sp"
+        android:textSize="50sp"
         android:textStyle="bold" />
-    
+
+
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
-            tools:showIn="@layout/activity_main">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/startButton"
                 android:layout_width="wrap_content"
-                android:layout_height="130dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-
                 android:text="@string/start_button"
-                />
+                android:onClick="startPause"/>
 
             <Button
                 android:id="@+id/pauseButton"
                 android:layout_width="wrap_content"
-                android:layout_height="130dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/pause_button"
-                />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
-            tools:showIn="@layout/activity_main">
+                android:text="@string/pause_button" />
 
             <Button
                 android:id="@+id/resetButton"
                 android:layout_width="wrap_content"
-                android:layout_height="130dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/reset_button"
-                />
-
-            <Button
-                android:id="@+id/commitButton"
-                android:layout_width="wrap_content"
-                android:layout_height="130dp"
-                android:layout_weight="1"
-                android:text="@string/commit_button"
-                />
-        </TableRow>
-
-        <TableRow>
-
-
+                android:text="@string/reset_button" />
         </TableRow>
     </TableLayout>
+
+    <Button
+        android:id="@+id/commitButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/commit_button" />
+
+    <ToggleButton
+        android:id="@+id/favorite_icon"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:background="@drawable/ic_favorite_heart_selector"
+        android:checked="false"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        android:onClick="favoriteClick"/>
 
 </LinearLayout>
