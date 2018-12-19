@@ -9,7 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-//TODO: Figure out why the hell I can't use themes to change the text color like wtf mang
+//TODO: Figure out why the hell I can't use themes to change the text color like wtf mangg
 
 public class SettingsActivity extends AppCompatActivity {
 
