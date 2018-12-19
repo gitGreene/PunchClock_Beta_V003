@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements
         bottomNav = findViewById(R.id.bottom_nav);
 
 
-
         bottomNav.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -42,12 +41,15 @@ public class MainActivity extends AppCompatActivity implements
                             case R.id.action_add_category:
                                 AddCategoryFragment addCategoryFragment = AddCategoryFragment.newInstance();
                                 addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
+                                break;
                             case R.id.action_favorites:
                                 // TODO: code that reloads the recyclerView with favorites
+                                break;
                             case R.id.action_settings:
                                 // Intent to SettingsActivity
                                 Intent i = new Intent(getBaseContext(), SettingsActivity.class);
                                 startActivity(i);
+                                break;
                         }
 
                         return false;
