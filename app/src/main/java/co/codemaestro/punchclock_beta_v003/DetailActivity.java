@@ -34,7 +34,11 @@ public class DetailActivity extends AppCompatActivity {
     private static final String timerRunningKey = "co.codemaestro.punchclock_beta_v003.BlueKey";
     private static final String timeOnDestroyKey = "co.codemaestro.punchclock_beta_v003.RedKey";
 
+    // Create formatMillis class instance
     FormatMillis format = new FormatMillis();
+
+    // Long for storing the baseTime of chronometer for updating the view
+    long baseMillis;
 
 
 
@@ -80,15 +84,31 @@ public class DetailActivity extends AppCompatActivity {
             // Set chronometer base to current elapsedRT minus the totalTime before app termination minus
             // Thus allowing our timer to be accurate after app reincarnation
             chronometer.setBase(SystemClock.elapsedRealtime() - totalTime - timeAfterLife);
+            baseMillis = SystemClock.elapsedRealtime() - totalTime - timeAfterLife;
             chronometer.start();
         } else {
+            chronometer.setText(R.string.default_timer);
             // If timer is not running, display the accurately paused time
             chronometer.setBase(SystemClock.elapsedRealtime() - totalTime);
         }
 
+        // Set chronometer on tick listener, allowing us to format the timer the way we want
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                long millisInTimer;
+                millisInTimer = SystemClock.elapsedRealtime() - baseMillis;
+                chronometer.setText(format.FormatMillisIntoHMS(millisInTimer));
+
+
+            }
+        });
+
 
         // Method that sets OnClickListeners for all four buttons(better then XML because we can do .setEnabled)
         ButtonsOnClick();
+
+
 
 //      TODO: Do we need this?
 //      catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
@@ -103,6 +123,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
                 chronometer.setBase(SystemClock.elapsedRealtime() - totalTime);
+                baseMillis = SystemClock.elapsedRealtime() - totalTime;
                 chronometer.start();
 
                 // timer Started
@@ -133,9 +154,11 @@ public class DetailActivity extends AppCompatActivity {
                 timeOnDestroy = 0;
                 timeOnCreate = 0;
                 timeAfterLife = 0;
+                baseMillis = 0;
 
                 // timer Paused
                 timerRunning = false;
+                startButton.setEnabled(true);
             }
         });
 
