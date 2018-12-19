@@ -28,8 +28,8 @@ public class DetailActivity extends AppCompatActivity {
     String categoryString;
 
     // Variables for sharedPrefs
-    private static final String PREFS_FILE_MAIN = "mySharedPreferences";
-    private static final int PREFS_MODE_MAIN = Context.MODE_PRIVATE;
+    private static final String PREFS_FILE_DETAIL = "DetailSharedPreferences";
+    private static final int PREFS_MODE_DETAIL = Context.MODE_PRIVATE;
     private static final String totalTimeKey = "co.codemaestro.punchclock_beta_v003.GreenKey";
     private static final String timerRunningKey = "co.codemaestro.punchclock_beta_v003.BlueKey";
     private static final String timeOnDestroyKey = "co.codemaestro.punchclock_beta_v003.RedKey";
@@ -62,7 +62,7 @@ public class DetailActivity extends AppCompatActivity {
         categoryView.setText(categoryString);
 
         // Use sharedPrefs to get saved data or set them to defaults
-        SharedPreferences prefs = getSharedPreferences(PREFS_FILE_MAIN, PREFS_MODE_MAIN);
+        SharedPreferences prefs = getSharedPreferences(PREFS_FILE_DETAIL, PREFS_MODE_DETAIL);
         totalTime = prefs.getLong(totalTimeKey, 0);
         timeOnDestroy = prefs.getLong(timeOnDestroyKey, 0);
         timerRunning = prefs.getBoolean(timerRunningKey, false);
@@ -160,7 +160,7 @@ public class DetailActivity extends AppCompatActivity {
             timeOnDestroy = SystemClock.elapsedRealtime();
         }
 
-        SharedPreferences prefs = getSharedPreferences(PREFS_FILE_MAIN, PREFS_MODE_MAIN);
+        SharedPreferences prefs = getSharedPreferences(PREFS_FILE_DETAIL, PREFS_MODE_DETAIL);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong(totalTimeKey, totalTime);
         editor.putLong(timeOnDestroyKey, timeOnDestroy);
@@ -178,7 +178,7 @@ public class DetailActivity extends AppCompatActivity {
             timeOnDestroy = SystemClock.elapsedRealtime();
         }
 
-        SharedPreferences prefs = getSharedPreferences(PREFS_FILE_MAIN, PREFS_MODE_MAIN);
+        SharedPreferences prefs = getSharedPreferences(PREFS_FILE_DETAIL, PREFS_MODE_DETAIL);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong(totalTimeKey, totalTime);
         editor.putLong(timeOnDestroyKey, timeOnDestroy);

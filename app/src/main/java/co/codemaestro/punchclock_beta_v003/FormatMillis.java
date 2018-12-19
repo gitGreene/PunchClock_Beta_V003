@@ -1,9 +1,9 @@
 package co.codemaestro.punchclock_beta_v003;
 
-public class FormatMillis {
+class FormatMillis {
     String time;
 
-    public String FormatMillisIntoHMS(long milliseconds) {
+    String FormatMillisIntoHMS(long milliseconds) {
 
         int seconds, minutes, hours;
 
