@@ -24,9 +24,9 @@ public class DetailActivity extends AppCompatActivity {
 
     // References for Chronometer, buttons, timerView and creating a Handler for the runnable
     private Chronometer chronometer;
-    private Button startButton, pauseButton, resetButton, commitButton;
+    private ToggleButton startButton, pauseButton, resetButton;
+    private Button commitButton;
     private ToggleButton favoriteIcon;
-    private boolean startPauseToggle;
     private TextView categoryView;
 
     // Variables for timer code
@@ -47,9 +47,6 @@ public class DetailActivity extends AppCompatActivity {
     // Long for storing the baseTime of chronometer for updating the view
     long baseMillis;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,19 +54,29 @@ public class DetailActivity extends AppCompatActivity {
 
 //        DetailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
+        //Initiates the Category Title from Intent Data
+        categoryView = findViewById(R.id.categoryView);
+        categoryString = getIntent().getStringExtra("category_title");
+        categoryView.setText(categoryString);
 
-        // Initiate buttons/textViews and Handler
+        // Initiates Chronometer
+        chronometer = findViewById(R.id.detailChronometer);
+
+        // Initiates Start Button
         startButton = findViewById(R.id.startButton);
+
+        // Initiates Pause Button
         pauseButton = findViewById(R.id.pauseButton);
-        startPauseToggle = false;
+
+        // Initiates Reset Button
         resetButton = findViewById(R.id.resetButton);
 
+        // Initiates Commit Button
         commitButton = findViewById(R.id.commitButton);
-        chronometer = findViewById(R.id.detailChronometer);
-        categoryView = findViewById(R.id.categoryView);
 
+
+        // Initiates Favorite Icon and Animation
         favoriteIcon = findViewById(R.id.favorite_icon);
-
         final ScaleAnimation scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
         scaleAnimation.setDuration(200);
         BounceInterpolator bounceInterpolator = new BounceInterpolator();
@@ -81,24 +88,19 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        // Get intent that gives use the category
-        categoryString = getIntent().getStringExtra("category_title");
 
-        // Set categoryView as the proper category
-        categoryView.setText(categoryString);
-
+        // Initiates Shared Preferences
         // Use sharedPrefs to get saved data or set them to defaults
         SharedPreferences prefs = getSharedPreferences(PREFS_FILE_DETAIL, PREFS_MODE_DETAIL);
         totalTime = prefs.getLong(totalTimeKey, 0);
         timeOnDestroy = prefs.getLong(timeOnDestroyKey, 0);
         timerRunning = prefs.getBoolean(timerRunningKey, false);
 
-        // If timer is running
+
+        /*Logic Based on the Timer Running*/
+
+        // Timer Logic
         if (timerRunning) {
-
-            // Timer is running, startButton setEnabled to false
-            startButton.setEnabled(false);
-
             // Make timeAfterlife equal to the time the app was terminated
             timeOnCreate = SystemClock.elapsedRealtime();
             timeAfterLife = timeOnCreate - timeOnDestroy;
@@ -107,102 +109,88 @@ public class DetailActivity extends AppCompatActivity {
             // Thus allowing our timer to be accurate after app reincarnation
             chronometer.setBase(SystemClock.elapsedRealtime() - totalTime - timeAfterLife);
             baseMillis = SystemClock.elapsedRealtime() - totalTime - timeAfterLife;
+
             chronometer.start();
+            // If timer is running, disable startButton, set drawable to transparent
+            startButton.setEnabled(false);
+            resetButton.setEnabled(false);
+
         } else {
-            // If timer is not running, display the accurately paused time
-            chronometer.setBase(SystemClock.elapsedRealtime() - totalTime);
+            // setEnabled buttons
+            startButton.setEnabled(true);
+            pauseButton.setEnabled(false);
 
-            chronometer.setText(R.string.default_timer);
+            // Set baseMillis
+            baseMillis = SystemClock.elapsedRealtime() - totalTime;
 
+            // If totalTime is zero, then the timer has no value, else set timer to saved time
+            if(totalTime == 0) {
+                resetButton.setEnabled(false);
+                chronometer.setText(R.string.default_timer);
+            } else {
+                chronometer.setText(format.FormatMillisIntoHMS(SystemClock.elapsedRealtime() - baseMillis));
+            }
         }
 
-        // Set chronometer on tick listener, allowing us to format the timer the way we want
+
+        // Chronometer onTick Listener and Time Formatting
+
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
                 long millisInTimer;
                 millisInTimer = SystemClock.elapsedRealtime() - baseMillis;
                 chronometer.setText(format.FormatMillisIntoHMS(millisInTimer));
-
-
             }
         });
-
-
-        // Method that sets OnClickListeners for all four buttons(better then XML because we can do .setEnabled)
-        ButtonsOnClick();
-
-
 
 //      TODO: Do we need this?
 //      catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
     }
 
-    public void startPause(View view) {
+    public void startButton(View view) {
+        startButton.setEnabled(false);
+        pauseButton.setEnabled(true);
 
-
+        chronometer.setBase(SystemClock.elapsedRealtime() - totalTime);
+        baseMillis = SystemClock.elapsedRealtime() - totalTime;
+        chronometer.start();
+        // timer Started
+        timerRunning = true;
     }
 
 
+    public void pauseButton(View view) {
+        startButton.setEnabled(true);
+        pauseButton.setEnabled(false);
+        resetButton.setEnabled(true);
 
-    public void ButtonsOnClick() {
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
+        chronometer.stop();
+        // timer Paused
+        timerRunning = false;
+    }
 
+    public void resetButton(View view) {
+        chronometer.stop();
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.setText(R.string.default_timer);
 
-                chronometer.setBase(SystemClock.elapsedRealtime() - totalTime);
-                baseMillis = SystemClock.elapsedRealtime() - totalTime;
-                chronometer.start();
+        totalTime = 0;
+        timeOnDestroy = 0;
+        timeOnCreate = 0;
+        timeAfterLife = 0;
+        baseMillis = 0;
 
-                // timer Started
-                timerRunning = true;
-                startButton.setEnabled(false);
-            }
-        });
+        // timer Paused
+        timerRunning = false;
 
-        pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
-                chronometer.stop();
-
-                // timer Paused
-                timerRunning = false;
-                startButton.setEnabled(true);
-            }
-        });
-
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chronometer.stop();
-                chronometer.setBase(SystemClock.elapsedRealtime());
-
-                chronometer.setText(R.string.default_timer);
-
-                totalTime = 0;
-                timeOnDestroy = 0;
-                timeOnCreate = 0;
-                timeAfterLife = 0;
-                baseMillis = 0;
-
-                // timer Paused
-                timerRunning = false;
-                startButton.setEnabled(true);
-            }
-        });
-
-        commitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Todo: Stop timer and save it in the database
-                totalTimeToCommit = SystemClock.elapsedRealtime() - chronometer.getBase();
-                Toast.makeText(DetailActivity.this, "If this worked, it would commit the number " + format.FormatMillisIntoHMS(totalTimeToCommit), Toast.LENGTH_SHORT).show();
-            }
-        });
+        startButton.setEnabled(true);
+    }
+    public void commitButton(View view) {
+        //Todo: Stop timer and save it in the database
+        totalTimeToCommit = SystemClock.elapsedRealtime() - chronometer.getBase();
+        Toast.makeText(DetailActivity.this, "If this worked, it would commit the number " + format.FormatMillisIntoHMS(totalTimeToCommit), Toast.LENGTH_SHORT).show();
     }
 
     // Saved stuff to sharedPrefs
@@ -241,5 +229,4 @@ public class DetailActivity extends AppCompatActivity {
         editor.putBoolean(timerRunningKey, timerRunning);
         editor.apply();
     }
-
 }
