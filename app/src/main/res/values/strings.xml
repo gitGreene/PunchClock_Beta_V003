@@ -19,7 +19,8 @@
     <string name="pause_button">Pause</string>
     <string name="reset_button">Reset</string>
     <string name="commit_button">Commit</string>
-    <string name="category_default_detail_activity">Category?</string>
+    <string name="category_default_detail_activity">Category</string>
     <string name="favorites_bottom_nav">Favorites</string>
     <string name="fav_heart_content_desc">favorite</string>
+    <string name="stop_button">Stop</string>
 </resources>

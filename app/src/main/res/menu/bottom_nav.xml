@@ -5,7 +5,7 @@
         android:icon="@drawable/ic_add_category_bottom_nav" />
     <item android:id="@+id/action_favorites"
         android:title="@string/favorites_bottom_nav"
-        android:icon="@drawable/ic_favorite_black_24dp" />
+        android:icon="@drawable/ic_favorite_heart" />
     <item android:id="@+id/action_settings"
         android:title="@string/bottom_nav_settings"
         android:icon="@drawable/ic_settings_black_24dp" />
