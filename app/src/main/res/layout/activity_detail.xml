@@ -21,15 +21,13 @@
 
     <Chronometer
         android:id="@+id/detailChronometer"
-        android:layout_width="278dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="@string/default_timer"
         android:textSize="50sp"
         android:textStyle="bold" />
-
-
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
