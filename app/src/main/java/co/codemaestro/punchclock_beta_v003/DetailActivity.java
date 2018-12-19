@@ -87,9 +87,11 @@ public class DetailActivity extends AppCompatActivity {
             baseMillis = SystemClock.elapsedRealtime() - totalTime - timeAfterLife;
             chronometer.start();
         } else {
-            chronometer.setText(R.string.default_timer);
             // If timer is not running, display the accurately paused time
             chronometer.setBase(SystemClock.elapsedRealtime() - totalTime);
+
+            chronometer.setText(R.string.default_timer);
+
         }
 
         // Set chronometer on tick listener, allowing us to format the timer the way we want
@@ -149,6 +151,8 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 chronometer.stop();
                 chronometer.setBase(SystemClock.elapsedRealtime());
+
+                chronometer.setText(R.string.default_timer);
 
                 totalTime = 0;
                 timeOnDestroy = 0;
