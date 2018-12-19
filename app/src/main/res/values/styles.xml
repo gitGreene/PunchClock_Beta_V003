@@ -8,6 +8,17 @@
         <item name="colorAccent">@color/primaryLightColor</item>
     </style>
 
+    <!-- Night mode app theme with parent equal to AppTheme -->
+    <style name="AppThemeNightMode" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryColorNight</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColorNight</item>
+        <item name="colorAccent">@color/primaryLightColorNight</item>
+        <item name="android:colorBackground">@color/background_material_light</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
+    </style>
+
     <style name="time_bank_title">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">26dp</item>

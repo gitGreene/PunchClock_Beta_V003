@@ -2,6 +2,7 @@ package co.codemaestro.punchclock_beta_v003;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -44,7 +45,9 @@ public class MainActivity extends AppCompatActivity implements
                             case R.id.action_favorites:
                                 // TODO: code that reloads the recyclerView with favorites
                             case R.id.action_settings:
-                                // TODO: add activity for settings
+                                // Intent to SettingsActivity
+                                Intent i = new Intent(getBaseContext(), SettingsActivity.class);
+                                startActivity(i);
                         }
 
                         return false;

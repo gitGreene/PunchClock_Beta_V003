@@ -3,9 +3,17 @@
   <color name="primaryColor">#8a53e8</color>
   <color name="primaryLightColor">#bf82ff</color>
   <color name="primaryDarkColor">#5525b5</color>
+
+  <color name="primaryColorNight">#8a53e8</color>
+  <color name="primaryLightColorNight">#bf82ff</color>
+  <color name="primaryDarkColorNight">#5525b5</color>
+
   <color name="secondaryColor">#2f36bf</color>
   <color name="secondaryLightColor">#6d61f3</color>
   <color name="secondaryDarkColor">#000f8d</color>
-  <color name="primaryTextColor">#FFF</color>
-  <color name="secondaryTextColor">#FFF</color>
+
+  <color name="primaryTextColor">#ffffff</color>
+  <color name="secondaryTextColor">#ffffff</color>
+  <color name="background_material_light">#f9000413</color>
+
 </resources>
