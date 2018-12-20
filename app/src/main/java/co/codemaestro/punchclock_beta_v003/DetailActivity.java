@@ -1,10 +1,7 @@
 package co.codemaestro.punchclock_beta_v003;
 
-import android.annotation.SuppressLint;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,7 +29,7 @@ public class DetailActivity extends AppCompatActivity {
     // Variables for timer code
     private long totalTime, timeAfterLife, timeOnDestroy, timeOnCreate, totalTimeToCommit;
     Boolean timerRunning = false;
-    String categoryString;
+    String categoryTitleString;
 
     // Variables for sharedPrefs
     private static final String PREFS_FILE_DETAIL = "DetailSharedPreferences";
@@ -40,16 +37,13 @@ public class DetailActivity extends AppCompatActivity {
     private static final String totalTimeKey = "co.codemaestro.punchclock_beta_v003.GreenKey";
     private static final String timerRunningKey = "co.codemaestro.punchclock_beta_v003.BlueKey";
     private static final String timeOnDestroyKey = "co.codemaestro.punchclock_beta_v003.RedKey";
+    private static final String categoryTitleKey = "co.codemaestro.punchclock_beta_v003.PurpleKey";
 
     // Create formatMillis class instance
     FormatMillis format = new FormatMillis();
 
     // Long for storing the baseTime of chronometer for updating the view
     long baseMillis;
-
-    public DetailActivity(String categoryString) {
-        this.categoryString = categoryString;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +56,8 @@ public class DetailActivity extends AppCompatActivity {
 
         //Initiates the Category Title from Intent Data
         categoryView = findViewById(R.id.categoryView);
-        categoryString = getIntent().getStringExtra("category_title");
-        categoryView.setText(categoryString);
+        categoryTitleString = getIntent().getStringExtra("category_title");
+        categoryView.setText(categoryTitleString);
 
         // Initiates Chronometer
         chronometer = findViewById(R.id.detailChronometer);
@@ -103,10 +97,12 @@ public class DetailActivity extends AppCompatActivity {
         timerRunning = prefs.getBoolean(timerRunningKey, false);
 
 
+
         /*Logic Based on the Timer Running*/
 
         // Timer Logic
         if (timerRunning) {
+
             // Make timeAfterlife equal to the time the app was terminated
             timeOnCreate = SystemClock.elapsedRealtime();
             timeAfterLife = timeOnCreate - timeOnDestroy;
@@ -209,13 +205,7 @@ public class DetailActivity extends AppCompatActivity {
             totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
             timeOnDestroy = SystemClock.elapsedRealtime();
         }
-
-        SharedPreferences prefs = getSharedPreferences(PREFS_FILE_DETAIL, PREFS_MODE_DETAIL);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong(totalTimeKey, totalTime);
-        editor.putLong(timeOnDestroyKey, timeOnDestroy);
-        editor.putBoolean(timerRunningKey, timerRunning);
-        editor.apply();
+        saveToSharedPreferences();
     }
 
     // Saved stuff to sharedPrefs
@@ -227,17 +217,17 @@ public class DetailActivity extends AppCompatActivity {
             totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
             timeOnDestroy = SystemClock.elapsedRealtime();
         }
+        saveToSharedPreferences();
+    }
 
+    public void saveToSharedPreferences() {
         SharedPreferences prefs = getSharedPreferences(PREFS_FILE_DETAIL, PREFS_MODE_DETAIL);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong(totalTimeKey, totalTime);
         editor.putLong(timeOnDestroyKey, timeOnDestroy);
         editor.putBoolean(timerRunningKey, timerRunning);
+        editor.putString(categoryTitleKey, categoryTitleString);
         editor.apply();
-    }
-
-    public static DetailActivity newInstance(String categoryString) {
-        return new DetailActivity(categoryString);
     }
 
 }
