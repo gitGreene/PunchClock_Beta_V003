@@ -38,6 +38,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String timerRunningKey = "co.codemaestro.punchclock_beta_v003.BlueKey";
     private static final String timeOnDestroyKey = "co.codemaestro.punchclock_beta_v003.RedKey";
     private static final String categoryTitleKey = "co.codemaestro.punchclock_beta_v003.PurpleKey";
+    private String currentCategory;
 
     // Create formatMillis class instance
     FormatMillis format = new FormatMillis();
@@ -95,6 +96,7 @@ public class DetailActivity extends AppCompatActivity {
         totalTime = prefs.getLong(totalTimeKey, 0);
         timeOnDestroy = prefs.getLong(timeOnDestroyKey, 0);
         timerRunning = prefs.getBoolean(timerRunningKey, false);
+        currentCategory = prefs.getString(categoryTitleKey, null);
 
 
 
