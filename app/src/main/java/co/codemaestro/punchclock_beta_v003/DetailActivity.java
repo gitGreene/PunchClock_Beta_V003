@@ -52,6 +52,8 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+//      TODO: Do we need this?
+//        catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 //        DetailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
         //Initiates the Category Title from Intent Data
@@ -109,16 +111,17 @@ public class DetailActivity extends AppCompatActivity {
             // Thus allowing our timer to be accurate after app reincarnation
             chronometer.setBase(SystemClock.elapsedRealtime() - totalTime - timeAfterLife);
             baseMillis = SystemClock.elapsedRealtime() - totalTime - timeAfterLife;
-
             chronometer.start();
-            // If timer is running, disable startButton, set drawable to transparent
+
+            // If timer is running, disable startButton
             startButton.setEnabled(false);
             resetButton.setEnabled(false);
 
         } else {
-            // setEnabled buttons
+            // if timer is not running, setEnabled buttons
             startButton.setEnabled(true);
             pauseButton.setEnabled(false);
+            resetButton.setEnabled(true);
 
             // Set baseMillis
             baseMillis = SystemClock.elapsedRealtime() - totalTime;
@@ -132,7 +135,6 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
-
         // Chronometer onTick Listener and Time Formatting
 
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
@@ -143,14 +145,12 @@ public class DetailActivity extends AppCompatActivity {
                 chronometer.setText(format.FormatMillisIntoHMS(millisInTimer));
             }
         });
-
-//      TODO: Do we need this?
-//      catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
     }
 
     public void startButton(View view) {
         startButton.setEnabled(false);
         pauseButton.setEnabled(true);
+        resetButton.setEnabled(false);
 
         chronometer.setBase(SystemClock.elapsedRealtime() - totalTime);
         baseMillis = SystemClock.elapsedRealtime() - totalTime;
@@ -186,6 +186,8 @@ public class DetailActivity extends AppCompatActivity {
         timerRunning = false;
 
         startButton.setEnabled(true);
+        pauseButton.setEnabled(false);
+        resetButton.setEnabled(false);
     }
     public void commitButton(View view) {
         //Todo: Stop timer and save it in the database
