@@ -50,7 +50,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-//      TODO: Do we need this?
+//      TODO: Find out how ViewModel should integrate with DetailActivity
 //        catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 //        DetailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
@@ -121,17 +121,17 @@ public class DetailActivity extends AppCompatActivity {
             // if timer is not running, setEnabled buttons
             startButton.setEnabled(true);
             pauseButton.setEnabled(false);
-            resetButton.setEnabled(true);
 
             // Set baseMillis
             baseMillis = SystemClock.elapsedRealtime() - totalTime;
 
             // If totalTime is zero, then the timer has no value, else set timer to saved time
             if(totalTime == 0) {
-                resetButton.setEnabled(false);
                 chronometer.setText(R.string.default_timer);
+                resetButton.setEnabled(false);
             } else {
                 chronometer.setText(format.FormatMillisIntoHMS(SystemClock.elapsedRealtime() - baseMillis));
+                resetButton.setEnabled(true);
             }
         }
 
@@ -148,33 +148,35 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void startButton(View view) {
-        startButton.setEnabled(false);
-        pauseButton.setEnabled(true);
-        resetButton.setEnabled(false);
-
         chronometer.setBase(SystemClock.elapsedRealtime() - totalTime);
         baseMillis = SystemClock.elapsedRealtime() - totalTime;
         chronometer.start();
         // timer Started
         timerRunning = true;
+
+        startButton.setEnabled(false);
+        pauseButton.setEnabled(true);
+        resetButton.setEnabled(false);
     }
 
 
     public void pauseButton(View view) {
-        startButton.setEnabled(true);
-        pauseButton.setEnabled(false);
-        resetButton.setEnabled(true);
-
         totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
         chronometer.stop();
         // timer Paused
         timerRunning = false;
+
+        startButton.setEnabled(true);
+        pauseButton.setEnabled(false);
+        resetButton.setEnabled(true);
     }
 
     public void resetButton(View view) {
         chronometer.stop();
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.setText(R.string.default_timer);
+        // timer Paused
+        timerRunning = false;
 
         totalTime = 0;
         timeOnDestroy = 0;
@@ -182,13 +184,11 @@ public class DetailActivity extends AppCompatActivity {
         timeAfterLife = 0;
         baseMillis = 0;
 
-        // timer Paused
-        timerRunning = false;
-
         startButton.setEnabled(true);
         pauseButton.setEnabled(false);
         resetButton.setEnabled(false);
     }
+
     public void commitButton(View view) {
         //Todo: Stop timer and save it in the database
         totalTimeToCommit = SystemClock.elapsedRealtime() - chronometer.getBase();
@@ -199,12 +199,6 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
-        // If timer is running
-        if (timerRunning) {
-            totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
-            timeOnDestroy = SystemClock.elapsedRealtime();
-        }
         saveToSharedPreferences();
     }
 
@@ -212,15 +206,14 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (timerRunning) {
-            totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
-            timeOnDestroy = SystemClock.elapsedRealtime();
-        }
         saveToSharedPreferences();
     }
 
     public void saveToSharedPreferences() {
+        if (timerRunning) {
+            totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
+            timeOnDestroy = SystemClock.elapsedRealtime();
+        }
         SharedPreferences prefs = getSharedPreferences(PREFS_FILE_DETAIL, PREFS_MODE_DETAIL);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong(totalTimeKey, totalTime);
