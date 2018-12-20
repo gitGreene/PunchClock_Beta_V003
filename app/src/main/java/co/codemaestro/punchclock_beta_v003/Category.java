@@ -9,6 +9,11 @@ import android.support.annotation.NonNull;
 @Entity(tableName = "category_table")
 public class Category {
 
+
+    /**
+     * Column Names
+     */
+
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
@@ -21,11 +26,9 @@ public class Category {
     @ColumnInfo(name = "time value")
     private String timeValue;
 
-//    @Ignore
-//    public Category(int id, @NonNull String category) {
-//        this.id = id;
-//        this.category = category;
-//    }
+    /**
+     * Constructors
+     */
 
     @Ignore
     public Category(@NonNull String category) {
@@ -45,7 +48,9 @@ public class Category {
         this.timeValue = timeValue;
     }
 
-
+    /**
+     * Getters and Setters
+     */
 
     @NonNull
     public int getId() {

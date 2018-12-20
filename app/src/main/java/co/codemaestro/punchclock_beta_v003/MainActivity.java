@@ -81,4 +81,6 @@ public class MainActivity extends AppCompatActivity implements
         Category addedCategory = new Category(newCategory, "00:00:00");
         catViewModel.insert(addedCategory);
     }
+
+
 }
