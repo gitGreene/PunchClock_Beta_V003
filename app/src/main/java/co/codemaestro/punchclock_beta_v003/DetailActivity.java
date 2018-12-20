@@ -47,6 +47,10 @@ public class DetailActivity extends AppCompatActivity {
     // Long for storing the baseTime of chronometer for updating the view
     long baseMillis;
 
+    public DetailActivity(String categoryString) {
+        this.categoryString = categoryString;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -231,4 +235,9 @@ public class DetailActivity extends AppCompatActivity {
         editor.putBoolean(timerRunningKey, timerRunning);
         editor.apply();
     }
+
+    public static DetailActivity newInstance(String categoryString) {
+        return new DetailActivity(categoryString);
+    }
+
 }
