@@ -51,6 +51,14 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        // TODO:
+        // when activity is created, use ID to check how much time is in bank
+        // display time bank value
+        // display timer if running
+        // display zeros if not
+
+
+
 //      TODO: Find out how ViewModel should integrate with DetailActivity
 //        catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 //        DetailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
@@ -197,19 +205,19 @@ public class DetailActivity extends AppCompatActivity {
         Toast.makeText(DetailActivity.this, "If this worked, it would commit the number " + format.FormatMillisIntoHMS(totalTimeToCommit), Toast.LENGTH_SHORT).show();
     }
 
-    // Saved stuff to sharedPrefs
-    @Override
-    protected void onPause() {
-        super.onPause();
-        saveToSharedPreferences();
-    }
+        // Saved stuff to sharedPrefs
+        @Override
+        protected void onPause() {
+            super.onPause();
+            saveToSharedPreferences();
+        }
 
-    // Saved stuff to sharedPrefs
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        saveToSharedPreferences();
-    }
+        // Saved stuff to sharedPrefs
+        @Override
+        protected void onDestroy() {
+            super.onDestroy();
+            saveToSharedPreferences();
+        }
 
     public void saveToSharedPreferences() {
         if (timerRunning) {
