@@ -49,6 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 // TODO: code that reloads the recyclerView with favorites
                                 //Intent favIntent = new Intent(getBaseContext(), FavoritesActivity.class);
                                 //startActivity(favIntent);
+                                Toast.makeText(SettingsActivity.this, "What's this about REAL Megaloboxing!!?", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.action_settings:
                                 // do nothing?
