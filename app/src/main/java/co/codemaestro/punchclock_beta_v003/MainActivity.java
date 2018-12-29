@@ -1,5 +1,6 @@
 package co.codemaestro.punchclock_beta_v003;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements
                                 // TODO: code that reloads the recyclerView with favorites
                                 //Intent favIntent = new Intent(getBaseContext(), FavoritesActivity.class);
                                 //startActivity(favIntent);
+                                Toast.makeText(MainActivity.this, "There is no favorites activity", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.action_settings:
                                 // Intent to SettingsActivity
