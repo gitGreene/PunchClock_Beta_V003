@@ -26,9 +26,6 @@ public class Category {
     @ColumnInfo(name = "time value")
     private String timeValue;
 
-    @ColumnInfo(name = "timer running")
-    private boolean timerRunning;
-
     /**
      * Constructors
      */
