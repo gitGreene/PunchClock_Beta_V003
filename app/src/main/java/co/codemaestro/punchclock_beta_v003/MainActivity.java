@@ -2,6 +2,7 @@ package co.codemaestro.punchclock_beta_v003;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,10 +13,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import java.util.List;
 
@@ -25,14 +22,18 @@ public class MainActivity extends AppCompatActivity implements
     private CategoryViewModel catViewModel;
     private BottomNavigationView bottomNav;
 
+    //Shared Preferences key for night mode boolean and sharedPref object
+    private static final String PREFS_FILE = "SharedPreferences";
+    private static final int PREFS_MODE = Context.MODE_PRIVATE;
+    private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         bottomNav = findViewById(R.id.bottom_nav);
-
-
         bottomNav.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -81,6 +82,4 @@ public class MainActivity extends AppCompatActivity implements
         Category addedCategory = new Category(newCategory, "00:00:00");
         catViewModel.insert(addedCategory);
     }
-
-
 }

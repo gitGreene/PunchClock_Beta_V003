@@ -3,8 +3,12 @@ package co.codemaestro.punchclock_beta_v003;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -14,31 +18,49 @@ import android.widget.Toast;
 public class SettingsActivity extends AppCompatActivity {
 
     //Shared Preferences key for night mode boolean and sharedPref object
-    private static final String PREFS_FILE_SETTINGS = "SettingsSharedPreferences";
-    private static final int PREFS_MODE_SETTINGS = Context.MODE_PRIVATE;
+    private static final String PREFS_FILE = "SharedPreferences";
+    private static final int PREFS_MODE = Context.MODE_PRIVATE;
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
+
+    private BottomNavigationView bottomNav;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Create SharedPrefs reference and boolean for nightMode
-        SharedPreferences prefs = getSharedPreferences(PREFS_FILE_SETTINGS, PREFS_MODE_SETTINGS);
-        boolean nightModeEnabled = prefs.getBoolean(nightModeBooleanKey, false);
-
-
-        // Self explanatory tbh
-        if (nightModeEnabled) {
-             setTheme(R.style.AppThemeNightMode);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
-
-        // We then set the layout with the relevant theme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // Create references to Switch view and set the switch the the saved setting
+        // Create SharedPrefs reference and boolean for nightMode
+        SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
+        boolean nightModeEnabled = prefs.getBoolean(nightModeBooleanKey, false);
+
+        bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.action_add_category:
+                                AddCategoryFragment addCategoryFragment = AddCategoryFragment.newInstance();
+                                addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
+                                break;
+                            case R.id.action_favorites:
+                                // TODO: code that reloads the recyclerView with favorites
+                                break;
+                            case R.id.action_settings:
+                                // Intent to SettingsActivity
+                                Intent i = new Intent(getBaseContext(), SettingsActivity.class);
+                                startActivity(i);
+                                break;
+                        }
+
+                        return false;
+                    }
+                }
+        );
+
+        // Create references to Switch view and set the switch to the saved setting
         Switch switchNightMode = findViewById(R.id.switchNightMode);
         switchNightMode.setChecked(nightModeEnabled);
 
@@ -47,26 +69,29 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean nightModeOn) {
 
-                SharedPreferences prefs = getSharedPreferences(PREFS_FILE_SETTINGS, PREFS_MODE_SETTINGS);
+                SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
 
                 if (nightModeOn) {
 
-                    //Save "nightModeOn = true" to sharedPref and restart the activity
-                    prefs.edit().putBoolean(nightModeBooleanKey, nightModeOn).apply();
-                    finish();
-                    Intent i = new Intent(getBaseContext(), SettingsActivity.class);
-                    startActivity(i);
+                    //Save "nightModeOn = true" to sharedPref and....
+                    prefs.edit().putBoolean(nightModeBooleanKey, true).apply();
+
+                    // Set the night mode theme
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
 
-                    //Save "nightModeOn = false" to sharedPref and restart the activity
-                    prefs.edit().putBoolean(nightModeBooleanKey, nightModeOn).apply();
-                    finish();
-                    Intent i = new Intent(getBaseContext(), SettingsActivity.class);
-                    startActivity(i);
+                    //Save "nightModeOn = false" to sharedPref and...
+                    prefs.edit().putBoolean(nightModeBooleanKey, false).apply();
+
+                    // Set the theme as not being night mode yo
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
                 }
+                recreate();
 
             }
         });
+
 
     }
 }
