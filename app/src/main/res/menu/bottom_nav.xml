@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_add_category"
-        android:title="@string/bottom_nav_add_cat"
+    <item android:id="@+id/action_home"
+        android:title="@string/bottom_nav_home"
         android:icon="@drawable/ic_add_category_bottom_nav" />
     <item android:id="@+id/action_favorites"
-        android:title="@string/favorites_bottom_nav"
+        android:title="@string/bottom_nav_favorites"
         android:icon="@drawable/ic_favorite_heart" />
     <item android:id="@+id/action_settings"
         android:title="@string/bottom_nav_settings"

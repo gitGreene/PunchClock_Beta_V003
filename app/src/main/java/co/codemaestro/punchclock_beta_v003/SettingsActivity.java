@@ -41,17 +41,17 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
-                            case R.id.action_add_category:
-                                AddCategoryFragment addCategoryFragment = AddCategoryFragment.newInstance();
-                                addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
+                            case R.id.action_home:
+                                Intent homeIntent = new Intent(getBaseContext(), MainActivity.class);
+                                startActivity(homeIntent);
                                 break;
                             case R.id.action_favorites:
                                 // TODO: code that reloads the recyclerView with favorites
+                                //Intent favIntent = new Intent(getBaseContext(), FavoritesActivity.class);
+                                //startActivity(favIntent);
                                 break;
                             case R.id.action_settings:
-                                // Intent to SettingsActivity
-                                Intent i = new Intent(getBaseContext(), SettingsActivity.class);
-                                startActivity(i);
+                                // do nothing?
                                 break;
                         }
 
