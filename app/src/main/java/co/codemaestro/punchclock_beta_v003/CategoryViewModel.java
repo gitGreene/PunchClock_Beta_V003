@@ -26,6 +26,10 @@ public class CategoryViewModel extends AndroidViewModel {
         repository.insert(category);
     }
 
+//    public void updateTimerRunningBoolean(Category category) {
+//        repository.updateTimerRunningBoolean();
+//    }
+
     public void deleteAll() {
         repository.deleteAll();
     }

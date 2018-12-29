@@ -80,6 +80,14 @@ public class Category {
     public void setTimeValue(String timeValue) {
         this.timeValue = timeValue;
     }
+
+    public boolean isTimerRunning() {
+        return timerRunning;
+    }
+
+    public void setTimerRunning(boolean timerRunning) {
+        this.timerRunning = timerRunning;
+    }
 }
 
 

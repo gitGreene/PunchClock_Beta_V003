@@ -30,6 +30,7 @@ public class DetailActivity extends AppCompatActivity {
     private long totalTime, timeAfterLife, timeOnDestroy, timeOnCreate, totalTimeToCommit;
     Boolean timerRunning = false;
     String categoryTitleString;
+    CategoryDao categoryDao;
 
     // Variables for sharedPrefs
     private static final String PREFS_FILE_DETAIL = "DetailSharedPreferences";
@@ -56,6 +57,8 @@ public class DetailActivity extends AppCompatActivity {
         // display time bank value
         // display timer if running
         // display zeros if not
+
+
 
 
 
@@ -163,6 +166,8 @@ public class DetailActivity extends AppCompatActivity {
         chronometer.start();
         // timer Started
         timerRunning = true;
+//        categoryDao.updateTimerRunningBoolean();
+
 
         startButton.setEnabled(false);
         pauseButton.setEnabled(true);

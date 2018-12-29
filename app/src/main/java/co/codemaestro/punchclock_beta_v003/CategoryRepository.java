@@ -37,6 +37,10 @@ public class CategoryRepository {
         new deleteAllAsyncTask(categoryDao).execute();
     }
 
+//    public void updateTimerRunningBoolean() {
+//        new updateTimerRunningBooleanAsync(categoryDao).execute();
+//    }
+
 
     /**
      * AsyncTask Inner Classes
@@ -69,6 +73,20 @@ public class CategoryRepository {
             return null;
         }
     }
+
+//    private static class updateTimerRunningBooleanAsync extends AsyncTask<Category, Void, Void> {
+//        private CategoryDao asyncTaskDao;
+//
+//        updateTimerRunningBooleanAsync(CategoryDao dao) {
+//            this.asyncTaskDao = dao;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Category... categories) {
+//            asyncTaskDao.updateTimerRunningBoolean(categories[0]);
+//            return null;
+//        }
+//    }
 
 
 

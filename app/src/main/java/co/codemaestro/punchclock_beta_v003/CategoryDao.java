@@ -30,4 +30,7 @@ public interface CategoryDao {
     @Update
     void updateTimeValue(Category category);
 
+    @Update
+    void updateTimerRunningBoolean(Category category);
+
 }
