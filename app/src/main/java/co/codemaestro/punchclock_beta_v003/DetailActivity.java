@@ -21,6 +21,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class DetailActivity extends AppCompatActivity {
     private CategoryViewModel detailViewModel;
@@ -62,46 +63,21 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        // TODO:
-        // when activity is created, use ID to check how much time is in bank
-        // display time bank value
-        // display timer if running
-        // display zeros if not\
 
-//        categoryView = findViewById(R.id.categoryView);
-////        categoryTitleString = getIntent().getStringExtra("category_title");
-//
-//        detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-//
-//        currentCategory = detailViewModel.getCategoryByTitle(categoryTitleString);
-//
-////        catViewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
-////            @Override
-////            public void onChanged(@Nullable List<Category> categories) {
-////                adapter.setCategories(categories);
-////            }
-////        });
-//
-////        categoryID = getIntent().getIntExtra("category_id", 0);
-////        detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-////        currentCategory = detailViewModel.getById(categoryID);
-////
-////        categoryView = findViewById(R.id.categoryView);
-////
-////
-////        Toast.makeText(this, "", Toast.LENGTH_LONG).show();
+        categoryID = getIntent().getIntExtra("category_id", 0);
+        detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
-        //Initiates the Category Title from Intent Data
+        try {
+            currentCategory = detailViewModel.getCategoryById(categoryID);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        categoryTitleString = currentCategory.getCategory();
         categoryView = findViewById(R.id.categoryView);
-        categoryTitleString = getIntent().getStringExtra("category_title");
         categoryView.setText(categoryTitleString);
-
-
-
-
-//      TODO: Find out how ViewModel should integrate with DetailActivity
-//        catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-//        DetailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
 
         // Initiates Chronometer
