@@ -23,9 +23,11 @@ public class Category {
     @ColumnInfo(name = "category")
     private String category;
 
-
     @ColumnInfo(name = "time value")
     private String timeValue;
+
+    @ColumnInfo(name = "timerRunning")
+    private boolean timerRunning;
 
 
     /**
@@ -42,6 +44,7 @@ public class Category {
         this.category = category;
         this.timeValue = timeValue;
     }
+
 
 
     public Category(int id, @NonNull String category, String timeValue) {
@@ -78,6 +81,14 @@ public class Category {
 
     public void setTimeValue(String timeValue) {
         this.timeValue = timeValue;
+    }
+
+    public boolean isTimerRunning() {
+        return timerRunning;
+    }
+
+    public void setTimerRunning(boolean timerRunning) {
+        this.timerRunning = timerRunning;
     }
 
 }

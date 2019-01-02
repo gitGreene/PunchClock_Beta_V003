@@ -6,6 +6,7 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class CategoryViewModel extends AndroidViewModel {
     private CategoryRepository repository;
@@ -21,6 +22,12 @@ public class CategoryViewModel extends AndroidViewModel {
 
     LiveData<List<Category>> getAllCategories() {
         return allCategories;
+    }
+
+    Category getCategoryById(int id) throws ExecutionException, InterruptedException
+
+    {
+        return repository.getCategoryById(id);
     }
 
     public void insert(Category category) {

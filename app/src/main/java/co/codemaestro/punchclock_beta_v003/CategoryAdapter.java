@@ -93,7 +93,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
             // Send category over and start the detail activity
             Intent detailIntent = new Intent(context, DetailActivity.class);
-            detailIntent.putExtra("category_title", currentCategory.getCategory());
             detailIntent.putExtra("category_id", currentCategory.getId());
             context.startActivity(detailIntent);
         }
