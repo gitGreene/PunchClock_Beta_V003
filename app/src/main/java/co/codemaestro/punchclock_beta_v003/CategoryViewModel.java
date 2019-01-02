@@ -10,6 +10,7 @@ import java.util.List;
 public class CategoryViewModel extends AndroidViewModel {
     private CategoryRepository repository;
     private LiveData<List<Category>> allCategories;
+    private Category category;
 
 
     public CategoryViewModel(@NonNull Application application) {
@@ -24,6 +25,11 @@ public class CategoryViewModel extends AndroidViewModel {
 
     public void insert(Category category) {
         repository.insert(category);
+    }
+
+    public Category getById(Integer id) {
+        category = repository.findById(id);
+        return category;
     }
 
 //    public void updateTimerRunningBoolean(Category category) {

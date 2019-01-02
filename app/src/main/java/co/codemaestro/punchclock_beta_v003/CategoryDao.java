@@ -24,13 +24,17 @@ public interface CategoryDao {
     @Query("SELECT * from category_table LIMIT 1")
     Category[] getAnyCategory();
 
+    @Query("SELECT * from category_table WHERE id = :currentId")
+    Category getCategoryWithId(int currentId);
+
+    @Query("SELECT * from category_table WHERE category = :passedCategory")
+    Category getCategoryByTitle(String passedCategory);
+
     @Delete
     void deleteCategory(Category category);
 
     @Update
     void updateTimeValue(Category category);
 
-    @Update
-    void updateTimerRunningBoolean(Category category);
 
 }

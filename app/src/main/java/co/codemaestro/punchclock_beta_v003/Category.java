@@ -23,8 +23,10 @@ public class Category {
     @ColumnInfo(name = "category")
     private String category;
 
+
     @ColumnInfo(name = "time value")
     private String timeValue;
+
 
     /**
      * Constructors
@@ -78,13 +80,6 @@ public class Category {
         this.timeValue = timeValue;
     }
 
-    public boolean isTimerRunning() {
-        return timerRunning;
-    }
-
-    public void setTimerRunning(boolean timerRunning) {
-        this.timerRunning = timerRunning;
-    }
 }
 
 

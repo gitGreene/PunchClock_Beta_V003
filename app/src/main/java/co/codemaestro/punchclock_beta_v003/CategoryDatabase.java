@@ -8,7 +8,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-@Database(entities = {Category.class}, version = 3, exportSchema = false)
+@Database(entities = {Category.class}, version = 4, exportSchema = false)
 public abstract class CategoryDatabase extends RoomDatabase {
     public abstract CategoryDao categoryDao();
 

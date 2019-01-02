@@ -87,7 +87,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         public void onClick(View v) {
             // Create category object to hold category
             Category currentCategory = categories.get(getAdapterPosition());
-            int currentCategoryID = currentCategory.getId();
 
 
             // TODO: Instantiate individual detail activities for each category

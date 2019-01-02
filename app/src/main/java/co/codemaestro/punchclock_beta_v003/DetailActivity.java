@@ -1,6 +1,8 @@
 package co.codemaestro.punchclock_beta_v003;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -17,20 +19,22 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class DetailActivity extends AppCompatActivity {
-//    private CategoryViewModel DetailViewModel;
+    private CategoryViewModel detailViewModel;
 
     // References for Chronometer, buttons, timerView and creating a Handler for the runnable
     private Chronometer chronometer;
     private ToggleButton startButton, pauseButton, resetButton;
     private Button commitButton;
     private ToggleButton favoriteIcon;
-    private TextView categoryView;
+    public TextView categoryView;
 
     // Variables for timer code
     private long totalTime, timeAfterLife, timeOnDestroy, timeOnCreate, totalTimeToCommit;
     Boolean timerRunning = false;
     String categoryTitleString;
     CategoryDao categoryDao;
+    int categoryID;
+
 
     // Variables for sharedPrefs
     private static final String PREFS_FILE_DETAIL = "DetailSharedPreferences";
@@ -39,7 +43,9 @@ public class DetailActivity extends AppCompatActivity {
     private static final String timerRunningKey = "co.codemaestro.punchclock_beta_v003.BlueKey";
     private static final String timeOnDestroyKey = "co.codemaestro.punchclock_beta_v003.RedKey";
     private static final String categoryTitleKey = "co.codemaestro.punchclock_beta_v003.PurpleKey";
-    private String currentCategory;
+
+
+    private Category currentCategory;
 
     // Create formatMillis class instance
     FormatMillis format = new FormatMillis();
@@ -58,6 +64,19 @@ public class DetailActivity extends AppCompatActivity {
         // display timer if running
         // display zeros if not
 
+        categoryID = getIntent().getIntExtra("category_id", 0);
+        detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+        currentCategory = detailViewModel.getById(categoryID);
+
+        categoryView = findViewById(R.id.categoryView);
+
+
+        Toast.makeText(this, "", Toast.LENGTH_LONG).show();
+
+        //Initiates the Category Title from Intent Data
+//        categoryView = findViewById(R.id.categoryView);
+//        categoryTitleString = getIntent().getStringExtra("category_title");
+//        categoryView.setText(categoryTitleString);
 
 
 
@@ -66,10 +85,6 @@ public class DetailActivity extends AppCompatActivity {
 //        catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 //        DetailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
-        //Initiates the Category Title from Intent Data
-        categoryView = findViewById(R.id.categoryView);
-        categoryTitleString = getIntent().getStringExtra("category_title");
-        categoryView.setText(categoryTitleString);
 
         // Initiates Chronometer
         chronometer = findViewById(R.id.detailChronometer);
@@ -107,7 +122,7 @@ public class DetailActivity extends AppCompatActivity {
         totalTime = prefs.getLong(totalTimeKey, 0);
         timeOnDestroy = prefs.getLong(timeOnDestroyKey, 0);
         timerRunning = prefs.getBoolean(timerRunningKey, false);
-        currentCategory = prefs.getString(categoryTitleKey, null);
+//        currentCategory = prefs.getString(categoryTitleKey, null);
 
 
 
