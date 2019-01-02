@@ -30,10 +30,6 @@ public abstract class CategoryDatabase extends RoomDatabase {
     }
 
 
-
-
-
-
     private static RoomDatabase.Callback sRoomDatabaseCallback =
             new RoomDatabase.Callback() {
                 @Override
@@ -42,6 +38,8 @@ public abstract class CategoryDatabase extends RoomDatabase {
                     new PopulateDbAsync(INSTANCE).execute();
                 }
             };
+
+
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final CategoryDao dao;
@@ -52,7 +50,6 @@ public abstract class CategoryDatabase extends RoomDatabase {
             dao = db.categoryDao();
         }
 
-
         @Override
         protected Void doInBackground(Void... voids) {
 
@@ -62,11 +59,6 @@ public abstract class CategoryDatabase extends RoomDatabase {
                     dao.insert(category);
                 }
             }
-
-
-//            dao.deleteAll();
-//            Category category = new Category(1,"Work", "12345");
-//            dao.insert(category);
             return null;
         }
     }

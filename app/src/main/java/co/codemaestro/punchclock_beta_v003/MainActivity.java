@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final CategoryAdapter adapter = new CategoryAdapter(this);
         recyclerView.setAdapter(adapter);
-        // TODO: Fix spanCount
+        // TODO: Fix spanCount for other orientations
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
 
         catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);

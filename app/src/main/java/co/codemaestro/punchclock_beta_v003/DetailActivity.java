@@ -1,10 +1,12 @@
 package co.codemaestro.punchclock_beta_v003;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +19,8 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
     private CategoryViewModel detailViewModel;
@@ -62,21 +66,35 @@ public class DetailActivity extends AppCompatActivity {
         // when activity is created, use ID to check how much time is in bank
         // display time bank value
         // display timer if running
-        // display zeros if not
+        // display zeros if not\
 
-        categoryID = getIntent().getIntExtra("category_id", 0);
-        detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-        currentCategory = detailViewModel.getById(categoryID);
-
-        categoryView = findViewById(R.id.categoryView);
-
-
-        Toast.makeText(this, "", Toast.LENGTH_LONG).show();
+//        categoryView = findViewById(R.id.categoryView);
+////        categoryTitleString = getIntent().getStringExtra("category_title");
+//
+//        detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+//
+//        currentCategory = detailViewModel.getCategoryByTitle(categoryTitleString);
+//
+////        catViewModel.getAllCategories().observe(this, new Observer<List<Category>>() {
+////            @Override
+////            public void onChanged(@Nullable List<Category> categories) {
+////                adapter.setCategories(categories);
+////            }
+////        });
+//
+////        categoryID = getIntent().getIntExtra("category_id", 0);
+////        detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+////        currentCategory = detailViewModel.getById(categoryID);
+////
+////        categoryView = findViewById(R.id.categoryView);
+////
+////
+////        Toast.makeText(this, "", Toast.LENGTH_LONG).show();
 
         //Initiates the Category Title from Intent Data
-//        categoryView = findViewById(R.id.categoryView);
-//        categoryTitleString = getIntent().getStringExtra("category_title");
-//        categoryView.setText(categoryTitleString);
+        categoryView = findViewById(R.id.categoryView);
+        categoryTitleString = getIntent().getStringExtra("category_title");
+        categoryView.setText(categoryTitleString);
 
 
 

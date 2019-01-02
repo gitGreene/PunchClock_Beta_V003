@@ -24,11 +24,11 @@ public interface CategoryDao {
     @Query("SELECT * from category_table LIMIT 1")
     Category[] getAnyCategory();
 
-    @Query("SELECT * from category_table WHERE id = :currentId")
-    Category getCategoryWithId(int currentId);
-
-    @Query("SELECT * from category_table WHERE category = :passedCategory")
-    Category getCategoryByTitle(String passedCategory);
+//    @Query("SELECT * from category_table WHERE category = :passedCategory")
+//    LiveData<Category> getCategoryByTitle(String passedCategory);
+//
+//    @Query("SELECT * from category_table WHERE id = :currentId")
+//    LiveData<Category> getCategoryWithId(int currentId);
 
     @Delete
     void deleteCategory(Category category);

@@ -38,11 +38,6 @@ public class CategoryRepository {
         new deleteAllAsyncTask(categoryDao).execute();
     }
 
-    //TODO: THIS IS THE PROBLEM. WE NEED TO GET THE DATA RETURNED BY THE ASYNC TASK
-    public Category findById(Integer id) {
-        new getCategoryById(categoryDao).execute(id);
-        return category;
-    }
 
 
     /**
@@ -75,27 +70,6 @@ public class CategoryRepository {
             asyncTaskDao.deleteAll();
             return null;
         }
-    }
-
-
-
-    // TODO: RETURN DATA FROM ASYNC TASK
-
-
-    public static class getCategoryById extends AsyncTask<Integer, Void, Category> {
-        private CategoryDao asyncTaskDao;
-
-        public getCategoryById(CategoryDao asyncTaskDao) {
-            this.asyncTaskDao = asyncTaskDao;
-        }
-
-
-        @Override
-        protected Category doInBackground(Integer... integers) {
-            Category category = asyncTaskDao.getCategoryWithId(integers[0]);
-            return category;
-        }
-
     }
 
 }

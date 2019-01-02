@@ -27,11 +27,6 @@ public class CategoryViewModel extends AndroidViewModel {
         repository.insert(category);
     }
 
-    public Category getById(Integer id) {
-        category = repository.findById(id);
-        return category;
-    }
-
 //    public void updateTimerRunningBoolean(Category category) {
 //        repository.updateTimerRunningBoolean();
 //    }
