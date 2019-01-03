@@ -27,6 +27,9 @@ public interface CategoryDao {
     @Query("SELECT * from category_table WHERE id = :currentId")
     Category getCategoryById(int currentId);
 
+    @Query("SELECT * from category_table WHERE category = :categoryTitle")
+    LiveData<Category> getCategoryByTitle(String categoryTitle);
+
 //    @Update
 //    void updateTimerRunningBoolean(Category category);
 

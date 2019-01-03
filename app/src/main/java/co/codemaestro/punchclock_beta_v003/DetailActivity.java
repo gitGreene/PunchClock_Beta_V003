@@ -65,19 +65,19 @@ public class DetailActivity extends AppCompatActivity {
 
 
         categoryID = getIntent().getIntExtra("category_id", 0);
+        categoryTitleString = getIntent().getStringExtra("category_title");
+
+
+        categoryView = findViewById(R.id.categoryView);
+
         detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
-        try {
-            currentCategory = detailViewModel.getCategoryById(categoryID);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        categoryTitleString = currentCategory.getCategory();
-        categoryView = findViewById(R.id.categoryView);
-        categoryView.setText(categoryTitleString);
+        detailViewModel.getCategoryByTitle(categoryTitleString).observe(this, new Observer<Category>() {
+            @Override
+            public void onChanged(@Nullable Category category) {
+                categoryView.setText(category.getCategory());
+            }
+        });
 
 
         // Initiates Chronometer

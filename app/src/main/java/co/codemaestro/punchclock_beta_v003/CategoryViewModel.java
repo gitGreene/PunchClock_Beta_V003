@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 public class CategoryViewModel extends AndroidViewModel {
     private CategoryRepository repository;
     private LiveData<List<Category>> allCategories;
-    private Category category;
+    private LiveData<Category> category;
 
 
     public CategoryViewModel(@NonNull Application application) {
@@ -24,11 +24,14 @@ public class CategoryViewModel extends AndroidViewModel {
         return allCategories;
     }
 
-    Category getCategoryById(int id) throws ExecutionException, InterruptedException
-
-    {
-        return repository.getCategoryById(id);
+    LiveData<Category> getCategoryByTitle(String title) {
+        category = repository.getCategoryByTitle(title);
+        return category;
     }
+
+//    Category getCategoryById(int id) throws ExecutionException, InterruptedException {
+//        return repository.getCategoryById(id);
+//    }
 
     public void insert(Category category) {
         repository.insert(category);
