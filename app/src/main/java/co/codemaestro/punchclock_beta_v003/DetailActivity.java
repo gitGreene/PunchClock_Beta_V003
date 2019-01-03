@@ -98,10 +98,15 @@ public class DetailActivity extends AppCompatActivity {
 
         // Initiates Favorite Icon and Animation
         favoriteIcon = findViewById(R.id.favorite_icon);
-        final ScaleAnimation scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
+        final ScaleAnimation scaleAnimation =
+                new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f,
+                        Animation.RELATIVE_TO_SELF, 0.7f,
+                        Animation.RELATIVE_TO_SELF, 0.7f);
+
         scaleAnimation.setDuration(200);
         BounceInterpolator bounceInterpolator = new BounceInterpolator();
         scaleAnimation.setInterpolator(bounceInterpolator);
+
         favoriteIcon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
