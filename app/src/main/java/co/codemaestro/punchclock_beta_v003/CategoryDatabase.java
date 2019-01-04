@@ -8,9 +8,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-@Database(entities = {Category.class}, version = 5, exportSchema = false)
+@Database(entities = {Category.class}, version = 7, exportSchema = false)
 public abstract class CategoryDatabase extends RoomDatabase {
     public abstract CategoryDao categoryDao();
+    //public abstract TimeBankDao timeBankDao();
 
     private static volatile CategoryDatabase INSTANCE;
 
@@ -45,6 +46,8 @@ public abstract class CategoryDatabase extends RoomDatabase {
         private final CategoryDao dao;
         String[] defaultCategories = {"Work", "School", "Gym"};
         String defaultTimeValues = "00:00:00";
+
+
 
         PopulateDbAsync(CategoryDatabase db) {
             dao = db.categoryDao();
