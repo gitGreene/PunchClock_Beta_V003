@@ -1,5 +1,6 @@
 package co.codemaestro.punchclock_beta_v003;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -88,7 +89,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             // Create category object to hold category
             Category currentCategory = categories.get(getAdapterPosition());
 
-
             // TODO: Instantiate individual detail activities for each category
 
             // Send category over and start the detail activity
@@ -96,6 +96,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             detailIntent.putExtra("category_title", currentCategory.getCategory());
             detailIntent.putExtra("category_id", currentCategory.getId());
             context.startActivity(detailIntent);
+
+
         }
     }
 }
