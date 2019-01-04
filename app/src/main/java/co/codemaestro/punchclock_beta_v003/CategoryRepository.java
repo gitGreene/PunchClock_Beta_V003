@@ -14,7 +14,7 @@ public class CategoryRepository {
     private LiveData<List<Category>> allCategories;
     private LiveData<Category> categoryByTitle;
     private LiveData<List<TimeBank>> allTimeBanks;
-
+    private LiveData<List<TimeBank>> categoryTimeBanks;
 
     /**
      * @param application
@@ -56,24 +56,34 @@ public class CategoryRepository {
 
 
     /** TimeBank Methods */
-    public void insertTimeBank(TimeBank timeBank) {
-        new InsertTimeBankTask(timeBankDao).execute(timeBank);
 
-    }
-
-    public void updateTimeBank(TimeBank timeBank) {
-        new UpdateTimeBankTask(timeBankDao).execute(timeBank);
-
-    }
-
-    public void deleteTimeBank(TimeBank timeBank) {
-        new DeleteTimeBankTask(timeBankDao).execute(timeBank);
-
-    }
-
+    // Return every TimeBank
     public LiveData<List<TimeBank>> getAllTimeBanks() {
         return allTimeBanks;
     }
+
+    // Only TimeBanks with a unique Id
+    public LiveData<List<TimeBank>> getCategoryTimeBanks(int id){
+        categoryTimeBanks = timeBankDao.getCategoryTimeBanks(id);
+        return categoryTimeBanks;
+    }
+
+    // Insert
+    public void insertTimeBank(TimeBank timeBank) {
+        new InsertTimeBankTask(timeBankDao).execute(timeBank);
+    }
+
+    // Update - Todo: Implement?
+    public void updateTimeBank(TimeBank timeBank) {
+        new UpdateTimeBankTask(timeBankDao).execute(timeBank);
+    }
+
+    // Delete - Todo: Where/how to implement?
+    public void deleteTimeBank(TimeBank timeBank) {
+        new DeleteTimeBankTask(timeBankDao).execute(timeBank);
+    }
+
+
 
 
 

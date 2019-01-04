@@ -24,9 +24,8 @@ public interface TimeBankDao {
     @Query("SELECT * FROM timeBank_table")
     LiveData<List<TimeBank>> getAllTimeBanks();
 
-    // Try this one out
-    //@Query("SELECT * FROM category_table WHERE id=:id")
-    //List<TimeBank> findRepositoriesForUser(final int id);
+    @Query("SELECT * FROM timeBank_table WHERE categoryId=:categoryId")
+    LiveData<List<TimeBank>> getCategoryTimeBanks(final int categoryId);
 
 
 

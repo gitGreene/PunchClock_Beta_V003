@@ -15,6 +15,7 @@ public class CategoryViewModel extends AndroidViewModel {
     private LiveData<List<Category>> allCategories;
     private LiveData<Category> category;
     private LiveData<List<TimeBank>> allTimeBanks;
+    private LiveData<List<TimeBank>> categoryTimeBanks;
 
 
 
@@ -48,10 +49,19 @@ public class CategoryViewModel extends AndroidViewModel {
     }
 
     /** TimeBank Methods */
+
+    // Get all TimeBanks
     LiveData<List<TimeBank>> getAllTimeBanks() {
         return allTimeBanks;
     }
 
+    // Get all TimeBanks with unique categoryId
+    LiveData<List<TimeBank>> getCategoryTimeBanks(int id) {
+        categoryTimeBanks = repository.getCategoryTimeBanks(id);
+        return categoryTimeBanks;
+    }
+
+    // Insert TimeBanks
     public void insertTimeBank(TimeBank timeBank) {
         repository.insertTimeBank(timeBank);
     }

@@ -189,11 +189,10 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         // Observer for detailRecyclerView
-        detailViewModel.getAllTimeBanks().observe(this, new Observer<List<TimeBank>>() {
+        detailViewModel.getCategoryTimeBanks(categoryID).observe(this, new Observer<List<TimeBank>>() {
             @Override
             public void onChanged(@Nullable List<TimeBank> timeBanks) {
                 adapter.setTimeBanks(timeBanks);
-
             }
         });
     }
