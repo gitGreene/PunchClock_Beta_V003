@@ -63,37 +63,32 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-
+        // Get extras from Intent
         categoryID = getIntent().getIntExtra("category_id", 0);
         categoryTitleString = getIntent().getStringExtra("category_title");
 
+        // Initiates Shared Preferences
+        // Use sharedPrefs to get saved data or set them to defaults
+        SharedPreferences prefs = getSharedPreferences(PREFS_FILE_DETAIL, PREFS_MODE_DETAIL);
+        totalTime = prefs.getLong(totalTimeKey, 0);
+        timeOnDestroy = prefs.getLong(timeOnDestroyKey, 0);
+        timerRunning = prefs.getBoolean(timerRunningKey, false);
 
+        // Initiates chronometer, textViews and buttons
+        chronometer = findViewById(R.id.detailChronometer);
         categoryView = findViewById(R.id.categoryView);
+        startButton = findViewById(R.id.startButton);
+        pauseButton = findViewById(R.id.pauseButton);
+        resetButton = findViewById(R.id.resetButton);
+        commitButton = findViewById(R.id.commitButton);
 
         detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-
         detailViewModel.getCategoryByTitle(categoryTitleString).observe(this, new Observer<Category>() {
             @Override
             public void onChanged(@Nullable Category category) {
                 categoryView.setText(category.getCategory());
             }
         });
-
-
-        // Initiates Chronometer
-        chronometer = findViewById(R.id.detailChronometer);
-
-        // Initiates Start Button
-        startButton = findViewById(R.id.startButton);
-
-        // Initiates Pause Button
-        pauseButton = findViewById(R.id.pauseButton);
-
-        // Initiates Reset Button
-        resetButton = findViewById(R.id.resetButton);
-
-        // Initiates Commit Button
-        commitButton = findViewById(R.id.commitButton);
 
 
         // Initiates Favorite Icon and Animation
@@ -113,15 +108,6 @@ public class DetailActivity extends AppCompatActivity {
                 buttonView.startAnimation(scaleAnimation);
             }
         });
-
-
-        // Initiates Shared Preferences
-        // Use sharedPrefs to get saved data or set them to defaults
-        SharedPreferences prefs = getSharedPreferences(PREFS_FILE_DETAIL, PREFS_MODE_DETAIL);
-        totalTime = prefs.getLong(totalTimeKey, 0);
-        timeOnDestroy = prefs.getLong(timeOnDestroyKey, 0);
-        timerRunning = prefs.getBoolean(timerRunningKey, false);
-//        currentCategory = prefs.getString(categoryTitleKey, null);
 
 
 
@@ -174,6 +160,10 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Buttons onClick
+     *
+     */
     public void startButton(View view) {
         chronometer.setBase(SystemClock.elapsedRealtime() - totalTime);
         baseMillis = SystemClock.elapsedRealtime() - totalTime;
@@ -224,19 +214,22 @@ public class DetailActivity extends AppCompatActivity {
         Toast.makeText(DetailActivity.this, "If this worked, it would commit the number " + format.FormatMillisIntoHMS(totalTimeToCommit), Toast.LENGTH_SHORT).show();
     }
 
-        // Saved stuff to sharedPrefs
-        @Override
-        protected void onPause() {
-            super.onPause();
-            saveToSharedPreferences();
-        }
+    /**
+     * SharedPreferences
+     */
+    // Saved stuff to sharedPrefs
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveToSharedPreferences();
+    }
 
-        // Saved stuff to sharedPrefs
-        @Override
-        protected void onDestroy() {
-            super.onDestroy();
-            saveToSharedPreferences();
-        }
+    // Saved stuff to sharedPrefs
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        saveToSharedPreferences();
+    }
 
 
     public void saveToSharedPreferences() {
