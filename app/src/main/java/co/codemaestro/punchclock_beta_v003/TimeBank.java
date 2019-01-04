@@ -3,6 +3,7 @@ package co.codemaestro.punchclock_beta_v003;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -34,11 +35,22 @@ public class TimeBank {
 
     /**
      * Constructor
-     * @param id
-     * @param timeValue
-     * @param categoryId
+     *
      */
-    TimeBank(int id, String timeValue, int categoryId ){
+
+    @Ignore
+    public TimeBank(String timeValue) {
+        this.timeValue = timeValue;
+    }
+
+    @Ignore
+    public TimeBank(String timeValue, int categoryId) {
+        this.timeValue = timeValue;
+        this.categoryId = categoryId;
+    }
+
+
+    public TimeBank(int id, String timeValue, int categoryId ){
         this.id = id;
         this.timeValue = timeValue;
         this.categoryId = categoryId ;

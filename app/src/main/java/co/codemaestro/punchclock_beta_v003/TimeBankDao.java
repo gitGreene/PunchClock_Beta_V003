@@ -13,16 +13,16 @@ import java.util.List;
 public interface TimeBankDao {
 
     @Insert
-    void insert(TimeBank timeBank);
+    void insertTimeBank(TimeBank timeBank);
 
     @Update
-    void update(TimeBank timeBank);
+    void updateTimeBank(TimeBank timeBank);
 
     @Delete
-    void delete(TimeBank timeBank);
+    void deleteTimeBank(TimeBank timeBank);
 
     @Query("SELECT * FROM timeBank_table")
-    LiveData<List<TimeBank>> getAllTimeBankRows();
+    LiveData<List<TimeBank>> getAllTimeBanks();
 
     // Try this one out
     //@Query("SELECT * FROM category_table WHERE id=:id")

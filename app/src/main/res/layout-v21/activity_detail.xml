@@ -87,14 +87,29 @@
         android:onClick="commitButton"
         android:text="@string/commit_button" />
 
-    <ToggleButton
-        android:id="@+id/favorite_icon"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:background="@drawable/ic_favorite_heart_selector"
-        android:checked="false"
-        android:text=""
-        android:textOff=""
-        android:textOn="" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ToggleButton
+            android:id="@+id/favorite_icon"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:background="@drawable/ic_favorite_heart_selector"
+            android:checked="false"
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detailRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:textSize="20sp">
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
 
 </LinearLayout>

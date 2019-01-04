@@ -169,7 +169,7 @@ public class DetailActivity extends AppCompatActivity {
         // RecyclerView
         detailRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         detailRecyclerView.setHasFixedSize(false);
-        DetailTimeBankAdapter adapter = new DetailTimeBankAdapter();
+        final DetailTimeBankAdapter adapter = new DetailTimeBankAdapter();
         detailRecyclerView.setAdapter(adapter);
 
 
@@ -189,7 +189,13 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         // Observer for detailRecyclerView
-        //detailViewModel.get
+        detailViewModel.getAllTimeBanks().observe(this, new Observer<List<TimeBank>>() {
+            @Override
+            public void onChanged(@Nullable List<TimeBank> timeBanks) {
+                adapter.setTimeBanks(timeBanks);
+
+            }
+        });
     }
 
     /**
@@ -223,6 +229,27 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void resetButton(View view) {
+        resetTimer();
+    }
+
+    public void commitButton(View view) {
+        //Todo: Stop timer and save it in the database
+
+        // Get the time from timer and then reset the timer
+        totalTimeToCommit = SystemClock.elapsedRealtime() - chronometer.getBase();
+        resetTimer();
+
+        // Format the time into a string we can use
+        String timeStr = format.FormatMillisIntoHMS(totalTimeToCommit);
+
+        // Create a timeBank object
+        TimeBank timeBank = new TimeBank(timeStr, categoryID);
+
+        //Toast.makeText(DetailActivity.this, "If this worked, it would commit the number " + format.FormatMillisIntoHMS(totalTimeToCommit), Toast.LENGTH_SHORT).show();
+        detailViewModel.insertTimeBank(timeBank);
+    }
+
+    public void resetTimer() {
         chronometer.stop();
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.setText(R.string.default_timer);
@@ -238,12 +265,6 @@ public class DetailActivity extends AppCompatActivity {
         startButton.setEnabled(true);
         pauseButton.setEnabled(false);
         resetButton.setEnabled(false);
-    }
-
-    public void commitButton(View view) {
-        //Todo: Stop timer and save it in the database
-        totalTimeToCommit = SystemClock.elapsedRealtime() - chronometer.getBase();
-        Toast.makeText(DetailActivity.this, "If this worked, it would commit the number " + format.FormatMillisIntoHMS(totalTimeToCommit), Toast.LENGTH_SHORT).show();
     }
 
     /**
