@@ -238,6 +238,7 @@ public class DetailActivity extends AppCompatActivity {
             saveToSharedPreferences();
         }
 
+
     public void saveToSharedPreferences() {
         if (timerRunning) {
             totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
