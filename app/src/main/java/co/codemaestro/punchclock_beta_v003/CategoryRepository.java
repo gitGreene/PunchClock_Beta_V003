@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 
 public class CategoryRepository {
     private CategoryDao categoryDao;
+    private TimeBankDao timeBankDao;
     private LiveData<List<Category>> allCategories;
     private LiveData<Category> categoryByTitle;
 

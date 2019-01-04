@@ -8,11 +8,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-@Database(entities = {Category.class}, version = 7, exportSchema = false)
+@Database(entities = {Category.class, TimeBank.class }, version = 10, exportSchema = false)
 public abstract class CategoryDatabase extends RoomDatabase {
-    public abstract CategoryDao categoryDao();
-    //public abstract TimeBankDao timeBankDao();
 
+    // Dao
+    public abstract CategoryDao categoryDao();
+    public abstract TimeBankDao timeBankDao();
+
+    // Singleton
     private static volatile CategoryDatabase INSTANCE;
 
     static CategoryDatabase getDatabase(final Context context) {
@@ -43,23 +46,24 @@ public abstract class CategoryDatabase extends RoomDatabase {
 
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
-        private final CategoryDao dao;
+        private final CategoryDao categoryDao;
+
         String[] defaultCategories = {"Work", "School", "Gym"};
         String defaultTimeValues = "00:00:00";
 
 
 
         PopulateDbAsync(CategoryDatabase db) {
-            dao = db.categoryDao();
+            categoryDao = db.categoryDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
 
-            if(dao.getAnyCategory().length < 1) {
+            if(categoryDao.getAnyCategory().length < 1) {
                 for(int i = 0; i <= defaultCategories.length - 1; i++) {
                     Category category = new Category(defaultCategories[i], defaultTimeValues);
-                    dao.insert(category);
+                    categoryDao.insert(category);
                 }
             }
             return null;

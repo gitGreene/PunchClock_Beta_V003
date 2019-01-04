@@ -9,6 +9,8 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
@@ -21,12 +23,14 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.List;
+import java.util.Timer;
 import java.util.concurrent.ExecutionException;
 
 public class DetailActivity extends AppCompatActivity {
     private CategoryViewModel detailViewModel;
 
-    // References for Chronometer, buttons, timerView and creating a Handler for the runnable
+    // Initiates RecView Chronometer, buttons, timerView and creating a Handler for the runnable
+    private RecyclerView detailRecyclerView;
     private Chronometer chronometer;
     private ToggleButton startButton, pauseButton, resetButton;
     private Button commitButton;
@@ -74,7 +78,8 @@ public class DetailActivity extends AppCompatActivity {
         timeOnDestroy = prefs.getLong(timeOnDestroyKey, 0);
         timerRunning = prefs.getBoolean(timerRunningKey, false);
 
-        // Initiates chronometer, textViews and buttons
+        // Creates references for recView, chronometer, textViews and buttons
+        detailRecyclerView = findViewById(R.id.detailRecyclerView);
         chronometer = findViewById(R.id.detailChronometer);
         categoryView = findViewById(R.id.categoryView);
         startButton = findViewById(R.id.startButton);
@@ -82,15 +87,10 @@ public class DetailActivity extends AppCompatActivity {
         resetButton = findViewById(R.id.resetButton);
         commitButton = findViewById(R.id.commitButton);
 
-        detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-        detailViewModel.getCategoryByTitle(categoryTitleString).observe(this, new Observer<Category>() {
-            @Override
-            public void onChanged(@Nullable Category category) {
-                categoryView.setText(category.getCategory());
-            }
-        });
 
-
+        /**
+         * Favorites
+         */
         // Initiates Favorite Icon and Animation
         favoriteIcon = findViewById(R.id.favorite_icon);
         final ScaleAnimation scaleAnimation =
@@ -111,7 +111,9 @@ public class DetailActivity extends AppCompatActivity {
 
 
 
-        /*Logic Based on the Timer Running*/
+        /**
+         * Logic Based on the Timer Running
+         */
 
         // Timer Logic
         if (timerRunning) {
@@ -148,8 +150,10 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
+        /**
+         * Chronometer Listener
+         */
         // Chronometer onTick Listener and Time Formatting
-
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
@@ -158,6 +162,34 @@ public class DetailActivity extends AppCompatActivity {
                 chronometer.setText(format.FormatMillisIntoHMS(millisInTimer));
             }
         });
+
+        /**
+         * RecyclerView
+         */
+        // RecyclerView
+        detailRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        detailRecyclerView.setHasFixedSize(false);
+        DetailTimeBankAdapter adapter = new DetailTimeBankAdapter();
+        detailRecyclerView.setAdapter(adapter);
+
+
+        /**
+         * ViewModel
+         */
+        // Get a link to the ViewModel
+        detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+
+        // Observer for categoryView
+        detailViewModel.getCategoryByTitle(categoryTitleString).observe(this, new Observer<Category>() {
+            @Override
+            public void onChanged(@Nullable Category category) {
+                //Set categoryView text
+                categoryView.setText(category.getCategory());
+            }
+        });
+
+        // Observer for detailRecyclerView
+        //detailViewModel.get
     }
 
     /**

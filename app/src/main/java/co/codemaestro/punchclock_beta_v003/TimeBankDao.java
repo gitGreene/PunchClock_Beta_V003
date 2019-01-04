@@ -9,20 +9,26 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-//@Dao
+@Dao
 public interface TimeBankDao {
 
-    /*@Insert
+    @Insert
     void insert(TimeBank timeBank);
-
-    @Query("SELECT * FROM timeBank_table")
-    LiveData<List<TimeBank>> getAllTimeBankRows();
 
     @Update
     void update(TimeBank timeBank);
 
     @Delete
-    void delete(TimeBank timeBank);*/
+    void delete(TimeBank timeBank);
+
+    @Query("SELECT * FROM timeBank_table")
+    LiveData<List<TimeBank>> getAllTimeBankRows();
+
+    // Try this one out
+    //@Query("SELECT * FROM category_table WHERE id=:id")
+    //List<TimeBank> findRepositoriesForUser(final int id);
+
+
 
 
 }
