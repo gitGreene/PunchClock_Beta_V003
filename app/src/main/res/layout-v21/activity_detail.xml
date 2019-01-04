@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:gravity="center"
-            android:text="@string/category_default_detail_activity"
             android:textColor="@color/primaryTextColor"
             android:textSize="50sp" />
 

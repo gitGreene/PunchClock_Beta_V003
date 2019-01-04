@@ -134,6 +134,7 @@ public class CategoryRepository {
         private InsertTimeBankTask(TimeBankDao timeBankDao) {
             this.timeBankDao = timeBankDao;
         }
+
         @Override
         protected Void doInBackground(TimeBank... timeBanks) {
             timeBankDao.insertTimeBank(timeBanks[0]);
@@ -147,6 +148,7 @@ public class CategoryRepository {
         private UpdateTimeBankTask(TimeBankDao timeBankDao) {
             this.timeBankDao = timeBankDao;
         }
+
         @Override
         protected Void doInBackground(TimeBank... timeBanks) {
             timeBankDao.updateTimeBank(timeBanks[0]);
@@ -160,6 +162,7 @@ public class CategoryRepository {
         private DeleteTimeBankTask(TimeBankDao timeBankDao) {
             this.timeBankDao = timeBankDao;
         }
+
         @Override
         protected Void doInBackground(TimeBank... timeBanks) {
             timeBankDao.deleteTimeBank(timeBanks[0]);

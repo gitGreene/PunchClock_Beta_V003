@@ -52,10 +52,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     Toast.makeText(context, "Damn son: " + current.getCategory(), Toast.LENGTH_SHORT).show();
                 }
             });
-
-
-        } else {
-            holder.timeBankTitleView.setText(R.string.new_title);
         }
     }
 

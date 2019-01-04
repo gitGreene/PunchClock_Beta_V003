@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 @Database(entities = {Category.class, TimeBank.class }, version = 14, exportSchema = false)
 public abstract class CategoryDatabase extends RoomDatabase {
 
-    // Dao
+    // Dao abstract methods
     public abstract CategoryDao categoryDao();
     public abstract TimeBankDao timeBankDao();
 
@@ -37,7 +37,7 @@ public abstract class CategoryDatabase extends RoomDatabase {
     private static RoomDatabase.Callback sRoomDatabaseCallback =
             new RoomDatabase.Callback() {
                 @Override
-                public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                public void onOpen(@NonNull SupportSQLiteDatabase db) {
                     super.onCreate(db);
                     new PopulateDbAsync(INSTANCE).execute();
                 }
@@ -47,11 +47,8 @@ public abstract class CategoryDatabase extends RoomDatabase {
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final CategoryDao categoryDao;
-
         String[] defaultCategories = {"Work", "School", "Gym"};
         String defaultTimeValues = "00:00:00";
-
-
 
         PopulateDbAsync(CategoryDatabase db) {
             categoryDao = db.categoryDao();

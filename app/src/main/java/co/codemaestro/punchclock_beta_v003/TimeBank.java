@@ -9,7 +9,13 @@ import android.support.annotation.NonNull;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(tableName = "timeBank_table", foreignKeys = @ForeignKey(entity = Category.class, parentColumns = "id", childColumns = "categoryId", onDelete = CASCADE))
+@Entity(tableName = "timeBank_table",
+        foreignKeys = @ForeignKey(
+                entity = Category.class,
+                parentColumns = "id",
+                childColumns = "categoryId",
+                onDelete = CASCADE))
+
 public class TimeBank {
 
     /**
