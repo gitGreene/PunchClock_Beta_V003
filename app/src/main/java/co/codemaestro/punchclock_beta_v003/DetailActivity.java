@@ -40,7 +40,7 @@ public class DetailActivity extends AppCompatActivity {
     // Variables for timer code
     private long totalTime, timeAfterLife, timeOnDestroy, timeOnCreate, totalTimeToCommit;
     Boolean timerRunning = false;
-    String categoryTitleString;
+    String categoryTitleString, timeStr;
     CategoryDao categoryDao;
     int categoryID;
 
@@ -218,6 +218,10 @@ public class DetailActivity extends AppCompatActivity {
 
 
     public void pauseButton(View view) {
+        // Get the time from timer, format it into a string
+        totalTimeToCommit = SystemClock.elapsedRealtime() - chronometer.getBase();
+        timeStr = format.FormatMillisIntoHMS(totalTimeToCommit);
+
         totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
         chronometer.stop();
         // timer Paused
@@ -226,6 +230,8 @@ public class DetailActivity extends AppCompatActivity {
         startButton.setEnabled(true);
         pauseButton.setEnabled(false);
         resetButton.setEnabled(true);
+
+
     }
 
     public void resetButton(View view) {
@@ -233,20 +239,26 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void commitButton(View view) {
-        //Todo: Stop timer and save it in the database
+        //Todo: Change the Query to only post times by category
+        // If timer is running get new time, otherwise it should use the time we got from pause
+        if (timerRunning) {
+            // Get the time from timer, format it into a string
+            totalTimeToCommit = SystemClock.elapsedRealtime() - chronometer.getBase();
+            timeStr = format.FormatMillisIntoHMS(totalTimeToCommit);
+        }
 
-        // Get the time from timer and then reset the timer
-        totalTimeToCommit = SystemClock.elapsedRealtime() - chronometer.getBase();
+        if (totalTimeToCommit > 0) {
+            // Create a timeBank object
+            final TimeBank timeBank = new TimeBank(timeStr, categoryID);
+
+            // Insert the data
+            detailViewModel.insertTimeBank(timeBank);
+        }
+
         resetTimer();
 
-        // Format the time into a string we can use
-        String timeStr = format.FormatMillisIntoHMS(totalTimeToCommit);
-
-        // Create a timeBank object
-        TimeBank timeBank = new TimeBank(timeStr, categoryID);
-
         //Toast.makeText(DetailActivity.this, "If this worked, it would commit the number " + format.FormatMillisIntoHMS(totalTimeToCommit), Toast.LENGTH_SHORT).show();
-        detailViewModel.insertTimeBank(timeBank);
+
     }
 
     public void resetTimer() {
@@ -261,6 +273,7 @@ public class DetailActivity extends AppCompatActivity {
         timeOnCreate = 0;
         timeAfterLife = 0;
         baseMillis = 0;
+        totalTimeToCommit = 0;
 
         startButton.setEnabled(true);
         pauseButton.setEnabled(false);
