@@ -9,25 +9,34 @@ import java.util.concurrent.ExecutionException;
 
 public class CategoryRepository {
     private CategoryDao categoryDao;
+    private TimeBankDao timeBankDao;
+
     private LiveData<List<Category>> allCategories;
     private LiveData<Category> categoryByTitle;
+    private LiveData<List<TimeBank>> allTimeBanks;
 
 
     /**
      * @param application
      * Constructor for the Repository
      */
-    CategoryRepository(Application application) {
+    public CategoryRepository(Application application) {
+        //
         CategoryDatabase db = CategoryDatabase.getDatabase(application);
         categoryDao = db.categoryDao();
-        allCategories = categoryDao.getAllCategories();
+        timeBankDao = db.timeBankDao();
 
+        //
+        allCategories = categoryDao.getAllCategories();
+        allTimeBanks = timeBankDao.getAllTimeBanks();
     }
 
 
     /**
      * Wrapper Methods
      */
+
+    /** Category Methods */
     LiveData<List<Category>> getAllCategories() {
         return allCategories;
     }
@@ -36,11 +45,6 @@ public class CategoryRepository {
         categoryByTitle = categoryDao.getCategoryByTitle(title);
         return categoryByTitle;
     }
-
-//    Category getCategoryById(int id) throws ExecutionException, InterruptedException {
-//        Category category = new getCategoryByIdAsync(categoryDao).execute(id).get();
-//        return category;
-//    }
 
     public void insert(Category category) {
         new insertAsyncTask(categoryDao).execute(category);
@@ -51,7 +55,32 @@ public class CategoryRepository {
     }
 
 
+    /** TimeBank Methods */
+    public void insertTimeBank(TimeBank timeBank) {
+        new InsertTimeBankTask(timeBankDao).execute(timeBank);
 
+    }
+
+    public void updateTimeBank(TimeBank timeBank) {
+        new UpdateTimeBankTask(timeBankDao).execute(timeBank);
+
+    }
+
+    public void deleteTimeBank(TimeBank timeBank) {
+        new DeleteTimeBankTask(timeBankDao).execute(timeBank);
+
+    }
+
+    public LiveData<List<TimeBank>> getAllTimeBanks() {
+        return allTimeBanks;
+    }
+
+
+
+    //    Category getCategoryById(int id) throws ExecutionException, InterruptedException {
+//        Category category = new getCategoryByIdAsync(categoryDao).execute(id).get();
+//        return category;
+//    }
 
 
     /**
@@ -82,6 +111,48 @@ public class CategoryRepository {
         @Override
         protected Void doInBackground(Void... voids) {
             asyncTaskDao.deleteAll();
+            return null;
+        }
+    }
+
+
+    // TimeBank Async Methods
+
+    private static class InsertTimeBankTask extends AsyncTask<TimeBank, Void, Void> {
+        private TimeBankDao timeBankDao;
+
+        private InsertTimeBankTask(TimeBankDao timeBankDao) {
+            this.timeBankDao = timeBankDao;
+        }
+        @Override
+        protected Void doInBackground(TimeBank... timeBanks) {
+            timeBankDao.insertTimeBank(timeBanks[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateTimeBankTask extends AsyncTask<TimeBank, Void, Void> {
+        private TimeBankDao timeBankDao;
+
+        private UpdateTimeBankTask(TimeBankDao timeBankDao) {
+            this.timeBankDao = timeBankDao;
+        }
+        @Override
+        protected Void doInBackground(TimeBank... timeBanks) {
+            timeBankDao.updateTimeBank(timeBanks[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteTimeBankTask extends AsyncTask<TimeBank, Void, Void> {
+        private TimeBankDao timeBankDao;
+
+        private DeleteTimeBankTask(TimeBankDao timeBankDao) {
+            this.timeBankDao = timeBankDao;
+        }
+        @Override
+        protected Void doInBackground(TimeBank... timeBanks) {
+            timeBankDao.deleteTimeBank(timeBanks[0]);
             return null;
         }
     }
