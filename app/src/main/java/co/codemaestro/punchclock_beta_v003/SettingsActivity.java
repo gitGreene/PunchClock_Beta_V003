@@ -22,7 +22,6 @@ public class SettingsActivity extends AppCompatActivity {
     private static final int PREFS_MODE = Context.MODE_PRIVATE;
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
 
-    private BottomNavigationView bottomNav;
 
 
 
@@ -35,31 +34,6 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
         boolean nightModeEnabled = prefs.getBoolean(nightModeBooleanKey, false);
 
-        bottomNav = findViewById(R.id.bottom_nav);
-        bottomNav.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.bottom_nav_home:
-                                Intent homeIntent = new Intent(getBaseContext(), MainActivity.class);
-                                startActivity(homeIntent);
-                                break;
-                            case R.id.bottom_nav_favorites:
-                                // TODO: code that reloads the recyclerView with favorites
-                                //Intent favIntent = new Intent(getBaseContext(), FavoritesActivity.class);
-                                //startActivity(favIntent);
-                                Toast.makeText(SettingsActivity.this, "What's this about REAL Megaloboxing!!?", Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.bottom_nav_settings:
-                                // do nothing?
-                                break;
-                        }
-
-                        return false;
-                    }
-                }
-        );
 
         // Create references to Switch view and set the switch to the saved setting
         Switch switchNightMode = findViewById(R.id.switchNightMode);
