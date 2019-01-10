@@ -37,7 +37,6 @@ public interface CategoryDao {
     LiveData<Category> getCategoryByTitle(String categoryTitle);
 
     // Todo: Does this updateCategory overwrite every field even if we don't give it one?
-    //
     @Update
     void updateCategory(Category category);
 
@@ -45,8 +44,11 @@ public interface CategoryDao {
     @Delete
     void deleteCategory(Category category);
 
-//    @Update
-//    void updateTimerRunningBoolean(Category category);
+    @Query("SELECT * from category_table WHERE isFavorite = 'true'")
+    LiveData<List<Category>> getFavorites();
+
+    @Query("UPDATE category_table SET isFavorite = 'true' WHERE id = :id")
+    void setAsFavorite(int id);
 
 
 }

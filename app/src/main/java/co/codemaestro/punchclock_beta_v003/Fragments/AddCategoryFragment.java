@@ -21,8 +21,7 @@ public class AddCategoryFragment extends AppCompatDialogFragment {
     AddCategoryFragmentListener listener;
 
     public static AddCategoryFragment newInstance() {
-        AddCategoryFragment fragment = new AddCategoryFragment();
-        return fragment;
+        return new AddCategoryFragment();
     }
 
     public interface AddCategoryFragmentListener {

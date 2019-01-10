@@ -109,6 +109,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 buttonView.startAnimation(scaleAnimation);
+                detailViewModel.setAsFavorite(categoryID);
             }
         });
 
