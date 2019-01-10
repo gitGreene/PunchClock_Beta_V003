@@ -1,32 +1,20 @@
 package co.codemaestro.punchclock_beta_v003;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.transition.Slide;
-import android.transition.Transition;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.widget.Toast;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements
         AddCategoryFragment.AddCategoryFragmentListener{
@@ -65,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
-
-
         bottomNav = findViewById(R.id.bottom_nav);
         bottomNav.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -79,20 +65,12 @@ public class MainActivity extends AppCompatActivity implements
                                 fragment = new HomeFragment();
                                 break;
                             case R.id.bottom_nav_favorites:
-                                // TODO: code that reloads the recyclerView with favorites
-                                //Intent favIntent = new Intent(getBaseContext(), FavoritesActivity.class);
-                                //startActivity(favIntent);
-//                                Toast.makeText(MainActivity.this, "There is no favorites activity", Toast.LENGTH_SHORT).show();
                                 fragment = new FavoritesFragment();
                                 break;
                             case R.id.bottom_nav_settings:
-                                // Intent to SettingsActivity
-//                                Intent actionIntent = new Intent(getBaseContext(), SettingsActivity.class);
-//                                startActivity(actionIntent);
                                 fragment = new SettingsFragment();
                                 break;
                         }
-
                         return loadFragment(fragment);
                     }
                 }
@@ -101,16 +79,14 @@ public class MainActivity extends AppCompatActivity implements
 
     private boolean loadFragment(Fragment fragment) {
         if(fragment != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.containter, fragment)
-                    .commit();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+            transaction.replace(R.id.container, fragment);
+            transaction.commit();
             return true;
         }
         return false;
     }
-
-
 
     @Override
     public void onChoice(boolean choice, String newCategory) {
