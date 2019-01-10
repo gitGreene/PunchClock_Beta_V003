@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements
             //recreate();
         }
 
-
+        // FAB
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements
         });
 
 
-
+        // Bottom Nav
         bottomNav = findViewById(R.id.bottom_nav);
         bottomNav.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -1,21 +1,20 @@
 package co.codemaestro.punchclock_beta_v003;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+
+    FormatMillis format = new FormatMillis();
     private final LayoutInflater inflater;
     private List<Category> categories;
     private Context context;
@@ -43,7 +42,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         if(categories != null) {
             final Category current = categories.get(position);
             holder.timeBankTitleView.setText(current.getCategory());
-            holder.timeBankValueView.setText(current.getTimeValue());
+            holder.timeBankValueView.setText(current.getTotalTime());
             holder.playButton.setText(R.string.play_button);
             holder.playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,8 +83,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         public void onClick(View v) {
             // Create category object to hold category
             Category currentCategory = categories.get(getAdapterPosition());
-
-            // TODO: Instantiate individual detail activities for each category
 
             // Send category over and start the detail activity
             Intent detailIntent = new Intent(context, DetailActivity.class);

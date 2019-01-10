@@ -5,7 +5,6 @@ import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class CategoryRepository {
     private CategoryDao categoryDao;
@@ -36,6 +35,7 @@ public class CategoryRepository {
      * Wrapper Methods
      */
 
+
     /** Category Methods */
     LiveData<List<Category>> getAllCategories() {
         return allCategories;
@@ -47,12 +47,16 @@ public class CategoryRepository {
     }
 
     public void insert(Category category) {
-        new insertAsyncTask(categoryDao).execute(category);
+        new InsertAsyncTask(categoryDao).execute(category);
     }
 
+    public void updateCategory(Category category) { new UpdateCategoryAsyncTask(categoryDao).execute(category); }
+
     public void deleteAll() {
-        new deleteAllAsyncTask(categoryDao).execute();
+        new DeleteAllAsyncTask(categoryDao).execute();
     }
+
+
 
 
     /** TimeBank Methods */
@@ -68,24 +72,20 @@ public class CategoryRepository {
         return categoryTimeBanks;
     }
 
-    // Insert
-    public void insertTimeBank(TimeBank timeBank) {
-        new InsertTimeBankTask(timeBankDao).execute(timeBank);
+    // Sum of all times by category - Async
+    public Long getCategoryTimeSum(int id) {
+        Long categoryTotalTime = timeBankDao.getCategoryTimeSum(id);
+        return categoryTotalTime;
     }
 
-    // Update - Todo: Implement?
-    public void updateTimeBank(TimeBank timeBank) {
-        new UpdateTimeBankTask(timeBankDao).execute(timeBank);
+    // Insert - Async
+    public void insertTimeBank(TimeBank timeBank) { new InsertTimeBankTask(timeBankDao).execute(timeBank); }
+    // Update - Async - Todo: Implement?
+    public void updateTimeBank(TimeBank timeBank) { new UpdateTimeBankTask(timeBankDao).execute(timeBank);
     }
-
-    // Delete - Todo: Where/how to implement?
-    public void deleteTimeBank(TimeBank timeBank) {
-        new DeleteTimeBankTask(timeBankDao).execute(timeBank);
+    // Delete - Async - Todo: Where/how to implement?
+    public void deleteTimeBank(TimeBank timeBank) { new DeleteTimeBankTask(timeBankDao).execute(timeBank);
     }
-
-
-
-
 
     //    Category getCategoryById(int id) throws ExecutionException, InterruptedException {
 //        Category category = new getCategoryByIdAsync(categoryDao).execute(id).get();
@@ -93,14 +93,18 @@ public class CategoryRepository {
 //    }
 
 
+
+
+
     /**
      * AsyncTask Inner Classes
      */
 
-    private static class insertAsyncTask extends AsyncTask<Category, Void, Void> {
+    // Category Async Methods
+    private static class InsertAsyncTask extends AsyncTask<Category, Void, Void> {
         private CategoryDao asyncTaskDao;
 
-        insertAsyncTask(CategoryDao dao) {
+        InsertAsyncTask(CategoryDao dao) {
             asyncTaskDao = dao;
         }
 
@@ -111,10 +115,25 @@ public class CategoryRepository {
         }
     }
 
-    private static class deleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
+    private static class UpdateCategoryAsyncTask extends AsyncTask<Category, Void, Void> {
         private CategoryDao asyncTaskDao;
 
-        deleteAllAsyncTask(CategoryDao dao) {
+        UpdateCategoryAsyncTask(CategoryDao dao) {
+            asyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Category... categories) {
+            asyncTaskDao.updateCategory(categories[0]);
+            return null;
+        }
+    }
+
+
+    private static class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
+        private CategoryDao asyncTaskDao;
+
+        DeleteAllAsyncTask(CategoryDao dao) {
             asyncTaskDao = dao;
         }
 
@@ -127,6 +146,22 @@ public class CategoryRepository {
 
 
     // TimeBank Async Methods
+        // TODO: Make a async task or incorportate live data for getSumOfTimes
+    /* private static class GetCategoryTimeSumAsyncTask extends AsyncTask<Int, Void, Long> {
+        private TimeBankDao timeBankDao;
+
+        private GetCategoryTimeSumAsyncTask(TimeBankDao timeBankDao) {
+
+            this.timeBankDao = timeBankDao;
+        }
+
+         @Override
+         protected Long doInBackground(Integer... integers) {
+             long categoryTotalTime = timeBankDao.getCategoryTimeSum(integers);
+             return categoryTotalTime;
+
+         }
+     } */
 
     private static class InsertTimeBankTask extends AsyncTask<TimeBank, Void, Void> {
         private TimeBankDao timeBankDao;

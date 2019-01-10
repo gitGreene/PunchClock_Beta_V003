@@ -6,7 +6,6 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class CategoryViewModel extends AndroidViewModel {
     private CategoryRepository repository;
@@ -16,8 +15,7 @@ public class CategoryViewModel extends AndroidViewModel {
     private LiveData<Category> category;
     private LiveData<List<TimeBank>> allTimeBanks;
     private LiveData<List<TimeBank>> categoryTimeBanks;
-
-
+    private Long categoryTimeSum;
 
 
     public CategoryViewModel(@NonNull Application application) {
@@ -29,8 +27,6 @@ public class CategoryViewModel extends AndroidViewModel {
 
 
     /** Category Methods */
-
-    /** Category */
     LiveData<List<Category>> getAllCategories() {
         return allCategories;
     }
@@ -44,12 +40,14 @@ public class CategoryViewModel extends AndroidViewModel {
         repository.insert(category);
     }
 
+    public void updateCategory(Category category) { repository.updateCategory(category); }
+
     public void deleteAll() {
         repository.deleteAll();
     }
 
-    /** TimeBank Methods */
 
+    /** TimeBank Methods */
     // Get all TimeBanks
     LiveData<List<TimeBank>> getAllTimeBanks() {
         return allTimeBanks;
@@ -61,10 +59,17 @@ public class CategoryViewModel extends AndroidViewModel {
         return categoryTimeBanks;
     }
 
+    // Get sum of all times by category
+    Long getCategoryTimeSum(int id) {
+        categoryTimeSum = repository.getCategoryTimeSum(id);
+        return categoryTimeSum;
+    }
+
     // Insert TimeBanks
     public void insertTimeBank(TimeBank timeBank) {
         repository.insertTimeBank(timeBank);
     }
+
 
 
 

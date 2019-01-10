@@ -3,7 +3,6 @@ package co.codemaestro.punchclock_beta_v003;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -19,12 +18,9 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.concurrent.ExecutionException;
 
 public class DetailActivity extends AppCompatActivity {
     private CategoryViewModel detailViewModel;
@@ -41,8 +37,8 @@ public class DetailActivity extends AppCompatActivity {
     private long totalTime, timeAfterLife, timeOnDestroy, timeOnCreate, totalTimeToCommit;
     Boolean timerRunning = false;
     String categoryTitleString, timeStr;
-    CategoryDao categoryDao;
     int categoryID;
+    String categoryTimeSum;
 
 
     // Variables for sharedPrefs
@@ -52,7 +48,6 @@ public class DetailActivity extends AppCompatActivity {
     private static final String timerRunningKey = "co.codemaestro.punchclock_beta_v003.BlueKey";
     private static final String timeOnDestroyKey = "co.codemaestro.punchclock_beta_v003.RedKey";
     private static final String categoryTitleKey = "co.codemaestro.punchclock_beta_v003.PurpleKey";
-
 
     private Category currentCategory;
 
@@ -193,9 +188,14 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<TimeBank> timeBanks) {
                 adapter.setTimeBanks(timeBanks);
+
+                //insertTotalTime();
             }
         });
-    }
+    } // End of onCreate
+
+
+
 
     /**
      * Buttons onClick
@@ -205,10 +205,9 @@ public class DetailActivity extends AppCompatActivity {
         chronometer.setBase(SystemClock.elapsedRealtime() - totalTime);
         baseMillis = SystemClock.elapsedRealtime() - totalTime;
         chronometer.start();
+
         // timer Started
         timerRunning = true;
-//        categoryDao.updateTimerRunningBoolean();
-
 
         startButton.setEnabled(false);
         pauseButton.setEnabled(true);
@@ -243,21 +242,23 @@ public class DetailActivity extends AppCompatActivity {
         if (timerRunning) {
             // Get the time from timer, format it into a string
             totalTimeToCommit = SystemClock.elapsedRealtime() - chronometer.getBase();
-            timeStr = format.FormatMillisIntoHMS(totalTimeToCommit);
         }
 
         if (totalTimeToCommit > 0) {
             // Create a timeBank object
-            final TimeBank timeBank = new TimeBank(timeStr, categoryID);
+            final TimeBank timeBank = new TimeBank(totalTimeToCommit, categoryID);
 
             // Insert the data
             detailViewModel.insertTimeBank(timeBank);
+
+            // Get the sum of times for this category from a database query
+            //long sumOfTimes = detailViewModel.getCategoryTimeSum(categoryID);
+
+            // Use the values from the intent along with sumOfTimes to update the category at the primary key "categoryId"
+            //detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, format.FormatLongIntoHMS(sumOfTimes)));
+
         }
-
         resetTimer();
-
-        //Toast.makeText(DetailActivity.this, "If this worked, it would commit the number " + format.FormatMillisIntoHMS(totalTimeToCommit), Toast.LENGTH_SHORT).show();
-
     }
 
     public void resetTimer() {

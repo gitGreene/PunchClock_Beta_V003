@@ -28,7 +28,7 @@ public class TimeBank {
     private int id;
 
     @ColumnInfo(name = "timeValue")
-    private String timeValue;
+    private long timeValue;
 
     @ColumnInfo(name = "categoryId")
     private int categoryId;
@@ -39,18 +39,18 @@ public class TimeBank {
      */
 
     @Ignore
-    public TimeBank(String timeValue) {
+    public TimeBank(long timeValue) {
         this.timeValue = timeValue;
     }
 
     @Ignore
-    public TimeBank(String timeValue, int categoryId) {
+    public TimeBank(long timeValue, int categoryId) {
         this.timeValue = timeValue;
         this.categoryId = categoryId;
     }
 
 
-    public TimeBank(int id, String timeValue, int categoryId ){
+    public TimeBank(int id, long timeValue, int categoryId ){
         this.id = id;
         this.timeValue = timeValue;
         this.categoryId = categoryId ;
@@ -68,11 +68,11 @@ public class TimeBank {
         this.id = id;
     }
 
-    public String getTimeValue() {
+    public long getTimeValue() {
         return timeValue;
     }
 
-    public void setTimeValue(String timeValue) {
+    public void setTimeValue(long timeValue) {
         this.timeValue = timeValue;
     }
 

@@ -12,32 +12,42 @@ import java.util.List;
 @Dao
 public interface CategoryDao {
 
+    // Insert category
     @Insert
     void insert(Category category);
 
+    // Delete all categories
     @Query("DELETE FROM category_table")
     void deleteAll();
 
+    //
     @Query("SELECT * from category_table")
     LiveData<List<Category>> getAllCategories();
 
+    //
     @Query("SELECT * from category_table LIMIT 1")
     Category[] getAnyCategory();
 
-    @Query("SELECT * from category_table WHERE id = :currentId")
-    Category getCategoryById(int currentId);
+    //
+    @Query("SELECT * from category_table WHERE id = :categoryId")
+    Category getCategoryById(int categoryId);
 
+    //
     @Query("SELECT * from category_table WHERE category = :categoryTitle")
     LiveData<Category> getCategoryByTitle(String categoryTitle);
+
+    // Todo: Does this updateCategory overwrite every field even if we don't give it one?
+    //
+    @Update
+    void updateCategory(Category category);
+
+    //
+    @Delete
+    void deleteCategory(Category category);
 
 //    @Update
 //    void updateTimerRunningBoolean(Category category);
 
-    @Delete
-    void deleteCategory(Category category);
-
-    @Update
-    void updateTimeValue(Category category);
 
 
 }
