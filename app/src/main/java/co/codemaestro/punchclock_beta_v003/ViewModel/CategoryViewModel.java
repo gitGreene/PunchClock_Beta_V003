@@ -1,4 +1,4 @@
-package co.codemaestro.punchclock_beta_v003;
+package co.codemaestro.punchclock_beta_v003.ViewModel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -6,7 +6,11 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+
+import co.codemaestro.punchclock_beta_v003.Database.Category;
+import co.codemaestro.punchclock_beta_v003.Database.CategoryRepository;
+import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
+import co.codemaestro.punchclock_beta_v003.Database.CategoryRepository;
 
 public class CategoryViewModel extends AndroidViewModel {
     private CategoryRepository repository;
@@ -31,11 +35,11 @@ public class CategoryViewModel extends AndroidViewModel {
     /** Category Methods */
 
     /** Category */
-    LiveData<List<Category>> getAllCategories() {
+    public LiveData<List<Category>> getAllCategories() {
         return allCategories;
     }
 
-    LiveData<Category> getCategoryByTitle(String title) {
+    public LiveData<Category> getCategoryByTitle(String title) {
         category = repository.getCategoryByTitle(title);
         return category;
     }
@@ -51,12 +55,12 @@ public class CategoryViewModel extends AndroidViewModel {
     /** TimeBank Methods */
 
     // Get all TimeBanks
-    LiveData<List<TimeBank>> getAllTimeBanks() {
+    public LiveData<List<TimeBank>> getAllTimeBanks() {
         return allTimeBanks;
     }
 
     // Get all TimeBanks with unique categoryId
-    LiveData<List<TimeBank>> getCategoryTimeBanks(int id) {
+    public LiveData<List<TimeBank>> getCategoryTimeBanks(int id) {
         categoryTimeBanks = repository.getCategoryTimeBanks(id);
         return categoryTimeBanks;
     }

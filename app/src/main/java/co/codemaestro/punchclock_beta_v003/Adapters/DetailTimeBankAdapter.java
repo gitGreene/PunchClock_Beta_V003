@@ -1,7 +1,5 @@
-package co.codemaestro.punchclock_beta_v003;
+package co.codemaestro.punchclock_beta_v003.Adapters;
 
-import android.arch.lifecycle.LiveData;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +9,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
+import co.codemaestro.punchclock_beta_v003.R;
 
 public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAdapter.DetailTimeBankHolder> {
 

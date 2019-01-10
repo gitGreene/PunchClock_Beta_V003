@@ -1,9 +1,8 @@
-package co.codemaestro.punchclock_beta_v003;
+package co.codemaestro.punchclock_beta_v003.Activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -19,12 +18,17 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.concurrent.ExecutionException;
+
+import co.codemaestro.punchclock_beta_v003.Adapters.DetailTimeBankAdapter;
+import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
+import co.codemaestro.punchclock_beta_v003.Database.Category;
+import co.codemaestro.punchclock_beta_v003.Database.CategoryDao;
+import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
+import co.codemaestro.punchclock_beta_v003.R;
+import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 
 public class DetailActivity extends AppCompatActivity {
     private CategoryViewModel detailViewModel;

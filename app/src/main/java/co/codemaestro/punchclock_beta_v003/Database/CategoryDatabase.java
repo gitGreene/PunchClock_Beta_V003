@@ -1,4 +1,4 @@
-package co.codemaestro.punchclock_beta_v003;
+package co.codemaestro.punchclock_beta_v003.Database;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;

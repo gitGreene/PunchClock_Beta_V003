@@ -1,4 +1,4 @@
-package co.codemaestro.punchclock_beta_v003;
+package co.codemaestro.punchclock_beta_v003.Fragments;
 
 
 import android.arch.lifecycle.Observer;
@@ -13,6 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+
+import co.codemaestro.punchclock_beta_v003.Adapters.CategoryAdapter;
+import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
+import co.codemaestro.punchclock_beta_v003.Database.Category;
+import co.codemaestro.punchclock_beta_v003.R;
 
 
 /**

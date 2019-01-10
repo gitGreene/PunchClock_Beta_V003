@@ -1,11 +1,10 @@
-package co.codemaestro.punchclock_beta_v003;
+package co.codemaestro.punchclock_beta_v003.Database;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class CategoryRepository {
     private CategoryDao categoryDao;
@@ -37,11 +36,11 @@ public class CategoryRepository {
      */
 
     /** Category Methods */
-    LiveData<List<Category>> getAllCategories() {
+    public LiveData<List<Category>> getAllCategories() {
         return allCategories;
     }
 
-    LiveData<Category> getCategoryByTitle(String title) {
+    public LiveData<Category> getCategoryByTitle(String title) {
         categoryByTitle = categoryDao.getCategoryByTitle(title);
         return categoryByTitle;
     }
