@@ -203,9 +203,6 @@ public class DetailActivity extends AppCompatActivity {
     } // End of onCreate
 
 
-
-
-
     /**
      * Buttons onClick
      *
