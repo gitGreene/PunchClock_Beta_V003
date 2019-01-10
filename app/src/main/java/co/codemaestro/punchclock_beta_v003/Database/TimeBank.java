@@ -28,7 +28,6 @@ public class TimeBank {
     private int id;
 
     @ColumnInfo(name = "timeValue")
-
     private long timeValue;
 
     @ColumnInfo(name = "categoryId")

@@ -48,7 +48,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         if(categories != null) {
             final Category current = categories.get(position);
             holder.timeBankTitleView.setText(current.getCategory());
-            holder.timeBankValueView.setText(current.getTotalTime());
+            holder.timeBankValueView.setText(format.FormatMillisIntoHMS(current.getTotalTime()));
             holder.playButton.setText(R.string.play_button);
             holder.playButton.setOnClickListener(new View.OnClickListener() {
                 @Override
