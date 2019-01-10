@@ -31,6 +31,8 @@ public class Category {
     @ColumnInfo(name = "timerRunning")
     private boolean timerRunning;
 
+    @ColumnInfo(name = "isFavorite")
+    private boolean isFavorite;
 
     /**
      * Constructors
@@ -94,6 +96,14 @@ public class Category {
 
     public void setTimerRunning(boolean timerRunning) {
         this.timerRunning = timerRunning;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 
 }
