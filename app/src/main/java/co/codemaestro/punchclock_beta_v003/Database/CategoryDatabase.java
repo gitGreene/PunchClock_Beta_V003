@@ -13,7 +13,7 @@ import java.text.Format;
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 
 
-@Database(entities = {Category.class, TimeBank.class }, version = 17, exportSchema = false)
+@Database(entities = {Category.class, TimeBank.class }, version = 19, exportSchema = false)
 
 public abstract class CategoryDatabase extends RoomDatabase {
 
@@ -64,9 +64,6 @@ public abstract class CategoryDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
             // format class object
-
-
-
             if(categoryDao.getAnyCategory().length < 1) {
                 for(int i = 0; i <= defaultCategories.length - 1; i++) {
                     Category category = new Category(defaultCategories[i], defaultTimeValues);

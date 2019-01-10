@@ -20,8 +20,7 @@ public class CategoryViewModel extends AndroidViewModel {
     private LiveData<Category> category;
     private LiveData<List<TimeBank>> allTimeBanks;
     private LiveData<List<TimeBank>> categoryTimeBanks;
-
-    private Long categoryTimeSum;
+    private LiveData<Long> categoryTimeSum;
 
     public CategoryViewModel(@NonNull Application application) {
         super(application);
@@ -77,7 +76,7 @@ public class CategoryViewModel extends AndroidViewModel {
         return categoryTimeBanks;
     }
     // Get sum of all times by category
-    Long getCategoryTimeSum(int id) {
+    public LiveData<Long> getCategoryTimeSum(int id) {
         categoryTimeSum = repository.getCategoryTimeSum(id);
         return categoryTimeSum;
     }

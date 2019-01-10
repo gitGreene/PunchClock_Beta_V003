@@ -1,5 +1,7 @@
 package co.codemaestro.punchclock_beta_v003.Activities;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.List;
@@ -25,7 +28,6 @@ import java.util.List;
 import co.codemaestro.punchclock_beta_v003.Adapters.DetailTimeBankAdapter;
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
-import co.codemaestro.punchclock_beta_v003.Database.CategoryDao;
 import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
 import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
@@ -42,7 +44,7 @@ public class DetailActivity extends AppCompatActivity {
     public TextView categoryView;
 
     // Variables for timer code
-    private long totalTime, timeAfterLife, timeOnDestroy, timeOnCreate, totalTimeToCommit;
+    private long totalTime, timeAfterLife, timeOnDestroy, timeOnCreate, commitTime;
     Boolean timerRunning = false;
     String categoryTitleString, timeStr;
     int categoryID;
@@ -112,7 +114,6 @@ public class DetailActivity extends AppCompatActivity {
                 detailViewModel.setAsFavorite(categoryID);
             }
         });
-
 
 
         /**
@@ -197,9 +198,22 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<TimeBank> timeBanks) {
                 adapter.setTimeBanks(timeBanks);
-
-                //insertTotalTime();
             }
+        });
+
+        // Observer for updating the totalTime
+        detailViewModel.getCategoryTimeSum(categoryID).observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(@Nullable Long sumTime) {
+
+                // Avoid null exceptions when there is no entries into the timebank for that categoryId
+                if (sumTime == null) {
+                    sumTime = 0L;
+                }
+                // Update the category with the correct sumTime aka totalTime
+                detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumTime));
+            }
+
         });
     } // End of onCreate
 
@@ -225,8 +239,8 @@ public class DetailActivity extends AppCompatActivity {
 
     public void pauseButton(View view) {
         // Get the time from timer, format it into a string
-        totalTimeToCommit = SystemClock.elapsedRealtime() - chronometer.getBase();
-        timeStr = format.FormatMillisIntoHMS(totalTimeToCommit);
+        commitTime = SystemClock.elapsedRealtime() - chronometer.getBase();
+        timeStr = format.FormatMillisIntoHMS(commitTime);
 
         totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
         chronometer.stop();
@@ -249,23 +263,16 @@ public class DetailActivity extends AppCompatActivity {
         // If timer is running get new time, otherwise it should use the time we got from pause
         if (timerRunning) {
             // Get the time from timer, format it into a string
-            totalTimeToCommit = SystemClock.elapsedRealtime() - chronometer.getBase();
-            timeStr = format.FormatMillisIntoHMS(totalTimeToCommit);
+            commitTime = SystemClock.elapsedRealtime() - chronometer.getBase();
+            timeStr = format.FormatMillisIntoHMS(commitTime);
         }
 
-        if (totalTimeToCommit > 0) {
+        if (commitTime > 0) {
             // Create a timeBank object
-            final TimeBank timeBank = new TimeBank(totalTimeToCommit, categoryID);
+            final TimeBank timeBank = new TimeBank(commitTime, categoryID);
 
             // Insert the data
             detailViewModel.insertTimeBank(timeBank);
-
-            // Get the sum of times for this category from a database query
-            //long sumOfTimes = detailViewModel.getCategoryTimeSum(categoryID);
-
-            // Use the values from the intent along with sumOfTimes to update the category at the primary key "categoryId"
-            //detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, format.FormatLongIntoHMS(sumOfTimes)));
-
         }
         resetTimer();
     }
@@ -282,7 +289,7 @@ public class DetailActivity extends AppCompatActivity {
         timeOnCreate = 0;
         timeAfterLife = 0;
         baseMillis = 0;
-        totalTimeToCommit = 0;
+        commitTime = 0;
 
         startButton.setEnabled(true);
         pauseButton.setEnabled(false);

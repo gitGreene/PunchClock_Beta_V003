@@ -16,6 +16,7 @@ public class CategoryRepository {
     private LiveData<Category> categoryByTitle;
     private LiveData<List<TimeBank>> allTimeBanks;
     private LiveData<List<TimeBank>> categoryTimeBanks;
+    private LiveData<Long> categoryTimeSum;
 
     /**
      * @param application
@@ -28,7 +29,6 @@ public class CategoryRepository {
         allCategories = categoryDao.getAllCategories();
         allTimeBanks = timeBankDao.getAllTimeBanks();
     }
-
 
     /**
      * Wrapper Methods
@@ -65,8 +65,8 @@ public class CategoryRepository {
         new SetAsFavoriteAsync(categoryDao).execute(id);
     }
 
-    /** TimeBank Methods */
 
+    /** TimeBank Methods */
     // Return every TimeBank
     public LiveData<List<TimeBank>> getAllTimeBanks() {
         return allTimeBanks;
@@ -79,9 +79,9 @@ public class CategoryRepository {
     }
 
     // Sum of all times by category - Async
-    public Long getCategoryTimeSum(int id) {
-        Long categoryTotalTime = timeBankDao.getCategoryTimeSum(id);
-        return categoryTotalTime;
+    public LiveData<Long> getCategoryTimeSum(int id) {
+        categoryTimeSum = timeBankDao.getCategoryTimeSum(id);
+        return categoryTimeSum;
     }
 
     // Insert - Async
@@ -97,12 +97,6 @@ public class CategoryRepository {
     public void deleteTimeBank(TimeBank timeBank) {
         new DeleteTimeBankTask(timeBankDao).execute(timeBank);
     }
-
-
-    //    Category getCategoryById(int id) throws ExecutionException, InterruptedException {
-//        Category category = new getCategoryByIdAsync(categoryDao).execute(id).get();
-//        return category;
-//    }
 
     /**
      * AsyncTask Inner Classes
@@ -168,26 +162,7 @@ public class CategoryRepository {
     }
 
 
-
-    // TimeBank Async Methods
-        // TODO: Make a async task or incorportate live data for getSumOfTimes
-    /* private static class GetCategoryTimeSumAsyncTask extends AsyncTask<Int, Void, Long> {
-        private TimeBankDao timeBankDao;
-
-        private GetCategoryTimeSumAsyncTask(TimeBankDao timeBankDao) {
-
-            this.timeBankDao = timeBankDao;
-        }
-
-         @Override
-         protected Long doInBackground(Integer... integers) {
-             long categoryTotalTime = timeBankDao.getCategoryTimeSum(integers);
-             return categoryTotalTime;
-
-         }
-     } */
-
-
+    /** TimeBank Async Methods */
     private static class InsertTimeBankTask extends AsyncTask<TimeBank, Void, Void> {
         private TimeBankDao timeBankDao;
 
