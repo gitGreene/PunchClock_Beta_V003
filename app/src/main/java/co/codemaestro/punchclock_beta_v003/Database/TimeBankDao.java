@@ -1,4 +1,4 @@
-package co.codemaestro.punchclock_beta_v003;
+package co.codemaestro.punchclock_beta_v003.Database;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;

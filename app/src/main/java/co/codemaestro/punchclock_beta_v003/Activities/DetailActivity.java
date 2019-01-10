@@ -1,4 +1,4 @@
-package co.codemaestro.punchclock_beta_v003;
+package co.codemaestro.punchclock_beta_v003.Activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -22,6 +22,14 @@ import android.widget.ToggleButton;
 
 import java.util.List;
 
+import co.codemaestro.punchclock_beta_v003.Adapters.DetailTimeBankAdapter;
+import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
+import co.codemaestro.punchclock_beta_v003.Database.Category;
+import co.codemaestro.punchclock_beta_v003.Database.CategoryDao;
+import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
+import co.codemaestro.punchclock_beta_v003.R;
+import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
+
 public class DetailActivity extends AppCompatActivity {
     private CategoryViewModel detailViewModel;
 
@@ -38,7 +46,6 @@ public class DetailActivity extends AppCompatActivity {
     Boolean timerRunning = false;
     String categoryTitleString, timeStr;
     int categoryID;
-    String categoryTimeSum;
 
 
     // Variables for sharedPrefs
@@ -48,6 +55,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String timerRunningKey = "co.codemaestro.punchclock_beta_v003.BlueKey";
     private static final String timeOnDestroyKey = "co.codemaestro.punchclock_beta_v003.RedKey";
     private static final String categoryTitleKey = "co.codemaestro.punchclock_beta_v003.PurpleKey";
+
 
     private Category currentCategory;
 
@@ -205,9 +213,10 @@ public class DetailActivity extends AppCompatActivity {
         chronometer.setBase(SystemClock.elapsedRealtime() - totalTime);
         baseMillis = SystemClock.elapsedRealtime() - totalTime;
         chronometer.start();
-
         // timer Started
         timerRunning = true;
+//        categoryDao.updateTimerRunningBoolean();
+
 
         startButton.setEnabled(false);
         pauseButton.setEnabled(true);
@@ -242,6 +251,7 @@ public class DetailActivity extends AppCompatActivity {
         if (timerRunning) {
             // Get the time from timer, format it into a string
             totalTimeToCommit = SystemClock.elapsedRealtime() - chronometer.getBase();
+            timeStr = format.FormatMillisIntoHMS(totalTimeToCommit);
         }
 
         if (totalTimeToCommit > 0) {

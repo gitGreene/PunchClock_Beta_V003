@@ -1,4 +1,4 @@
-package co.codemaestro.punchclock_beta_v003;
+package co.codemaestro.punchclock_beta_v003.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,11 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
+import co.codemaestro.punchclock_beta_v003.Database.Category;
+import co.codemaestro.punchclock_beta_v003.Activities.DetailActivity;
+import co.codemaestro.punchclock_beta_v003.R;
+
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
     FormatMillis format = new FormatMillis();
@@ -19,12 +24,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private List<Category> categories;
     private Context context;
 
-    CategoryAdapter(Context context) {
+    public CategoryAdapter(Context context) {
         inflater = LayoutInflater.from(context);
         this.context = context;
     }
 
-    void setCategories(List<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
         notifyDataSetChanged();
     }
