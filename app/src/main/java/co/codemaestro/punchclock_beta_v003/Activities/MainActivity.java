@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements
             //recreate();
         }
 
+
         // FAB
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements
                 addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
             }
         });
-
 
         // Bottom Nav
         bottomNav = findViewById(R.id.bottom_nav);
@@ -96,8 +96,6 @@ public class MainActivity extends AppCompatActivity implements
         }
         return false;
     }
-
-
 
     @Override
     public void onChoice(boolean choice, String newCategory) {

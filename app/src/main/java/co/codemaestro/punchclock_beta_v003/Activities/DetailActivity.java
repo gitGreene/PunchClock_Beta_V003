@@ -205,6 +205,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
 
+
     /**
      * Buttons onClick
      *

@@ -23,8 +23,10 @@ public class Category {
     @ColumnInfo(name = "category")
     private String category;
 
+
     @ColumnInfo(name = "totalTime")
     private String totalTime;
+
 
     @ColumnInfo(name = "timerRunning")
     private boolean timerRunning;
@@ -43,7 +45,9 @@ public class Category {
     public Category(@NonNull String category, String totalTime) {
         this.category = category;
         this.totalTime = totalTime;
+
     }
+
 
 
 
@@ -51,6 +55,7 @@ public class Category {
         this.id = id;
         this.category = category;
         this.totalTime = totalTime;
+
     }
 
     /**

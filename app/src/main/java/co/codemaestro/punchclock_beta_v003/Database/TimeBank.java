@@ -28,6 +28,7 @@ public class TimeBank {
     private int id;
 
     @ColumnInfo(name = "timeValue")
+
     private long timeValue;
 
     @ColumnInfo(name = "categoryId")
@@ -73,6 +74,7 @@ public class TimeBank {
     }
 
     public void setTimeValue(long timeValue) {
+
         this.timeValue = timeValue;
     }
 

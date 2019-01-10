@@ -20,8 +20,8 @@ public class CategoryViewModel extends AndroidViewModel {
     private LiveData<Category> category;
     private LiveData<List<TimeBank>> allTimeBanks;
     private LiveData<List<TimeBank>> categoryTimeBanks;
-    private Long categoryTimeSum;
 
+    private Long categoryTimeSum;
 
     public CategoryViewModel(@NonNull Application application) {
         super(application);
@@ -53,7 +53,6 @@ public class CategoryViewModel extends AndroidViewModel {
         repository.deleteAll();
     }
 
-
     /** TimeBank Methods */
 
     // Get all TimeBanks
@@ -66,7 +65,6 @@ public class CategoryViewModel extends AndroidViewModel {
         categoryTimeBanks = repository.getCategoryTimeBanks(id);
         return categoryTimeBanks;
     }
-
     // Get sum of all times by category
     Long getCategoryTimeSum(int id) {
         categoryTimeSum = repository.getCategoryTimeSum(id);
@@ -77,9 +75,6 @@ public class CategoryViewModel extends AndroidViewModel {
     public void insertTimeBank(TimeBank timeBank) {
         repository.insertTimeBank(timeBank);
     }
-
-
-
 
 //    Category getCategoryById(int id) throws ExecutionException, InterruptedException {
 //        return repository.getCategoryById(id);

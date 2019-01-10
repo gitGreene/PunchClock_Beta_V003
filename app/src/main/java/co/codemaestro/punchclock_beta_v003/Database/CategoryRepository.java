@@ -56,9 +56,6 @@ public class CategoryRepository {
         new DeleteAllAsyncTask(categoryDao).execute();
     }
 
-
-
-
     /** TimeBank Methods */
 
     // Return every TimeBank
@@ -87,24 +84,23 @@ public class CategoryRepository {
     public void deleteTimeBank(TimeBank timeBank) { new DeleteTimeBankTask(timeBankDao).execute(timeBank);
     }
 
+
     //    Category getCategoryById(int id) throws ExecutionException, InterruptedException {
 //        Category category = new getCategoryByIdAsync(categoryDao).execute(id).get();
 //        return category;
 //    }
 
-
-
-
-
     /**
      * AsyncTask Inner Classes
      */
+
 
     // Category Async Methods
     private static class InsertAsyncTask extends AsyncTask<Category, Void, Void> {
         private CategoryDao asyncTaskDao;
 
         InsertAsyncTask(CategoryDao dao) {
+
             asyncTaskDao = dao;
         }
 
@@ -134,6 +130,7 @@ public class CategoryRepository {
         private CategoryDao asyncTaskDao;
 
         DeleteAllAsyncTask(CategoryDao dao) {
+
             asyncTaskDao = dao;
         }
 
@@ -162,6 +159,7 @@ public class CategoryRepository {
 
          }
      } */
+
 
     private static class InsertTimeBankTask extends AsyncTask<TimeBank, Void, Void> {
         private TimeBankDao timeBankDao;

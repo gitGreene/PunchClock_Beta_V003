@@ -49,5 +49,4 @@ public interface CategoryDao {
 //    void updateTimerRunningBoolean(Category category);
 
 
-
 }

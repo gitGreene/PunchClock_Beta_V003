@@ -16,6 +16,7 @@ import co.codemaestro.punchclock_beta_v003.R;
 
 public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAdapter.DetailTimeBankHolder> {
 
+
     // FormatMillis object
     FormatMillis format = new FormatMillis();
 
@@ -38,6 +39,7 @@ public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAd
         TimeBank currentTimeBank = timeBanks.get(position);
         //Use the holder to set the text to the correct timeValue in the database
         detailTimeBankHolder.textViewTime.setText(format.FormatMillisIntoHMS(currentTimeBank.getTimeValue()));
+
     }
 
     @Override
@@ -62,16 +64,4 @@ public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAd
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
