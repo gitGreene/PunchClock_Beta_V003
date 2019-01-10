@@ -10,13 +10,13 @@ import java.util.List;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Database.CategoryRepository;
 import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
-import co.codemaestro.punchclock_beta_v003.Database.CategoryRepository;
 
 public class CategoryViewModel extends AndroidViewModel {
     private CategoryRepository repository;
 
     //
     private LiveData<List<Category>> allCategories;
+    private LiveData<List<Category>> favorites;
     private LiveData<Category> category;
     private LiveData<List<TimeBank>> allTimeBanks;
     private LiveData<List<TimeBank>> categoryTimeBanks;
@@ -47,10 +47,21 @@ public class CategoryViewModel extends AndroidViewModel {
         repository.insert(category);
     }
 
-    public void updateCategory(Category category) { repository.updateCategory(category); }
+    public void updateCategory(Category category) {
+        repository.updateCategory(category);
+    }
 
     public void deleteAll() {
         repository.deleteAll();
+    }
+
+    public LiveData<List<Category>> getFavorites() {
+        favorites = repository.getFavorites();
+        return favorites;
+    }
+
+    public void setAsFavorite(int id) {
+        repository.setAsFavorite(id);
     }
 
     /** TimeBank Methods */
@@ -76,10 +87,4 @@ public class CategoryViewModel extends AndroidViewModel {
         repository.insertTimeBank(timeBank);
     }
 
-//    Category getCategoryById(int id) throws ExecutionException, InterruptedException {
-//        return repository.getCategoryById(id);
-//    }
-//    public void updateTimerRunningBoolean(Category category) {
-//        repository.updateTimerRunningBoolean();
-//    }
 }

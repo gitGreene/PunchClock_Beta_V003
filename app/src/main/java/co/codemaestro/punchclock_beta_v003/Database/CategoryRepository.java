@@ -1,5 +1,6 @@
 package co.codemaestro.punchclock_beta_v003.Database;
 
+import android.app.Activity;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
@@ -11,6 +12,7 @@ public class CategoryRepository {
     private TimeBankDao timeBankDao;
 
     private LiveData<List<Category>> allCategories;
+    private LiveData<List<Category>> favorites;
     private LiveData<Category> categoryByTitle;
     private LiveData<List<TimeBank>> allTimeBanks;
     private LiveData<List<TimeBank>> categoryTimeBanks;
@@ -20,12 +22,9 @@ public class CategoryRepository {
      * Constructor for the Repository
      */
     public CategoryRepository(Application application) {
-        //
         CategoryDatabase db = CategoryDatabase.getDatabase(application);
         categoryDao = db.categoryDao();
         timeBankDao = db.timeBankDao();
-
-        //
         allCategories = categoryDao.getAllCategories();
         allTimeBanks = timeBankDao.getAllTimeBanks();
     }
@@ -34,7 +33,6 @@ public class CategoryRepository {
     /**
      * Wrapper Methods
      */
-
 
     /** Category Methods */
     public LiveData<List<Category>> getAllCategories() {
@@ -50,10 +48,21 @@ public class CategoryRepository {
         new InsertAsyncTask(categoryDao).execute(category);
     }
 
-    public void updateCategory(Category category) { new UpdateCategoryAsyncTask(categoryDao).execute(category); }
+    public void updateCategory(Category category) {
+        new UpdateCategoryAsyncTask(categoryDao).execute(category);
+    }
 
     public void deleteAll() {
         new DeleteAllAsyncTask(categoryDao).execute();
+    }
+
+    public LiveData<List<Category>> getFavorites() {
+        favorites = categoryDao.getFavorites();
+        return favorites;
+    }
+
+    public void setAsFavorite(int id) {
+        new SetAsFavoriteAsync(categoryDao).execute(id);
     }
 
     /** TimeBank Methods */
@@ -76,12 +85,17 @@ public class CategoryRepository {
     }
 
     // Insert - Async
-    public void insertTimeBank(TimeBank timeBank) { new InsertTimeBankTask(timeBankDao).execute(timeBank); }
+    public void insertTimeBank(TimeBank timeBank) {
+        new InsertTimeBankTask(timeBankDao).execute(timeBank);
+    }
+
     // Update - Async - Todo: Implement?
-    public void updateTimeBank(TimeBank timeBank) { new UpdateTimeBankTask(timeBankDao).execute(timeBank);
+    public void updateTimeBank(TimeBank timeBank) {
+        new UpdateTimeBankTask(timeBankDao).execute(timeBank);
     }
     // Delete - Async - Todo: Where/how to implement?
-    public void deleteTimeBank(TimeBank timeBank) { new DeleteTimeBankTask(timeBankDao).execute(timeBank);
+    public void deleteTimeBank(TimeBank timeBank) {
+        new DeleteTimeBankTask(timeBankDao).execute(timeBank);
     }
 
 
@@ -100,7 +114,6 @@ public class CategoryRepository {
         private CategoryDao asyncTaskDao;
 
         InsertAsyncTask(CategoryDao dao) {
-
             asyncTaskDao = dao;
         }
 
@@ -130,7 +143,6 @@ public class CategoryRepository {
         private CategoryDao asyncTaskDao;
 
         DeleteAllAsyncTask(CategoryDao dao) {
-
             asyncTaskDao = dao;
         }
 
@@ -140,6 +152,21 @@ public class CategoryRepository {
             return null;
         }
     }
+
+    private static class SetAsFavoriteAsync extends AsyncTask<Integer, Void, Void> {
+        private CategoryDao categoryDao;
+
+        public SetAsFavoriteAsync(CategoryDao categoryDao) {
+            this.categoryDao = categoryDao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            categoryDao.setAsFavorite(integers[0]);
+            return null;
+        }
+    }
+
 
 
     // TimeBank Async Methods
@@ -204,25 +231,6 @@ public class CategoryRepository {
     }
 
 
-
-//    private static class getCategoryByIdAsync extends AsyncTask<Integer, Void, Category> {
-//        private CategoryDao asyncTaskDao;
-//
-//        public getCategoryByIdAsync(CategoryDao asyncTaskDao) {
-//            this.asyncTaskDao = asyncTaskDao;
-//        }
-//
-//        @Override
-//        protected Category doInBackground(Integer... integers) {
-//            Category category = asyncTaskDao.getCategoryById(integers[0]);
-//            return category;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Category category) {
-//            return;
-//        }
-//    }
 
 
 }
