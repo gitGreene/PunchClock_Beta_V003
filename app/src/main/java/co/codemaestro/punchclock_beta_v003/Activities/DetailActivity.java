@@ -32,6 +32,7 @@ import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
 import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 
+// Insignificant change detected by github sensors
 public class DetailActivity extends AppCompatActivity {
     private CategoryViewModel detailViewModel;
 
