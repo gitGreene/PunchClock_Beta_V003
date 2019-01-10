@@ -23,10 +23,8 @@ public class Category {
     @ColumnInfo(name = "category")
     private String category;
 
-
     @ColumnInfo(name = "totalTime")
-    private String totalTime;
-
+    private long totalTime;
 
     @ColumnInfo(name = "timerRunning")
     private boolean timerRunning;
@@ -44,16 +42,13 @@ public class Category {
     }
 
     @Ignore
-    public Category(@NonNull String category, String totalTime) {
+    public Category(@NonNull String category, long totalTime) {
         this.category = category;
         this.totalTime = totalTime;
 
     }
 
-
-
-
-    public Category(int id, @NonNull String category, String totalTime) {
+    public Category(int id, @NonNull String category, long totalTime) {
         this.id = id;
         this.category = category;
         this.totalTime = totalTime;
@@ -82,11 +77,11 @@ public class Category {
         this.category = category;
     }
 
-    public String getTotalTime() {
+    public long getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(String totalTime) {
+    public void setTotalTime(long totalTime) {
         this.totalTime = totalTime;
     }
 
