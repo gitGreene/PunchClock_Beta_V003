@@ -45,7 +45,6 @@ public class DetailActivity extends AppCompatActivity {
     private long totalTime, timeAfterLife, timeOnDestroy, timeOnCreate, totalTimeToCommit;
     Boolean timerRunning = false;
     String categoryTitleString, timeStr;
-    CategoryDao categoryDao;
     int categoryID;
 
 
@@ -197,9 +196,15 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<TimeBank> timeBanks) {
                 adapter.setTimeBanks(timeBanks);
+
+                //insertTotalTime();
             }
         });
-    }
+    } // End of onCreate
+
+
+
+
 
     /**
      * Buttons onClick
@@ -252,16 +257,19 @@ public class DetailActivity extends AppCompatActivity {
 
         if (totalTimeToCommit > 0) {
             // Create a timeBank object
-            final TimeBank timeBank = new TimeBank(timeStr, categoryID);
+            final TimeBank timeBank = new TimeBank(totalTimeToCommit, categoryID);
 
             // Insert the data
             detailViewModel.insertTimeBank(timeBank);
+
+            // Get the sum of times for this category from a database query
+            //long sumOfTimes = detailViewModel.getCategoryTimeSum(categoryID);
+
+            // Use the values from the intent along with sumOfTimes to update the category at the primary key "categoryId"
+            //detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, format.FormatLongIntoHMS(sumOfTimes)));
+
         }
-
         resetTimer();
-
-        //Toast.makeText(DetailActivity.this, "If this worked, it would commit the number " + format.FormatMillisIntoHMS(totalTimeToCommit), Toast.LENGTH_SHORT).show();
-
     }
 
     public void resetTimer() {

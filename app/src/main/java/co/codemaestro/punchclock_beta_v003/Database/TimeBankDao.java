@@ -27,6 +27,9 @@ public interface TimeBankDao {
     @Query("SELECT * FROM timeBank_table WHERE categoryId=:categoryId")
     LiveData<List<TimeBank>> getCategoryTimeBanks(final int categoryId);
 
+    @Query("SELECT SUM(timeValue) FROM timeBank_table WHERE categoryId=:categoryId")
+    Long getCategoryTimeSum(final int categoryId);
+
 
 
 

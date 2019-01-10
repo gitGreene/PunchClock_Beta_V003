@@ -10,10 +10,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
 import co.codemaestro.punchclock_beta_v003.R;
 
 public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAdapter.DetailTimeBankHolder> {
+
+
+    // FormatMillis object
+    FormatMillis format = new FormatMillis();
 
     // Our data
     private List<TimeBank> timeBanks = new ArrayList<>();
@@ -33,7 +38,8 @@ public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAd
         //Create a TimeBank object with the relevant position
         TimeBank currentTimeBank = timeBanks.get(position);
         //Use the holder to set the text to the correct timeValue in the database
-        detailTimeBankHolder.textViewTime.setText(currentTimeBank.getTimeValue());
+        detailTimeBankHolder.textViewTime.setText(format.FormatMillisIntoHMS(currentTimeBank.getTimeValue()));
+
     }
 
     @Override
@@ -58,3 +64,4 @@ public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAd
     }
 
 }
+
