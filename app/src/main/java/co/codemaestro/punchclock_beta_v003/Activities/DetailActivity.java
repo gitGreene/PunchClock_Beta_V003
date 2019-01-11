@@ -108,11 +108,18 @@ public class DetailActivity extends AppCompatActivity {
         BounceInterpolator bounceInterpolator = new BounceInterpolator();
         scaleAnimation.setInterpolator(bounceInterpolator);
 
+
+
         favoriteIcon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 buttonView.startAnimation(scaleAnimation);
-                detailViewModel.setAsFavorite(categoryID);
+
+                if(isChecked) {
+                    detailViewModel.setAsFavorite(categoryID);
+                } else {
+                    detailViewModel.setAsNotFavorite(categoryID);
+                }
             }
         });
 
