@@ -63,6 +63,11 @@ public class CategoryViewModel extends AndroidViewModel {
         repository.setAsFavorite(id);
     }
 
+    public void setAsNotFavorite(int id){
+        repository.setAsNotFavorite(id);
+    }
+
+
     /** TimeBank Methods */
 
     // Get all TimeBanks

@@ -65,6 +65,10 @@ public class CategoryRepository {
         new SetAsFavoriteAsync(categoryDao).execute(id);
     }
 
+    public void setAsNotFavorite(int id) {
+        new SetAsNotFavoriteAsync(categoryDao).execute(id);
+    }
+
 
     /** TimeBank Methods */
     // Return every TimeBank
@@ -102,7 +106,6 @@ public class CategoryRepository {
      * AsyncTask Inner Classes
      */
 
-
     // Category Async Methods
     private static class InsertAsyncTask extends AsyncTask<Category, Void, Void> {
         private CategoryDao asyncTaskDao;
@@ -132,7 +135,6 @@ public class CategoryRepository {
         }
     }
 
-
     private static class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
         private CategoryDao asyncTaskDao;
 
@@ -157,6 +159,20 @@ public class CategoryRepository {
         @Override
         protected Void doInBackground(Integer... integers) {
             categoryDao.setAsFavorite(integers[0]);
+            return null;
+        }
+    }
+
+    private static class SetAsNotFavoriteAsync extends AsyncTask<Integer, Void, Void> {
+        private CategoryDao categoryDao;
+
+        public SetAsNotFavoriteAsync(CategoryDao categoryDao) {
+            this.categoryDao = categoryDao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            categoryDao.setAsNotFavorite(integers[0]);
             return null;
         }
     }

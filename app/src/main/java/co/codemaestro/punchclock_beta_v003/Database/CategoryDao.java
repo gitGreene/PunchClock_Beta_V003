@@ -6,6 +6,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
+import android.support.annotation.Nullable;
 
 import java.util.List;
 
@@ -49,6 +50,9 @@ public interface CategoryDao {
 
     @Query("UPDATE category_table SET isFavorite = 'true' WHERE id = :id")
     void setAsFavorite(int id);
+
+    @Query("UPDATE category_table SET isFavorite = 'false' WHERE id = :id")
+    void setAsNotFavorite(int id);
 
 
 }
