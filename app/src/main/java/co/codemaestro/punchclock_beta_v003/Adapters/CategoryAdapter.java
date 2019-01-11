@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,6 +80,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         private final TextView timeBankValueView;
         private final Button playButton;
         private final ConstraintLayout categoryCardTitle;
+        private final LinearLayout categoryCardLayout;
 
 
         private CategoryViewHolder(View itemView) {
@@ -87,6 +89,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             timeBankValueView = itemView.findViewById(R.id.timeBankValue);
             playButton = itemView.findViewById(R.id.playButton);
             categoryCardTitle = itemView.findViewById(R.id.category_title_container_card);
+            categoryCardLayout = itemView.findViewById(R.id.card_layout);
 
             itemView.setOnClickListener(this);
         }
@@ -100,7 +103,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             Intent detailIntent = new Intent(context, DetailActivity.class);
             detailIntent.putExtra("category_title", currentCategory.getCategory());
             detailIntent.putExtra("category_id", currentCategory.getId());
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, categoryCardTitle, ViewCompat.getTransitionName(categoryCardTitle));
+            ActivityOptionsCompat options =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, categoryCardLayout, ViewCompat.getTransitionName(categoryCardLayout));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 context.startActivity(detailIntent, options.toBundle());

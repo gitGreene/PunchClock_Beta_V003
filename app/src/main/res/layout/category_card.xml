@@ -7,17 +7,18 @@
     android:layout_margin="8dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:transitionName="@string/category_title_transition"
+        tools:targetApi="lollipop">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/category_title_container_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryColor"
-            android:transitionName="@string/category_title_transition"
-            tools:targetApi="lollipop">
+            android:background="@color/primaryColor">
 
             <!-- TODO: Fix Category Title -->
             <TextView
