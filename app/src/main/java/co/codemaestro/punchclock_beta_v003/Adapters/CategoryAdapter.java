@@ -1,7 +1,12 @@
 package co.codemaestro.punchclock_beta_v003.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,6 +78,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         private final TextView timeBankTitleView;
         private final TextView timeBankValueView;
         private final Button playButton;
+        private final ConstraintLayout categoryCardTitle;
 
 
         private CategoryViewHolder(View itemView) {
@@ -80,7 +86,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             timeBankTitleView = itemView.findViewById(R.id.timeBankTitle);
             timeBankValueView = itemView.findViewById(R.id.timeBankValue);
             playButton = itemView.findViewById(R.id.playButton);
-
+            categoryCardTitle = itemView.findViewById(R.id.category_title_container_card);
 
             itemView.setOnClickListener(this);
         }
@@ -94,7 +100,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             Intent detailIntent = new Intent(context, DetailActivity.class);
             detailIntent.putExtra("category_title", currentCategory.getCategory());
             detailIntent.putExtra("category_id", currentCategory.getId());
-            context.startActivity(detailIntent);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, categoryCardTitle, ViewCompat.getTransitionName(categoryCardTitle));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                context.startActivity(detailIntent, options.toBundle());
+            }
 
 
         }
