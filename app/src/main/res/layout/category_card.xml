@@ -12,10 +12,12 @@
         android:orientation="vertical">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/category_title_container_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/primaryColor"
-            android:id="@+id/relativeLayout">
+            android:transitionName="@string/category_title_transition"
+            tools:targetApi="lollipop">
 
             <!-- TODO: Fix Category Title -->
             <TextView
