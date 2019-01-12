@@ -48,10 +48,24 @@ public class Category {
 
     }
 
-    public Category(int id, @NonNull String category, long totalTime) {
+    @Ignore
+    public Category(@NonNull String category, boolean isFavorite) {
+        this.category = category;
+        this.isFavorite = isFavorite;
+    }
+
+    @Ignore
+    public Category(@NonNull String category, long totalTime, boolean isFavorite) {
+        this.category = category;
+        this.totalTime = totalTime;
+        this.isFavorite = isFavorite;
+    }
+
+    public Category(int id, @NonNull String category, long totalTime, boolean isFavorite) {
         this.id = id;
         this.category = category;
         this.totalTime = totalTime;
+        this.isFavorite = isFavorite;
 
     }
 

@@ -13,7 +13,7 @@ import java.text.Format;
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 
 
-@Database(entities = {Category.class, TimeBank.class }, version = 19, exportSchema = false)
+@Database(entities = {Category.class, TimeBank.class }, version = 24, exportSchema = false)
 
 public abstract class CategoryDatabase extends RoomDatabase {
 
@@ -54,7 +54,7 @@ public abstract class CategoryDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final CategoryDao categoryDao;
         String[] defaultCategories = {"Work", "School", "Gym"};
-        long defaultTimeValues = 0;
+
 
 
         PopulateDbAsync(CategoryDatabase db) {
@@ -66,7 +66,7 @@ public abstract class CategoryDatabase extends RoomDatabase {
             // format class object
             if(categoryDao.getAnyCategory().length < 1) {
                 for(int i = 0; i <= defaultCategories.length - 1; i++) {
-                    Category category = new Category(defaultCategories[i], defaultTimeValues);
+                    Category category = new Category(defaultCategories[i], 0, false);
                     categoryDao.insert(category);
                 }
             }

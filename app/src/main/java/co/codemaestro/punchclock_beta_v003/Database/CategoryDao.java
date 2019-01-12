@@ -45,7 +45,9 @@ public interface CategoryDao {
     @Delete
     void deleteCategory(Category category);
 
-    @Query("SELECT * from category_table WHERE isFavorite = 'true'")
+    //@Query("SELECT * from category_table WHERE isFavorite = 'true'")
+
+    @Query("SELECT * from category_table WHERE isFavorite")
     LiveData<List<Category>> getFavorites();
 
     @Query("UPDATE category_table SET isFavorite = 'true' WHERE id = :id")

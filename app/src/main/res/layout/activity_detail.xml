@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.DetailActivity"
-    android:background="@android:color/darker_gray">
+    tools:context=".Activities.DetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,6 +83,12 @@
         android:layout_height="wrap_content"
         android:onClick="commitButton"
         android:text="@string/commit_button" />
+
+    <Switch
+        android:id="@+id/switchTemp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Is this shit working right now?" />
 
     <LinearLayout
         android:layout_width="wrap_content"
