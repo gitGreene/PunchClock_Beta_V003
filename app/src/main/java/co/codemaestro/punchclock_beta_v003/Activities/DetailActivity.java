@@ -1,7 +1,5 @@
 package co.codemaestro.punchclock_beta_v003.Activities;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -10,6 +8,7 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -46,18 +45,20 @@ public class DetailActivity extends AppCompatActivity {
 
     // Variables for timer code
     private long totalTime, timeAfterLife, timeOnDestroy, timeOnCreate, commitTime;
-    Boolean timerRunning = false;
+    Boolean timerRunning = false, nightModeBoolean;
     String categoryTitleString, timeStr;
     int categoryID;
 
 
+
     // Variables for sharedPrefs
-    private static final String PREFS_FILE_DETAIL = "DetailSharedPreferences";
-    private static final int PREFS_MODE_DETAIL = Context.MODE_PRIVATE;
+    private static final String PREFS_FILE = "SharedPreferences";
+    private static final int PREFS_MODE = Context.MODE_PRIVATE;
     private static final String totalTimeKey = "co.codemaestro.punchclock_beta_v003.GreenKey";
     private static final String timerRunningKey = "co.codemaestro.punchclock_beta_v003.BlueKey";
     private static final String timeOnDestroyKey = "co.codemaestro.punchclock_beta_v003.RedKey";
     private static final String categoryTitleKey = "co.codemaestro.punchclock_beta_v003.PurpleKey";
+    private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.NightKey";
 
 
     private Category currentCategory;
@@ -68,10 +69,12 @@ public class DetailActivity extends AppCompatActivity {
     // Long for storing the baseTime of chronometer for updating the view
     long baseMillis;
 
+    // Used to get the favorites heart right
+    int heartFlag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
 
         // Get extras from Intent
         categoryID = getIntent().getIntExtra("category_id", 0);
@@ -79,10 +82,20 @@ public class DetailActivity extends AppCompatActivity {
 
         // Initiates Shared Preferences
         // Use sharedPrefs to get saved data or set them to defaults
-        SharedPreferences prefs = getSharedPreferences(PREFS_FILE_DETAIL, PREFS_MODE_DETAIL);
+        final SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
         totalTime = prefs.getLong(totalTimeKey, 0);
         timeOnDestroy = prefs.getLong(timeOnDestroyKey, 0);
         timerRunning = prefs.getBoolean(timerRunningKey, false);
+        nightModeBoolean = prefs.getBoolean(nightModeBooleanKey, false);
+
+        if (nightModeBoolean) {
+            // Set the night mode theme
+            Toast.makeText(this, "yooo", Toast.LENGTH_SHORT).show();
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        setContentView(R.layout.activity_detail);
 
         // Creates references for recView, chronometer, textViews and buttons
         detailRecyclerView = findViewById(R.id.detailRecyclerView);
@@ -92,37 +105,7 @@ public class DetailActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pauseButton);
         resetButton = findViewById(R.id.resetButton);
         commitButton = findViewById(R.id.commitButton);
-
-
-        /**
-         * Favorites
-         */
-        // Initiates Favorite Icon and Animation
-        favoriteIcon = findViewById(R.id.favorite_icon);
-        final ScaleAnimation scaleAnimation =
-                new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f,
-                        Animation.RELATIVE_TO_SELF, 0.7f,
-                        Animation.RELATIVE_TO_SELF, 0.7f);
-
-        scaleAnimation.setDuration(200);
-        BounceInterpolator bounceInterpolator = new BounceInterpolator();
-        scaleAnimation.setInterpolator(bounceInterpolator);
-
-
-
-        favoriteIcon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                buttonView.startAnimation(scaleAnimation);
-
-                if(isChecked) {
-                    detailViewModel.setAsFavorite(categoryID);
-                } else {
-                    detailViewModel.setAsNotFavorite(categoryID);
-                }
-            }
-        });
-
+        final TextView textViewTemp = findViewById(R.id.textViewTemp);
 
         /**
          * Logic Based on the Timer Running
@@ -192,12 +175,24 @@ public class DetailActivity extends AppCompatActivity {
         // Get a link to the ViewModel
         detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
+
         // Observer for categoryView
         detailViewModel.getCategoryByTitle(categoryTitleString).observe(this, new Observer<Category>() {
             @Override
             public void onChanged(@Nullable Category category) {
                 //Set categoryView text
                 categoryView.setText(category.getCategory());
+
+                currentCategory = category;
+
+                Toast.makeText(DetailActivity.this, ""+category.isFavorite(), Toast.LENGTH_SHORT).show();
+                if (category.isFavorite()){
+                    textViewTemp.setText("True");
+                    favoriteIcon.setChecked(true);
+                } else {
+                    textViewTemp.setText("False");
+                    favoriteIcon.setChecked(false);
+                }
             }
         });
 
@@ -206,6 +201,8 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<TimeBank> timeBanks) {
                 adapter.setTimeBanks(timeBanks);
+
+
             }
         });
 
@@ -219,9 +216,35 @@ public class DetailActivity extends AppCompatActivity {
                     sumTime = 0L;
                 }
                 // Update the category with the correct sumTime aka totalTime
-                detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumTime));
+                detailViewModel.updateCategory(new Category(currentCategory.getId(), currentCategory.getCategory(), sumTime, currentCategory.isFavorite()));
             }
+        });
 
+        /**
+         * Favorites
+         */
+        // Initiates Favorite Icon and Animation
+        favoriteIcon = findViewById(R.id.favorite_icon);
+        final ScaleAnimation scaleAnimation =
+                new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f,
+                        Animation.RELATIVE_TO_SELF, 0.7f,
+                        Animation.RELATIVE_TO_SELF, 0.7f);
+
+        scaleAnimation.setDuration(200);
+        BounceInterpolator bounceInterpolator = new BounceInterpolator();
+        scaleAnimation.setInterpolator(bounceInterpolator);
+
+        favoriteIcon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                buttonView.startAnimation(scaleAnimation);
+
+                if(isChecked) {
+                    detailViewModel.updateCategory(new Category(categoryID, currentCategory.getCategory(), currentCategory.getTotalTime(), true));
+                } else {
+                    detailViewModel.updateCategory(new Category(categoryID, currentCategory.getCategory(), currentCategory.getTotalTime(), false));
+                }
+            }
         });
     } // End of onCreate
 
@@ -237,8 +260,6 @@ public class DetailActivity extends AppCompatActivity {
         // timer Started
         timerRunning = true;
 //        categoryDao.updateTimerRunningBoolean();
-
-
         startButton.setEnabled(false);
         pauseButton.setEnabled(true);
         resetButton.setEnabled(false);
@@ -258,8 +279,6 @@ public class DetailActivity extends AppCompatActivity {
         startButton.setEnabled(true);
         pauseButton.setEnabled(false);
         resetButton.setEnabled(true);
-
-
     }
 
     public void resetButton(View view) {
@@ -327,7 +346,7 @@ public class DetailActivity extends AppCompatActivity {
             totalTime = SystemClock.elapsedRealtime() - chronometer.getBase();
             timeOnDestroy = SystemClock.elapsedRealtime();
         }
-        SharedPreferences prefs = getSharedPreferences(PREFS_FILE_DETAIL, PREFS_MODE_DETAIL);
+        SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong(totalTimeKey, totalTime);
         editor.putLong(timeOnDestroyKey, timeOnDestroy);
