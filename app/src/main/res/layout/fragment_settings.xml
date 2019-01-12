@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.SettingsFragment">
+    tools:context=".Fragments.SettingsFragment"
+    android:background="@android:color/darker_gray">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -15,12 +16,12 @@
         android:textSize="70sp"
         android:gravity="center"/>
 
-    <!--<Switch-->
-        <!--android:id="@+id/switchNightMode"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignBottom="@+id/settingsTextView"-->
-        <!--android:gravity="center"-->
-        <!--android:text="NightMode:" />-->
+    <Switch
+        android:id="@+id/switchNightMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/settingsTextView"
+        android:gravity="center"
+        android:text="NightMode:" />
 
 </FrameLayout>

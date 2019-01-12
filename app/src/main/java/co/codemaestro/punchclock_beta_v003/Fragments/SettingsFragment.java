@@ -34,22 +34,38 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-//        CompoundButton nightModeSwitch = view.findViewById(R.id.switchNightMode);
-//        nightModeSwitch.setChecked(false);
-//        nightModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                int nightMode = AppCompatDelegate.getDefaultNightMode();
-//                if(isChecked) {
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                    buttonView.toggle();
-//                } else {
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                    buttonView.toggle();
-//                }
-//                getActivity().recreate();
-//            }
-//        });
+
+        SharedPreferences prefs = this.getActivity().getSharedPreferences(PREFS_FILE, PREFS_MODE);
+
+
+
+        CompoundButton nightModeSwitch = view.findViewById(R.id.switchNightMode);
+        nightModeSwitch.setChecked(false);
+        nightModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+
+                SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_FILE, PREFS_MODE);
+
+                if (isChecked) {
+
+                    //Save "nightModeOn = true" to sharedPref and....
+                    prefs.edit().putBoolean(nightModeBooleanKey, true).apply();
+
+                    // Set the night mode theme
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+
+                    //Save "nightModeOn = false" to sharedPref and...
+                    prefs.edit().putBoolean(nightModeBooleanKey, false).apply();
+
+                    // Set the theme as not being night mode yo
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+                }
+            }
+        });
         return view;
     }
 
