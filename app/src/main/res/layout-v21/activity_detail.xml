@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
     android:orientation="vertical"
     tools:context=".Activities.DetailActivity"
-    android:background="@android:color/darker_gray"
     android:transitionName="@string/category_title_transition">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/category_title_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
-        android:gravity="center_horizontal"
         android:background="@android:drawable/dialog_holo_light_frame"
         android:backgroundTint="@color/primaryColor">
 
@@ -22,13 +22,36 @@
             android:id="@+id/categoryView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="start"
+            android:textAlignment="viewStart"
             android:textColor="@color/primaryTextColor"
             android:textSize="50sp"
-            />
+            app:layout_constraintEnd_toStartOf="@+id/favorite_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        <ToggleButton
+            android:id="@+id/favorite_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/ic_favorite_heart_selector"
+            android:checked="false"
+            android:text=""
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
 
 
     <Chronometer
@@ -94,7 +117,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="TextView"
         tools:text="Temporary" />
 
     <LinearLayout
@@ -102,23 +124,12 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <ToggleButton
-            android:id="@+id/favorite_icon"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:background="@drawable/ic_favorite_heart_selector"
-            android:checked="false"
-            android:text=""
-            android:textOff=""
-            android:textOn="" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/detailRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="12dp"
-            android:textSize="20sp">
-        </android.support.v7.widget.RecyclerView>
+            android:textSize="20sp"/>
     </LinearLayout>
 
 

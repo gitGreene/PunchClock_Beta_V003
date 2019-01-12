@@ -23,8 +23,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="67dp"
-        app:srcCompat="@android:drawable/ic_input_add" />
-
+        android:src="@drawable/ic_add_category_bottom_nav" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_nav"

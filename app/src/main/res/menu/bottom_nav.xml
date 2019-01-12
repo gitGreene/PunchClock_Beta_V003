@@ -4,7 +4,7 @@
     <item
         android:id="@+id/bottom_nav_home"
         android:title="@string/bottom_nav_home"
-        android:icon="@drawable/ic_add_category_bottom_nav" />
+        android:icon="@drawable/ic_home_bottom_nav" />
 
     <item
         android:id="@+id/bottom_nav_favorites"
