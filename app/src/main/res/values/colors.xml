@@ -4,10 +4,7 @@
   <color name="primaryLightColor">#bf82ff</color>
   <color name="primaryDarkColor">#5525b5</color>
   <color name="testTextColor">#000000</color>
-
-  <color name="primaryColorNight">#8a53e8</color>
-  <color name="primaryLightColorNight">#bf82ff</color>
-  <color name="primaryDarkColorNight">#5525b5</color>
+  <color name="colorBackground">#AAA</color>
 
   <color name="secondaryColor">#2f36bf</color>
   <color name="secondaryLightColor">#6d61f3</color>

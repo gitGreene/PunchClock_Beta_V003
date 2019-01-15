@@ -12,7 +12,7 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
+        android:background="@color/colorBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/category_card">
     </android.support.v7.widget.RecyclerView>

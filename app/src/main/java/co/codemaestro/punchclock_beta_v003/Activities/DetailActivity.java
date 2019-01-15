@@ -216,7 +216,7 @@ public class DetailActivity extends AppCompatActivity {
                     sumTime = 0L;
                 }
                 // Update the category with the correct sumTime aka totalTime
-                detailViewModel.updateCategory(new Category(currentCategory.getId(), currentCategory.getCategory(), sumTime, currentCategory.isFavorite()));
+                detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumTime, currentCategory.isFavorite()));
             }
         });
 
