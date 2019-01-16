@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingLeft="10dp"
-                android:textColor="@color/primaryColor"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="24sp"
                 tools:text="Time Bank Value" />
 

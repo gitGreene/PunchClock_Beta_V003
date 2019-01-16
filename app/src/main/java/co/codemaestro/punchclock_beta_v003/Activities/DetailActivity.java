@@ -70,7 +70,7 @@ public class DetailActivity extends AppCompatActivity {
     long baseMillis;
 
     // Used to get the favorites heart right
-    int heartFlag;
+    long sumOfTimes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +88,12 @@ public class DetailActivity extends AppCompatActivity {
         timerRunning = prefs.getBoolean(timerRunningKey, false);
         nightModeBoolean = prefs.getBoolean(nightModeBooleanKey, false);
 
+        // Use sharedprefs to reactivate nightMode
+        nightModeBoolean = prefs.getBoolean(nightModeBooleanKey, false);
         if (nightModeBoolean) {
             // Set the night mode theme
-            Toast.makeText(this, "yooo", Toast.LENGTH_SHORT).show();
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            //recreate();
         }
         setContentView(R.layout.activity_detail);
 
@@ -180,6 +180,8 @@ public class DetailActivity extends AppCompatActivity {
         detailViewModel.getCategoryByTitle(categoryTitleString).observe(this, new Observer<Category>() {
             @Override
             public void onChanged(@Nullable Category category) {
+
+                currentCategory = category;
                 //Set categoryView text
                 categoryView.setText(category.getCategory());
 
@@ -215,8 +217,8 @@ public class DetailActivity extends AppCompatActivity {
                 if (sumTime == null) {
                     sumTime = 0L;
                 }
-                // Update the category with the correct sumTime aka totalTime
-                detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumTime, currentCategory.isFavorite()));
+
+                sumOfTimes = sumTime;
             }
         });
 
@@ -331,6 +333,9 @@ public class DetailActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         saveToSharedPreferences();
+
+        // Update the category with the correct sumTime aka totalTime
+        detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
     }
 
     // Saved stuff to sharedPrefs
@@ -338,6 +343,9 @@ public class DetailActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         saveToSharedPreferences();
+
+        // Update the category with the correct sumTime aka totalTime
+        detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
     }
 
 
