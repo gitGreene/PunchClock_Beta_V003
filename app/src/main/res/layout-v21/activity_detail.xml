@@ -110,27 +110,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="commitButton"
+        android:gravity="center_horizontal"
         android:text="@string/commit_button" />
 
-    <TextView
-        android:id="@+id/textViewTemp"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/detailRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        tools:text="Temporary" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:padding="12dp"
+        android:textSize="20sp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/detailRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="12dp"
-            android:textSize="20sp"/>
-    </LinearLayout>
 
 
 </LinearLayout>
