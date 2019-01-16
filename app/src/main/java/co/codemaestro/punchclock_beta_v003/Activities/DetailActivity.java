@@ -22,7 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import co.codemaestro.punchclock_beta_v003.Adapters.DetailTimeBankAdapter;
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
@@ -68,9 +71,10 @@ public class DetailActivity extends AppCompatActivity {
 
     // Long for storing the baseTime of chronometer for updating the view
     long baseMillis;
-
-    // Used to get the favorites heart right
-    int heartFlag;
+    // long for storing the sum of all times in a category(used in createTimeSumObserver)
+    long sumOfTimes;
+    // String for getting the current Date
+    String currentDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +92,12 @@ public class DetailActivity extends AppCompatActivity {
         timerRunning = prefs.getBoolean(timerRunningKey, false);
         nightModeBoolean = prefs.getBoolean(nightModeBooleanKey, false);
 
+        // Use sharedprefs to reactivate nightMode
+        nightModeBoolean = prefs.getBoolean(nightModeBooleanKey, false);
         if (nightModeBoolean) {
             // Set the night mode theme
-            Toast.makeText(this, "yooo", Toast.LENGTH_SHORT).show();
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            //recreate();
         }
         setContentView(R.layout.activity_detail);
 
@@ -105,7 +109,6 @@ public class DetailActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pauseButton);
         resetButton = findViewById(R.id.resetButton);
         commitButton = findViewById(R.id.commitButton);
-        final TextView textViewTemp = findViewById(R.id.textViewTemp);
 
         /**
          * Logic Based on the Timer Running
@@ -175,38 +178,35 @@ public class DetailActivity extends AppCompatActivity {
         // Get a link to the ViewModel
         detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
-
         // Observer for categoryView
         detailViewModel.getCategoryByTitle(categoryTitleString).observe(this, new Observer<Category>() {
             @Override
             public void onChanged(@Nullable Category category) {
+
+                // Set currentCategory
+                currentCategory = category;
+
                 //Set categoryView text
                 categoryView.setText(category.getCategory());
 
-                currentCategory = category;
-
-                Toast.makeText(DetailActivity.this, ""+category.isFavorite(), Toast.LENGTH_SHORT).show();
+                // Set the favoriteIcon correctly
                 if (category.isFavorite()){
-                    textViewTemp.setText("True");
                     favoriteIcon.setChecked(true);
                 } else {
-                    textViewTemp.setText("False");
                     favoriteIcon.setChecked(false);
                 }
             }
         });
 
-        // Observer for detailRecyclerView
+        // Observer - Updates data set for detailRecyclerView
         detailViewModel.getCategoryTimeBanks(categoryID).observe(this, new Observer<List<TimeBank>>() {
             @Override
             public void onChanged(@Nullable List<TimeBank> timeBanks) {
                 adapter.setTimeBanks(timeBanks);
-
-
             }
         });
 
-        // Observer for updating the totalTime
+        // Observer - Gives us the sumTime of current category in a public variable sumOfTime
         detailViewModel.getCategoryTimeSum(categoryID).observe(this, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long sumTime) {
@@ -215,8 +215,7 @@ public class DetailActivity extends AppCompatActivity {
                 if (sumTime == null) {
                     sumTime = 0L;
                 }
-                // Update the category with the correct sumTime aka totalTime
-                detailViewModel.updateCategory(new Category(currentCategory.getId(), currentCategory.getCategory(), sumTime, currentCategory.isFavorite()));
+                sumOfTimes = sumTime;
             }
         });
 
@@ -267,6 +266,10 @@ public class DetailActivity extends AppCompatActivity {
 
 
     public void pauseButton(View view) {
+
+        // Get the date as a string(In case they commit during pause)
+        currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
         // Get the time from timer, format it into a string
         commitTime = SystemClock.elapsedRealtime() - chronometer.getBase();
         timeStr = format.FormatMillisIntoHMS(commitTime);
@@ -289,14 +292,19 @@ public class DetailActivity extends AppCompatActivity {
         //Todo: Change the Query to only post times by category
         // If timer is running get new time, otherwise it should use the time we got from pause
         if (timerRunning) {
+
+            // Get the current date
+            currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
             // Get the time from timer, format it into a string
             commitTime = SystemClock.elapsedRealtime() - chronometer.getBase();
             timeStr = format.FormatMillisIntoHMS(commitTime);
         }
 
         if (commitTime > 0) {
+
             // Create a timeBank object
-            final TimeBank timeBank = new TimeBank(commitTime, categoryID);
+            final TimeBank timeBank = new TimeBank(commitTime, currentDate, categoryID);
 
             // Insert the data
             detailViewModel.insertTimeBank(timeBank);
@@ -331,6 +339,9 @@ public class DetailActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         saveToSharedPreferences();
+
+        // Update the category with the correct sumTime aka totalTime
+        detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
     }
 
     // Saved stuff to sharedPrefs
@@ -338,6 +349,9 @@ public class DetailActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         saveToSharedPreferences();
+
+        // Update the category with the correct sumTime aka totalTime
+        detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
     }
 
 
