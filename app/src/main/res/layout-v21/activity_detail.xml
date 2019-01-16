@@ -5,7 +5,7 @@
     android:id="@+id/activity_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@color/colorBackground"
     android:orientation="vertical"
     tools:context=".Activities.DetailActivity"
     android:transitionName="@string/category_title_transition">
