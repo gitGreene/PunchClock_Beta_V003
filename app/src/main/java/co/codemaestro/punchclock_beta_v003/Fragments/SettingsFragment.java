@@ -2,6 +2,7 @@ package co.codemaestro.punchclock_beta_v003.Fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,10 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import co.codemaestro.punchclock_beta_v003.Activities.MainActivity;
 import co.codemaestro.punchclock_beta_v003.R;
+
+import static android.content.Intent.getIntent;
 
 
 /**
@@ -54,12 +58,16 @@ public class SettingsFragment extends Fragment {
 
                     // Set the night mode theme
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+                    getActivity().recreate();
                 } else {
                     //Save "nightModeOn = false" to sharedPref and...
                     prefs.edit().putBoolean(nightModeBooleanKey, false).apply();
 
                     // Set the theme as not being night mode yo
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+                    getActivity().recreate();
 
                 }
             }

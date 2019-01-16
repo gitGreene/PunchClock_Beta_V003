@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
         android:gravity="center_horizontal"
-        android:background="@android:drawable/dialog_holo_light_frame">
+        android:background="@color/colorBackground">
 
         <TextView
             android:id="@+id/categoryView"
