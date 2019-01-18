@@ -85,8 +85,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         // Get extras from Intent
         categoryID = getIntent().getIntExtra("category_id", 0);
         categoryTitleString = getIntent().getStringExtra("category_title");
@@ -104,6 +102,8 @@ public class DetailActivity extends AppCompatActivity {
         if (nightModeEnabled) {
             // Set the night mode theme
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         setContentView(R.layout.activity_detail);
 
@@ -257,6 +257,7 @@ public class DetailActivity extends AppCompatActivity {
      * Options menu
      *
      */
+
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate menu
         MenuInflater inflater = getMenuInflater();
@@ -273,6 +274,7 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.nightMode:
                 Toast.makeText(this, "Night Mode Activate!", Toast.LENGTH_SHORT).show();
 
+                /*
                 // Get shared Prefs reference and toggle NightMode
                 SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
                 if (!nightModeEnabled) { nightModeEnabled = true; }
@@ -297,7 +299,7 @@ public class DetailActivity extends AppCompatActivity {
                 // Differs from Main activity so that we start from the Main Activity on reload
                 Intent intent = new Intent(this, MainActivity.class);
                 finish();
-                startActivity(intent);
+                startActivity(intent); */
 
                 return true;
             default:
@@ -368,7 +370,6 @@ public class DetailActivity extends AppCompatActivity {
             detailViewModel.insertTimeBank(timeBank);
         }
         resetTimer();
-        detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
     }
 
     public void resetTimer() {
@@ -399,8 +400,12 @@ public class DetailActivity extends AppCompatActivity {
         super.onPause();
         saveToSharedPreferences();
 
+        //Todo: Find a better way?
+        // Should eliminate null errors - for some reason these methods run before onCreate does? Yes I know how dumb that sounds
+        if (currentCategory == null) { currentCategory = new Category("Null", -100000, false); }
+
         // Update the category with the correct sumTime aka totalTime
-        //detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
+        detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
     }
 
     // Saved stuff to sharedPrefs
@@ -409,8 +414,11 @@ public class DetailActivity extends AppCompatActivity {
         super.onDestroy();
         saveToSharedPreferences();
 
+        // Should eliminate null errors - for some reason these methods run before onCreate does? Yes I know how dumb that sounds
+        if (currentCategory == null) { currentCategory = new Category("Null", -100000, false); }
+
         // Update the category with the correct sumTime aka totalTime
-       // detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
+        detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
     }
 
 
