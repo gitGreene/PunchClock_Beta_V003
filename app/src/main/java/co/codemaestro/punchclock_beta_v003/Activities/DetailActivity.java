@@ -3,6 +3,7 @@ package co.codemaestro.punchclock_beta_v003.Activities;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -11,6 +12,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
@@ -34,6 +38,9 @@ import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
 import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 
+//Todo: Go into the theme editor and figure out what the fuck is going on with some of these resources, praticularly nav bar color
+//Todo: Figure out why this "Broadcast of Intent" error with all the percentages is happening(ITS HAPPENING!!! *RON PAUL GIF*)
+
 // Insignificant change detected by github sensors
 public class DetailActivity extends AppCompatActivity {
     private CategoryViewModel detailViewModel;
@@ -48,11 +55,9 @@ public class DetailActivity extends AppCompatActivity {
 
     // Variables for timer code
     private long totalTime, timeAfterLife, timeOnDestroy, timeOnCreate, commitTime;
-    Boolean timerRunning = false, nightModeBoolean;
+    Boolean timerRunning = false, nightModeBoolean, nightModeEnabled;
     String categoryTitleString, timeStr;
     int categoryID;
-
-
 
     // Variables for sharedPrefs
     private static final String PREFS_FILE = "SharedPreferences";
@@ -64,17 +69,17 @@ public class DetailActivity extends AppCompatActivity {
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.NightKey";
 
 
-    private Category currentCategory;
 
     // Create formatMillis class instance
     FormatMillis format = new FormatMillis();
-
     // Long for storing the baseTime of chronometer for updating the view
     long baseMillis;
     // long for storing the sum of all times in a category(used in createTimeSumObserver)
     long sumOfTimes;
     // String for getting the current Date
     String currentDate;
+    // Current category var
+    private Category currentCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +98,12 @@ public class DetailActivity extends AppCompatActivity {
         nightModeBoolean = prefs.getBoolean(nightModeBooleanKey, false);
 
         // Use sharedprefs to reactivate nightMode
-        nightModeBoolean = prefs.getBoolean(nightModeBooleanKey, false);
-        if (nightModeBoolean) {
+        nightModeEnabled = prefs.getBoolean(nightModeBooleanKey, false);
+        if (nightModeEnabled) {
             // Set the night mode theme
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            //recreate();
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         setContentView(R.layout.activity_detail);
 
@@ -109,58 +115,6 @@ public class DetailActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pauseButton);
         resetButton = findViewById(R.id.resetButton);
         commitButton = findViewById(R.id.commitButton);
-
-        /**
-         * Logic Based on the Timer Running
-         */
-
-        // Timer Logic
-        if (timerRunning) {
-
-            // Make timeAfterlife equal to the time the app was terminated
-            timeOnCreate = SystemClock.elapsedRealtime();
-            timeAfterLife = timeOnCreate - timeOnDestroy;
-
-            // Set chronometer base to current elapsedRT minus the totalTime before app termination minus
-            // Thus allowing our timer to be accurate after app reincarnation
-            chronometer.setBase(SystemClock.elapsedRealtime() - totalTime - timeAfterLife);
-            baseMillis = SystemClock.elapsedRealtime() - totalTime - timeAfterLife;
-            chronometer.start();
-
-            // If timer is running, disable startButton
-            startButton.setEnabled(false);
-            resetButton.setEnabled(false);
-
-        } else {
-            // if timer is not running, setEnabled buttons
-            startButton.setEnabled(true);
-            pauseButton.setEnabled(false);
-
-            // Set baseMillis
-            baseMillis = SystemClock.elapsedRealtime() - totalTime;
-
-            // If totalTime is zero, then the timer has no value, else set timer to saved time
-            if(totalTime == 0) {
-                chronometer.setText(R.string.default_timer);
-                resetButton.setEnabled(false);
-            } else {
-                chronometer.setText(format.FormatMillisIntoHMS(SystemClock.elapsedRealtime() - baseMillis));
-                resetButton.setEnabled(true);
-            }
-        }
-
-        /**
-         * Chronometer Listener
-         */
-        // Chronometer onTick Listener and Time Formatting
-        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                long millisInTimer;
-                millisInTimer = SystemClock.elapsedRealtime() - baseMillis;
-                chronometer.setText(format.FormatMillisIntoHMS(millisInTimer));
-            }
-        });
 
         /**
          * RecyclerView
@@ -239,13 +193,119 @@ public class DetailActivity extends AppCompatActivity {
                 buttonView.startAnimation(scaleAnimation);
 
                 if(isChecked) {
-                    detailViewModel.updateCategory(new Category(categoryID, currentCategory.getCategory(), currentCategory.getTotalTime(), true));
+                    detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, true));
                 } else {
-                    detailViewModel.updateCategory(new Category(categoryID, currentCategory.getCategory(), currentCategory.getTotalTime(), false));
+                    detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, false));
                 }
             }
         });
+
+        /**
+         * Logic Based on the Timer Running
+         */
+
+        // Timer Logic
+        if (timerRunning) {
+
+            // Make timeAfterlife equal to the time the app was terminated
+            timeOnCreate = SystemClock.elapsedRealtime();
+            timeAfterLife = timeOnCreate - timeOnDestroy;
+
+            // Set chronometer base to current elapsedRT minus the totalTime before app termination minus
+            // Thus allowing our timer to be accurate after app reincarnation
+            chronometer.setBase(SystemClock.elapsedRealtime() - totalTime - timeAfterLife);
+            baseMillis = SystemClock.elapsedRealtime() - totalTime - timeAfterLife;
+            chronometer.start();
+
+            // If timer is running, disable startButton
+            startButton.setEnabled(false);
+            resetButton.setEnabled(false);
+
+        } else {
+            // if timer is not running, setEnabled buttons
+            startButton.setEnabled(true);
+            pauseButton.setEnabled(false);
+
+            // Set baseMillis
+            baseMillis = SystemClock.elapsedRealtime() - totalTime;
+
+            // If totalTime is zero, then the timer has no value, else set timer to saved time
+            if(totalTime == 0) {
+                chronometer.setText(R.string.default_timer);
+                resetButton.setEnabled(false);
+            } else {
+                chronometer.setText(format.FormatMillisIntoHMS(SystemClock.elapsedRealtime() - baseMillis));
+                resetButton.setEnabled(true);
+            }
+        }
+
+        /**
+         * Chronometer Listener
+         */
+        // Chronometer onTick Listener and Time Formatting
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                long millisInTimer;
+                millisInTimer = SystemClock.elapsedRealtime() - baseMillis;
+                chronometer.setText(format.FormatMillisIntoHMS(millisInTimer));
+            }
+        });
     } // End of onCreate
+
+    /**
+     * Options menu
+     *
+     */
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate menu
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    // Differs slightly from the version in the MainActivity with the intent at the end
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.about:
+                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.nightMode:
+                Toast.makeText(this, "Night Mode Activate!", Toast.LENGTH_SHORT).show();
+
+                /*
+                // Get shared Prefs reference and toggle NightMode
+                SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
+                if (!nightModeEnabled) { nightModeEnabled = true; }
+                else { nightModeEnabled = false; }
+
+                // Save the correct nightModeEnabled value to preferences and change the app to nightMode
+                if (nightModeEnabled) {
+                    //Save "nightModeOn = true" to sharedPref and....
+                    prefs.edit().putBoolean(nightModeBooleanKey, true).apply();
+
+                    // Set the night mode theme
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+
+                    //Save "nightModeOn = false" to sharedPref and...
+                    prefs.edit().putBoolean(nightModeBooleanKey, false).apply();
+
+                    // Set the theme as not being night mode yo
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+
+                // Differs from Main activity so that we start from the Main Activity on reload
+                Intent intent = new Intent(this, MainActivity.class);
+                finish();
+                startActivity(intent); */
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 
     /**
@@ -340,6 +400,10 @@ public class DetailActivity extends AppCompatActivity {
         super.onPause();
         saveToSharedPreferences();
 
+        //Todo: Find a better way?
+        // Should eliminate null errors - for some reason these methods run before onCreate does? Yes I know how dumb that sounds
+        if (currentCategory == null) { currentCategory = new Category("Null", -100000, false); }
+
         // Update the category with the correct sumTime aka totalTime
         detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
     }
@@ -349,6 +413,9 @@ public class DetailActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         saveToSharedPreferences();
+
+        // Should eliminate null errors - for some reason these methods run before onCreate does? Yes I know how dumb that sounds
+        if (currentCategory == null) { currentCategory = new Category("Null", -100000, false); }
 
         // Update the category with the correct sumTime aka totalTime
         detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));

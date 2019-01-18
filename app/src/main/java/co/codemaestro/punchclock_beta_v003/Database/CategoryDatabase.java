@@ -13,7 +13,7 @@ import java.text.Format;
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 
 
-@Database(entities = {Category.class, TimeBank.class }, version = 25, exportSchema = false)
+@Database(entities = {Category.class, TimeBank.class }, version = 27, exportSchema = false)
 
 public abstract class CategoryDatabase extends RoomDatabase {
 

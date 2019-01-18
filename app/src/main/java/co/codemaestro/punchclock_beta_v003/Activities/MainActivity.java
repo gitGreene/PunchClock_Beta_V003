@@ -12,8 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Fragments.AddCategoryFragment;
@@ -29,10 +32,11 @@ public class MainActivity extends AppCompatActivity implements
     private CategoryViewModel catViewModel;
     private BottomNavigationView bottomNav;
 
-    //Shared Preferences key for night mode boolean and sharedPref object
+    //Shared Preferences key for night mode boolean and sharedPref object + boolean for nightMode
     private static final String PREFS_FILE = "SharedPreferences";
     private static final int PREFS_MODE = Context.MODE_PRIVATE;
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
+    private boolean nightModeEnabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +45,10 @@ public class MainActivity extends AppCompatActivity implements
         loadFragment(new HomeFragment());
         catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
+
         // Use sharedprefs to reactivate nightMode
         SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
-        boolean nightModeEnabled = prefs.getBoolean(nightModeBooleanKey, false);
+        nightModeEnabled = prefs.getBoolean(nightModeBooleanKey, false);
         if (nightModeEnabled) {
             // Set the night mode theme
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -83,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements
                     }
                 }
         );
-    }
+    } // End of onCreate
 
     private boolean loadFragment(Fragment fragment) {
         if(fragment != null) {
@@ -100,7 +105,51 @@ public class MainActivity extends AppCompatActivity implements
     public void onChoice(boolean choice, String newCategory) {
         // Add category to database
         Log.d("LOG", newCategory);
-        Category addedCategory = new Category(newCategory, 0);
+        Category addedCategory = new Category(newCategory, 0, false);
         catViewModel.insert(addedCategory);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate menu
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.about:
+                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.nightMode:
+                Toast.makeText(this, "Night Mode Activate!", Toast.LENGTH_SHORT).show();
+
+                // Get shared Prefs reference and toggle NightMode
+                SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
+                if (!nightModeEnabled) { nightModeEnabled = true; }
+                else { nightModeEnabled = false; }
+
+                // Save the correct nightModeEnabled value to preferences and change the app to nightMode
+                if (nightModeEnabled) {
+                    //Save "nightModeOn = true" to sharedPref and....
+                    prefs.edit().putBoolean(nightModeBooleanKey, true).apply();
+
+                    // Set the night mode theme
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+
+                    //Save "nightModeOn = false" to sharedPref and...
+                    prefs.edit().putBoolean(nightModeBooleanKey, false).apply();
+
+                    // Set the theme as not being night mode yo
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+                }
+                recreate();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
