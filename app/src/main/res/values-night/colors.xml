@@ -13,6 +13,4 @@
 
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ad99ff</color>
-    <color name="background_material_light">#f9000413</color>
-
 </resources>

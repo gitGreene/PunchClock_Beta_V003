@@ -34,6 +34,9 @@ import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
 import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 
+//Todo: Go into the theme editor and figure out what the fuck is going on with some of these resources, praticularly nav bar color
+//Todo: Figure out why this "Broadcast of Intent" error with all the percentages is happening(ITS HAPPENING!!! *RON PAUL GIF*)
+
 // Insignificant change detected by github sensors
 public class DetailActivity extends AppCompatActivity {
     private CategoryViewModel detailViewModel;

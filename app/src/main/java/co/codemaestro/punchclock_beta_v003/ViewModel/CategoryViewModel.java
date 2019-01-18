@@ -11,6 +11,8 @@ import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Database.CategoryRepository;
 import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
 
+
+
 public class CategoryViewModel extends AndroidViewModel {
     private CategoryRepository repository;
 
