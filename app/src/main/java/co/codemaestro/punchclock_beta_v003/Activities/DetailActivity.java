@@ -55,7 +55,7 @@ public class DetailActivity extends AppCompatActivity {
 
     // Variables for timer code
     private long totalTime, timeAfterLife, timeOnDestroy, timeOnCreate, commitTime;
-    Boolean timerRunning = false, nightModeBoolean, nightModeEnabled;
+    Boolean timerRunning = false, nightModeEnabled;
     String categoryTitleString, timeStr;
     int categoryID;
 
@@ -66,7 +66,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String timerRunningKey = "co.codemaestro.punchclock_beta_v003.BlueKey";
     private static final String timeOnDestroyKey = "co.codemaestro.punchclock_beta_v003.RedKey";
     private static final String categoryTitleKey = "co.codemaestro.punchclock_beta_v003.PurpleKey";
-    private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.NightKey";
+    private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
 
 
 
@@ -83,19 +83,10 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Get extras from Intent
-        categoryID = getIntent().getIntExtra("category_id", 0);
-        categoryTitleString = getIntent().getStringExtra("category_title");
-
         // Initiates Shared Preferences
         // Use sharedPrefs to get saved data or set them to defaults
         final SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
-        totalTime = prefs.getLong(totalTimeKey, 0);
-        timeOnDestroy = prefs.getLong(timeOnDestroyKey, 0);
-        timerRunning = prefs.getBoolean(timerRunningKey, false);
-        nightModeBoolean = prefs.getBoolean(nightModeBooleanKey, false);
+        nightModeEnabled = prefs.getBoolean(nightModeBooleanKey, false);
 
         // Use sharedprefs to reactivate nightMode
         nightModeEnabled = prefs.getBoolean(nightModeBooleanKey, false);
@@ -105,7 +96,20 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        // Use sharedPrefs to get some values
+        totalTime = prefs.getLong(totalTimeKey, 0);
+        timeOnDestroy = prefs.getLong(timeOnDestroyKey, 0);
+        timerRunning = prefs.getBoolean(timerRunningKey, false);
+
+        // Get extras from Intent
+        categoryID = getIntent().getIntExtra("category_id", 0);
+        categoryTitleString = getIntent().getStringExtra("category_title");
+
+
 
         // Creates references for recView, chronometer, textViews and buttons
         detailRecyclerView = findViewById(R.id.detailRecyclerView);
@@ -115,6 +119,7 @@ public class DetailActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pauseButton);
         resetButton = findViewById(R.id.resetButton);
         commitButton = findViewById(R.id.commitButton);
+
 
         /**
          * RecyclerView
@@ -129,6 +134,7 @@ public class DetailActivity extends AppCompatActivity {
         /**
          * ViewModel
          */
+
         // Get a link to the ViewModel
         detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
@@ -172,6 +178,7 @@ public class DetailActivity extends AppCompatActivity {
                 sumOfTimes = sumTime;
             }
         });
+
 
         /**
          * Favorites
@@ -274,7 +281,7 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.nightMode:
                 Toast.makeText(this, "Night Mode Activate!", Toast.LENGTH_SHORT).show();
 
-                /*
+
                 // Get shared Prefs reference and toggle NightMode
                 SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
                 if (!nightModeEnabled) { nightModeEnabled = true; }
@@ -299,7 +306,7 @@ public class DetailActivity extends AppCompatActivity {
                 // Differs from Main activity so that we start from the Main Activity on reload
                 Intent intent = new Intent(this, MainActivity.class);
                 finish();
-                startActivity(intent); */
+                startActivity(intent);
 
                 return true;
             default:

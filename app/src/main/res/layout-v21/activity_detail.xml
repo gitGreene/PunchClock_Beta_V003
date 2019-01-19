@@ -102,7 +102,6 @@
             android:text=""
             android:textOff=""
             android:textOn="" />
-
     </LinearLayout>
 
     <Button
