@@ -399,13 +399,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         saveToSharedPreferences();
-
-        //Todo: Find a better way?
-        // Should eliminate null errors - for some reason these methods run before onCreate does? Yes I know how dumb that sounds
-        if (currentCategory == null) { currentCategory = new Category("Null", -100000, false); }
-
-        // Update the category with the correct sumTime aka totalTime
-        detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
     }
 
     // Saved stuff to sharedPrefs
@@ -413,12 +406,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         saveToSharedPreferences();
-
-        // Should eliminate null errors - for some reason these methods run before onCreate does? Yes I know how dumb that sounds
-        if (currentCategory == null) { currentCategory = new Category("Null", -100000, false); }
-
-        // Update the category with the correct sumTime aka totalTime
-        detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
     }
 
 
@@ -434,6 +421,13 @@ public class DetailActivity extends AppCompatActivity {
         editor.putBoolean(timerRunningKey, timerRunning);
         editor.putString(categoryTitleKey, categoryTitleString);
         editor.apply();
+
+        //Todo: Find a better way?
+        // Should eliminate null errors - for some reason these methods run before onCreate does? Yes I know how dumb that sounds
+        if (currentCategory == null) { currentCategory = new Category("Null", -100000, false); }
+
+        // Update the category with the correct sumTime aka totalTime
+        detailViewModel.updateCategory(new Category(categoryID, categoryTitleString, sumOfTimes, currentCategory.isFavorite()));
     }
 
 }
