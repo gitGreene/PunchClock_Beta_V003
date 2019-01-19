@@ -69,6 +69,10 @@ public class CategoryViewModel extends AndroidViewModel {
         repository.setAsNotFavorite(id);
     }
 
+    public LiveData<Boolean> checkIfFavorite(int id) {
+        return repository.checkIfFavorite(id);
+    }
+
 
     /** TimeBank Methods */
 

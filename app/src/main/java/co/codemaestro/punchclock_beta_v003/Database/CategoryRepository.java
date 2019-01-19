@@ -69,6 +69,14 @@ public class CategoryRepository {
         new SetAsNotFavoriteAsync(categoryDao).execute(id);
     }
 
+    public LiveData<Boolean> checkIfFavorite(int id) {
+        return categoryDao.checkIfFavorite(id);
+    }
+
+//    public Category getSpecificCategory(int id) {
+//        new
+//    }
+
 
     /** TimeBank Methods */
     // Return every TimeBank

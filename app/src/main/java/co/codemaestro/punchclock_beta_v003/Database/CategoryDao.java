@@ -29,6 +29,9 @@ public interface CategoryDao {
     @Query("SELECT * from category_table LIMIT 1")
     Category[] getAnyCategory();
 
+//    @Query("SELECT category from category_table WHERE id = :id")
+//    Category[] getSpecificCategory(int id);
+
     //
     @Query("SELECT * from category_table WHERE id = :categoryId")
     Category getCategoryById(int categoryId);
@@ -56,5 +59,7 @@ public interface CategoryDao {
     @Query("UPDATE category_table SET isFavorite = 'false' WHERE id = :id")
     void setAsNotFavorite(int id);
 
+    @Query("SELECT isFavorite from category_table WHERE id = :id")
+    LiveData<Boolean> checkIfFavorite(int id);
 
 }
