@@ -6,7 +6,6 @@
     tools:context=".Fragments.SettingsFragment"
     android:background="@color/colorBackground">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/settingsTextView"
         android:layout_width="match_parent"

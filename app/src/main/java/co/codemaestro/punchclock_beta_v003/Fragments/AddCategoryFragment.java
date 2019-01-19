@@ -48,7 +48,6 @@ public class AddCategoryFragment extends AppCompatDialogFragment {
         final AlertDialog.Builder newCategoryFragmentBuilder = new AlertDialog.Builder(getActivity());
         newCategoryFragmentBuilder.setView(view);
 
-        // TODO: Send New Category Name back to MainActivity/ViewModel
         createCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
