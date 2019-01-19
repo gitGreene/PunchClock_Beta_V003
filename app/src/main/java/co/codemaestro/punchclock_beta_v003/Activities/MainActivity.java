@@ -17,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Fragments.AddCategoryFragment;
 import co.codemaestro.punchclock_beta_v003.Fragments.FavoritesFragment;
@@ -40,20 +39,21 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        loadFragment(new HomeFragment());
-        catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-
-
         // Use sharedprefs to reactivate nightMode
         SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
         nightModeEnabled = prefs.getBoolean(nightModeBooleanKey, false);
         if (nightModeEnabled) {
             // Set the night mode theme
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            //recreate();
         }
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        loadFragment(new HomeFragment());
+        catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+
+
+
 
         // FAB
         FloatingActionButton fab = findViewById(R.id.fab);
