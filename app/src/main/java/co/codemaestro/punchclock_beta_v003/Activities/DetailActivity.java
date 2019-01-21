@@ -90,7 +90,7 @@ public class DetailActivity extends AppCompatActivity {
         categoryID = getIntent().getIntExtra("category_id", 0);
         categoryTitleString = getIntent().getStringExtra("category_title");
         categoryCurrentTime = getIntent().getLongExtra("category_current_time", 0l);
-        categoryTimeAfterLife = getIntent().getLongExtra("pleasework", 0l);
+        categoryTimeAfterLife = getIntent().getLongExtra("pleasework", 0L);
         timerRunning = getIntent().getBooleanExtra("category_is_running", false);
 
         // Creates references for recView, chronometer, textViews and buttons
