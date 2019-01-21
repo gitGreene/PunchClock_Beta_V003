@@ -103,6 +103,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             Intent detailIntent = new Intent(context, DetailActivity.class);
             detailIntent.putExtra("category_title", currentCategory.getCategory());
             detailIntent.putExtra("category_id", currentCategory.getId());
+            detailIntent.putExtra("category_current_time", currentCategory.getCurrentTime());
+            detailIntent.putExtra("pleasework", currentCategory.getTimeAfterLife());
+            detailIntent.putExtra("category_is_running", currentCategory.isTimerRunning());
+
             ActivityOptionsCompat options =
                     ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, categoryCardLayout, ViewCompat.getTransitionName(categoryCardLayout));
 

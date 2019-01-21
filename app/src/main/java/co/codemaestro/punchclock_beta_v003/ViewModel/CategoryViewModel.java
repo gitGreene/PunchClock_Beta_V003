@@ -16,10 +16,12 @@ import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
 public class CategoryViewModel extends AndroidViewModel {
     private CategoryRepository repository;
 
-    //
+    // Category variables
     private LiveData<List<Category>> allCategories;
     private LiveData<List<Category>> favorites;
     private LiveData<Category> category;
+
+    //Timebank variables
     private LiveData<List<TimeBank>> allTimeBanks;
     private LiveData<List<TimeBank>> categoryTimeBanks;
     private LiveData<Long> categoryTimeSum;
