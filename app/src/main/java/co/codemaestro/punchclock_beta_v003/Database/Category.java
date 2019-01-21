@@ -26,6 +26,12 @@ public class Category {
     @ColumnInfo(name = "totalTime")
     private long totalTime;
 
+    @ColumnInfo(name = "currentTime")
+    private long currentTime;
+
+    @ColumnInfo(name = "timeAfterLife")
+    private long timeAfterLife;
+
     @ColumnInfo(name = "timerRunning")
     private boolean timerRunning;
 
@@ -36,35 +42,25 @@ public class Category {
      * Constructors
      */
 
-    @Ignore
-    public Category(@NonNull String category) {
-        this.category = category;
-    }
 
     @Ignore
-    public Category(@NonNull String category, long totalTime) {
+    public Category(String category, long totalTime, long currentTime, long timeAfterLife, boolean timerRunning, boolean isFavorite) {
         this.category = category;
         this.totalTime = totalTime;
-
-    }
-
-    @Ignore
-    public Category(@NonNull String category, boolean isFavorite) {
-        this.category = category;
+        this.currentTime = currentTime;
+        this.timeAfterLife = timeAfterLife;
+        this.timerRunning = timerRunning;
         this.isFavorite = isFavorite;
+
     }
 
-    @Ignore
-    public Category(@NonNull String category, long totalTime, boolean isFavorite) {
-        this.category = category;
-        this.totalTime = totalTime;
-        this.isFavorite = isFavorite;
-    }
-
-    public Category(int id, @NonNull String category, long totalTime, boolean isFavorite) {
+    public Category(int id, @NonNull String category, long totalTime, long currentTime, long timeAfterLife, boolean timerRunning, boolean isFavorite) {
         this.id = id;
         this.category = category;
         this.totalTime = totalTime;
+        this.currentTime = currentTime;
+        this.timeAfterLife = timeAfterLife;
+        this.timerRunning = timerRunning;
         this.isFavorite = isFavorite;
 
     }
@@ -73,6 +69,7 @@ public class Category {
      * Getters and Setters
      */
 
+    //id
     @NonNull
     public int getId() {
         return id;
@@ -82,6 +79,7 @@ public class Category {
         this.id = id;
     }
 
+    //category
     @NonNull
     public String getCategory() {
         return category;
@@ -91,6 +89,7 @@ public class Category {
         this.category = category;
     }
 
+    //totalTime
     public long getTotalTime() {
         return totalTime;
     }
@@ -99,6 +98,25 @@ public class Category {
         this.totalTime = totalTime;
     }
 
+    //currentTime
+    public long getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(long currentTime) {
+        this.currentTime = currentTime;
+    }
+
+    //timeAfterLife
+    public long getTimeAfterLife() {
+        return timeAfterLife;
+    }
+
+    public void setTimeAfterLife(long timeAfterLife) {
+        this.timeAfterLife = timeAfterLife;
+    }
+
+    //timerRunning
     public boolean isTimerRunning() {
         return timerRunning;
     }
@@ -107,6 +125,7 @@ public class Category {
         this.timerRunning = timerRunning;
     }
 
+    //isFavorite
     public boolean isFavorite() {
         return isFavorite;
     }

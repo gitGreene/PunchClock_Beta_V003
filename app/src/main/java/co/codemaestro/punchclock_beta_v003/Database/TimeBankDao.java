@@ -33,7 +33,7 @@ public interface TimeBankDao {
     LiveData<List<TimeBank>> getCategoryTimeBanks(final int categoryId);
 
     // Get the sum of all timebanks with a particular categoryId as observable livedata
-    @Query("SELECT SUM(timeValue)+0 FROM timeBank_table WHERE categoryId=:categoryId")
+    @Query("SELECT SUM(timeValue) FROM timeBank_table WHERE categoryId=:categoryId")
     LiveData<Long> getCategoryTimeSum(final int categoryId);
 
 

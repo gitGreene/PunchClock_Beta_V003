@@ -40,7 +40,6 @@ public interface CategoryDao {
     @Query("SELECT * from category_table WHERE category = :categoryTitle")
     LiveData<Category> getCategoryByTitle(String categoryTitle);
 
-    // Todo: Does this updateCategory overwrite every field even if we don't give it one?
     @Update
     void updateCategory(Category category);
 
