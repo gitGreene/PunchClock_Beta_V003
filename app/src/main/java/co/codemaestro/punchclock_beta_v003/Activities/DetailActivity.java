@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +54,7 @@ public class DetailActivity extends AppCompatActivity {
     //Todo: Make this button real
     private Button commitButton;
     private ToggleButton favoriteIcon;
-    public TextView categoryView;
+    public TextView categoryView, testTextView;
 
     // Variables for timer code
     private long categoryCurrentTime, categoryTimeAfterLife, sumOfTimes;
@@ -61,6 +62,8 @@ public class DetailActivity extends AppCompatActivity {
     boolean timerRunning, nightModeEnabled, isFavorite;
     String categoryTitleString, timeStr, currentDate;
     int categoryID;
+
+    WeakReference<TextView> testTextViewReference;
 
     // Create formatMillis class instance
     FormatMillis format = new FormatMillis();
@@ -101,9 +104,7 @@ public class DetailActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pauseButton);
         resetButton = findViewById(R.id.resetButton);
         commitButton = findViewById(R.id.commitButton);
-
-        //Set categoryView text
-        categoryView.setText(categoryTitleString);
+        testTextView = findViewById(R.id.tempView4);
 
         /**
          * RecyclerView
@@ -120,6 +121,12 @@ public class DetailActivity extends AppCompatActivity {
          */
         // Get a link to the ViewModel
         detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+
+        // Set categoryView to Category Title String
+        detailViewModel.testGetCategoryTitleString(categoryView, categoryID);
+        detailViewModel.setCategoryTitle(categoryID);
+
+
 
         // Observer for categoryView
         detailViewModel.getCategoryByTitle(categoryTitleString).observe(this, new Observer<Category>() {
@@ -287,14 +294,16 @@ public class DetailActivity extends AppCompatActivity {
 
         if (categoryCurrentTime > 0) {
             // Create a timeBank object
-            final TimeBank timeBank = new TimeBank(categoryCurrentTime, currentDate, categoryID);
+            TimeBank timeBank = new TimeBank(categoryCurrentTime, currentDate, categoryID);
 
             // Insert the data
             detailViewModel.insertTimeBank(timeBank);
 
             // Update the category
             currentCategory.setTimeAfterLife(0);
-            if (sumOfTimes == 0) { sumOfTimes = categoryCurrentTime; }
+            if (sumOfTimes == 0) {
+                sumOfTimes = categoryCurrentTime;
+            }
             currentCategory.setTotalTime(sumOfTimes);
             detailViewModel.updateCategory(currentCategory);
         }
@@ -341,8 +350,11 @@ public class DetailActivity extends AppCompatActivity {
 
                 // Get shared Prefs reference and toggle NightMode
                 SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
-                if (!nightModeEnabled) { nightModeEnabled = true; }
-                else { nightModeEnabled = false; }
+                if (!nightModeEnabled) {
+                    nightModeEnabled = true;
+                } else {
+                    nightModeEnabled = false;
+                }
 
                 // Save the correct nightModeEnabled value to preferences and change the app to nightMode
                 if (nightModeEnabled) {
@@ -378,9 +390,9 @@ public class DetailActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        //Todo: Find a better way?
+        // Todo: Find a better way?
         // Prevent null - Update the category with the correct sumTime aka totalTime
-       // if (currentCategory == null) { currentCategory = new Category("CategoryFormerlyKnownAsNull", -100000, -100000, 0, false, false); }
+        // if (currentCategory == null) { currentCategory = new Category("CategoryFormerlyKnownAsNull", -100000, -100000, 0, false, false); }
         currentCategory.setCurrentTime(categoryCurrentTime);
         currentCategory.setTimeAfterLife(categoryTimeAfterLife);
         currentCategory.setTimerRunning(timerRunning);
