@@ -26,8 +26,8 @@ public class Category {
     @ColumnInfo(name = "totalTime")
     private long totalTime;
 
-    @ColumnInfo(name = "currentTime")
-    private long currentTime;
+    @ColumnInfo(name = "displayTime")
+    private long displayTime;
 
     @ColumnInfo(name = "timeAfterLife")
     private long timeAfterLife;
@@ -44,21 +44,21 @@ public class Category {
 
 
     @Ignore
-    public Category(String category, long totalTime, long currentTime, long timeAfterLife, boolean timerRunning, boolean isFavorite) {
+    public Category(String category, long totalTime, long displayTime, long timeAfterLife, boolean timerRunning, boolean isFavorite) {
         this.category = category;
         this.totalTime = totalTime;
-        this.currentTime = currentTime;
+        this.displayTime = displayTime;
         this.timeAfterLife = timeAfterLife;
         this.timerRunning = timerRunning;
         this.isFavorite = isFavorite;
 
     }
 
-    public Category(int id, @NonNull String category, long totalTime, long currentTime, long timeAfterLife, boolean timerRunning, boolean isFavorite) {
+    public Category(int id, @NonNull String category, long totalTime, long displayTime, long timeAfterLife, boolean timerRunning, boolean isFavorite) {
         this.id = id;
         this.category = category;
         this.totalTime = totalTime;
-        this.currentTime = currentTime;
+        this.displayTime = displayTime;
         this.timeAfterLife = timeAfterLife;
         this.timerRunning = timerRunning;
         this.isFavorite = isFavorite;
@@ -98,13 +98,13 @@ public class Category {
         this.totalTime = totalTime;
     }
 
-    //currentTime
-    public long getCurrentTime() {
-        return currentTime;
+    //displayTime
+    public long getDisplayTime() {
+        return displayTime;
     }
 
-    public void setCurrentTime(long currentTime) {
-        this.currentTime = currentTime;
+    public void setDisplayTime(long displayTime) {
+        this.displayTime = displayTime;
     }
 
     //timeAfterLife

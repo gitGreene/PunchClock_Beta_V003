@@ -23,9 +23,11 @@ import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Activities.DetailActivity;
 import co.codemaestro.punchclock_beta_v003.R;
+import co.codemaestro.punchclock_beta_v003.ViewModel.TimerViewModel;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
+    private TimerViewModel timerViewModel;
     FormatMillis format = new FormatMillis();
     private final LayoutInflater inflater;
     private List<Category> categories;
@@ -101,11 +103,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
             // Send category over and start the detail activity
             Intent detailIntent = new Intent(context, DetailActivity.class);
-            detailIntent.putExtra("category_title", currentCategory.getCategory());
             detailIntent.putExtra("category_id", currentCategory.getId());
-            detailIntent.putExtra("category_current_time", currentCategory.getCurrentTime());
-            detailIntent.putExtra("pleasework", currentCategory.getTimeAfterLife());
-            detailIntent.putExtra("category_is_running", currentCategory.isTimerRunning());
+            detailIntent.putExtra("category_title", currentCategory.getCategory());
+            detailIntent.putExtra("display_time", currentCategory.getDisplayTime());
+            detailIntent.putExtra("timer_after_life", currentCategory.getTimeAfterLife());
+            detailIntent.putExtra("is_running", currentCategory.isTimerRunning());
+            detailIntent.putExtra("click_flag", 1);
 
             ActivityOptionsCompat options =
                     ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, categoryCardLayout, ViewCompat.getTransitionName(categoryCardLayout));
