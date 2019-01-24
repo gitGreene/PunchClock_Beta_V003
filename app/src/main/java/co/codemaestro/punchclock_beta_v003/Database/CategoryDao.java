@@ -29,6 +29,9 @@ public interface CategoryDao {
     @Query("SELECT * from category_table LIMIT 1")
     Category[] getAnyCategory();
 
+    @Query("SELECT category from category_table WHERE category = :title")
+    LiveData<String> getCategoryTest(String title);
+
 //    @Query("SELECT category from category_table WHERE id = :id")
 //    Category[] getSpecificCategory(int id);
 

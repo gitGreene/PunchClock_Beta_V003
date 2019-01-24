@@ -4,7 +4,9 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
+import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import co.codemaestro.punchclock_beta_v003.Database.Category;
@@ -20,6 +22,8 @@ public class CategoryViewModel extends AndroidViewModel {
     private LiveData<List<Category>> allCategories;
     private LiveData<List<Category>> favorites;
     private LiveData<Category> category;
+
+    private String categoryTitle;
 
     //Timebank variables
     private LiveData<List<TimeBank>> allTimeBanks;
@@ -43,6 +47,23 @@ public class CategoryViewModel extends AndroidViewModel {
     /** Category Methods */
 
     /** Category */
+
+    // TODO: test 1
+    public void testGetCategoryTitleString(TextView textView, int id) {
+        repository.testGetCategoryTitleString(textView, id);
+    }
+
+    // TODO: test 2
+    public void setCategoryTitle(int id) {
+        repository.setCategoryTitle(categoryTitle, id);
+    }
+
+    // TODO: test 3
+    public String returnCategoryTitle() {
+        return categoryTitle;
+    }
+
+
     public LiveData<List<Category>> getAllCategories() {
         return allCategories;
     }

@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +52,8 @@ public class DetailActivity extends AppCompatActivity {
     private ToggleButton startButton, pauseButton, resetButton, favoriteIcon;
     //Todo: Make this button real
     private Button commitButton;
-    public TextView categoryView, timerView;
+    public TextView categoryView, timerView, testTextView;
+
 
     // Variables for Database and UI
     private Category currentCategory;
@@ -59,6 +61,8 @@ public class DetailActivity extends AppCompatActivity {
     String categoryTitleString, currentDate;
     int categoryID;
     long sumOfTime;
+
+    WeakReference<TextView> testTextViewReference;
 
     // Create formatMillis class instance
     FormatMillis format = new FormatMillis();
@@ -119,9 +123,7 @@ public class DetailActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pauseButton);
         resetButton = findViewById(R.id.resetButton);
         commitButton = findViewById(R.id.commitButton);
-
-        //Set categoryView text
-        categoryView.setText(categoryTitleString);
+        testTextView = findViewById(R.id.tempView4);
 
         /**
          * RecyclerView
@@ -138,6 +140,12 @@ public class DetailActivity extends AppCompatActivity {
          */
         // Get a link to the ViewModel
         categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+
+        // Set categoryView to Category Title String
+        detailViewModel.testGetCategoryTitleString(categoryView, categoryID);
+        detailViewModel.setCategoryTitle(categoryID);
+
+
 
         // Observer for categoryView
         categoryViewModel.getCategoryByTitle(categoryTitleString).observe(this, new Observer<Category>() {
@@ -286,6 +294,7 @@ public class DetailActivity extends AppCompatActivity {
         }.start();
     }
 
+
     public void setTimer(long displayTime) {
         timerView.setText(format.FormatMillisIntoHMS(displayTime));
     }
@@ -343,8 +352,11 @@ public class DetailActivity extends AppCompatActivity {
 
                 // Get shared Prefs reference and toggle NightMode
                 SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
-                if (!nightModeEnabled) { nightModeEnabled = true; }
-                else { nightModeEnabled = false; }
+                if (!nightModeEnabled) {
+                    nightModeEnabled = true;
+                } else {
+                    nightModeEnabled = false;
+                }
 
                 // Save the correct nightModeEnabled value to preferences and change the app to nightMode
                 if (nightModeEnabled) {
@@ -378,6 +390,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
         // Todo: Review options
         // Get the time just before the app is killed
         timeAfterLife = SystemClock.elapsedRealtime();
@@ -386,6 +399,7 @@ public class DetailActivity extends AppCompatActivity {
         currentCategory.setTotalTime(sumOfTime);
         currentCategory.setDisplayTime(displayTime);
         currentCategory.setTimeAfterLife(timeAfterLife);
+
         currentCategory.setTimerRunning(timerRunning);
         currentCategory.setFavorite(isFavorite);
         categoryViewModel.updateCategory(currentCategory);

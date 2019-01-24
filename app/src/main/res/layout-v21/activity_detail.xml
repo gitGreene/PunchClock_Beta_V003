@@ -113,6 +113,30 @@
         android:gravity="center_horizontal"
         android:text="@string/commit_button" />
 
+    <TextView
+        android:id="@+id/tempView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="########" />
+
+    <TextView
+        android:id="@+id/tempView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="########" />
+
+    <TextView
+        android:id="@+id/tempView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="########" />
+    <TextView
+        android:id="@+id/tempView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="test" />
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/detailRecyclerView"
         android:layout_width="match_parent"
