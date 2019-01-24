@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +21,6 @@ import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,30 +37,28 @@ import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
 import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
+import co.codemaestro.punchclock_beta_v003.ViewModel.TimerViewModel;
 
-//Todo: Go into the theme editor and figure out what the fuck is going on with some of these resources, praticularly nav bar color
 //Todo: Figure out why this "Broadcast of Intent" error with all the percentages is happening(ITS HAPPENING!!! *RON PAUL GIF*)
 //Todo: //? now means this line is in review
 
-// Insignificant change detected by github sensors
 public class DetailActivity extends AppCompatActivity {
-    private CategoryViewModel detailViewModel;
+    private CategoryViewModel categoryViewModel;
+    private TimerViewModel timerViewModel;
 
     // Initiates RecView Chronometer, buttons, timerView and creating a Handler for the runnable
     private RecyclerView detailRecyclerView;
-    private Chronometer chronometer;
-    private ToggleButton startButton, pauseButton, resetButton;
+    private ToggleButton startButton, pauseButton, resetButton, favoriteIcon;
     //Todo: Make this button real
     private Button commitButton;
-    private ToggleButton favoriteIcon;
-    public TextView categoryView;
+    public TextView categoryView, timerView;
 
-    // Variables for timer code
-    private long categoryCurrentTime, categoryTimeAfterLife, sumOfTimes;
+    // Variables for Database and UI
     private Category currentCategory;
     boolean timerRunning, nightModeEnabled, isFavorite;
-    String categoryTitleString, timeStr, currentDate;
+    String categoryTitleString, currentDate;
     int categoryID;
+    long sumOfTime;
 
     // Create formatMillis class instance
     FormatMillis format = new FormatMillis();
@@ -69,6 +67,14 @@ public class DetailActivity extends AppCompatActivity {
     private static final String PREFS_FILE = "SharedPreferences";
     private static final int PREFS_MODE = Context.MODE_PRIVATE;
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
+
+
+    // New timer variables
+    private long startTime, displayTime, timeAfterLife;
+    private CountDownTimer timer;
+    private int flag;
+
+
 
 
     @Override
@@ -86,16 +92,28 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        //Todo: This data is "transient data", as in we need this shit to update the UI...
+        //Todo: Therefore we'll make a viewmodel that we'll ignore the intent aspec and update the VIewmodel instead
+        //Todo: Couple quirks to that, because I can't make the viewmodel object before the activity exists, namely the "flag" variable
+        //Todo: The timer will run
+
         // Get extras from Intent
         categoryID = getIntent().getIntExtra("category_id", 0);
         categoryTitleString = getIntent().getStringExtra("category_title");
-        categoryCurrentTime = getIntent().getLongExtra("category_current_time", 0l);
-        categoryTimeAfterLife = getIntent().getLongExtra("pleasework", 0L);
-        timerRunning = getIntent().getBooleanExtra("category_is_running", false);
+        displayTime = getIntent().getLongExtra("display_time", 0L);
+        timeAfterLife = getIntent().getLongExtra("timer_after_life", 0L);
+        timerRunning = getIntent().getBooleanExtra("is_running", false);
+//        flag = getIntent().getIntExtra("click_flag", 0);
+//
+//        timerViewModel.setCategoryID(currentCategory.getId());
+//        timerViewModel.setCategoryTitleString(currentCategory.getCategory());
+//        timerViewModel.setDisplayTime(currentCategory.getDisplayTime());
+//        timerViewModel.setTimeAfterLife(currentCategory.getTimeAfterLife());
+//        timerViewModel.setTimerRunning(currentCategory.isTimerRunning());
 
         // Creates references for recView, chronometer, textViews and buttons
         detailRecyclerView = findViewById(R.id.detailRecyclerView);
-        chronometer = findViewById(R.id.detailChronometer);
+        timerView = findViewById(R.id.detailTimer);
         categoryView = findViewById(R.id.categoryView);
         startButton = findViewById(R.id.startButton);
         pauseButton = findViewById(R.id.pauseButton);
@@ -119,14 +137,13 @@ public class DetailActivity extends AppCompatActivity {
          * ViewModel
          */
         // Get a link to the ViewModel
-        detailViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
+        categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
         // Observer for categoryView
-        detailViewModel.getCategoryByTitle(categoryTitleString).observe(this, new Observer<Category>() {
+        categoryViewModel.getCategoryByTitle(categoryTitleString).observe(this, new Observer<Category>() {
             @Override
             public void onChanged(@Nullable Category category) {
 
-                // Set currentCategory
                 currentCategory = category;
 
                 // Set the favoriteIcon correctly
@@ -139,7 +156,7 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         // Observer - Updates data set for detailRecyclerView
-        detailViewModel.getCategoryTimeBanks(categoryID).observe(this, new Observer<List<TimeBank>>() {
+        categoryViewModel.getCategoryTimeBanks(categoryID).observe(this, new Observer<List<TimeBank>>() {
             @Override
             public void onChanged(@Nullable List<TimeBank> timeBanks) {
                 adapter.setTimeBanks(timeBanks);
@@ -147,7 +164,7 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         // Observer - Gives us the sumTime of current category in a public variable sumOfTime
-        detailViewModel.getCategoryTimeSum(categoryID).observe(this, new Observer<Long>() {
+        categoryViewModel.getCategoryTimeSum(categoryID).observe(this, new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long sumTime) {
 
@@ -155,7 +172,7 @@ public class DetailActivity extends AppCompatActivity {
                 if (sumTime == null) {
                     sumTime = 0L;
                 }
-                sumOfTimes = sumTime;
+                sumOfTime = sumTime;
             }
         });
 
@@ -192,128 +209,113 @@ public class DetailActivity extends AppCompatActivity {
          * Logic Based on the Timer Running
          */
 
-        // Timer Logic
-        if (timerRunning) { // Only runs on relaunch when the timer is running
+        if(timerRunning) { // If timer was running, restart it with the correct values
 
-            // Use categoryTimeAfterLife and categoryCurrentTime to set the proper base and start the chrono
-            categoryTimeAfterLife = SystemClock.elapsedRealtime() - categoryTimeAfterLife;
-            chronometer.setBase(SystemClock.elapsedRealtime() - categoryCurrentTime - categoryTimeAfterLife);
-            chronometer.start();
+            // Get the time that the app was destroyed for
+            timeAfterLife = SystemClock.elapsedRealtime() - timeAfterLife;
 
-            // If timer is running, disable startButton
-            startButton.setEnabled(false);
-            resetButton.setEnabled(false);
+            // Set the startTime to the adjusted time and start the timer
+            startTime = SystemClock.elapsedRealtime() - displayTime - timeAfterLife;
+            startTimer();
+            StartEnabledButtons();
 
-        } else {
-            // if timer is not running, setEnabled buttons
-            startButton.setEnabled(true);
-            pauseButton.setEnabled(false);
-
-            // If totalTime is zero, then the timer has no value, else set timer to saved time
-            if(categoryCurrentTime == 0) {
-                chronometer.setText(R.string.default_timer);
-                resetButton.setEnabled(false);
+        } else { // If timer was not running, set the timerView and enable the right buttons
+            setTimer(displayTime);
+            if(displayTime > 0){
+                PauseEnabledButtons();
             } else {
-                chronometer.setText(format.FormatMillisIntoHMS(categoryCurrentTime));
-                resetButton.setEnabled(true);
+                DefaultEnabledButtons();
             }
         }
 
-        /**
-         * Chronometer Listener
-         */
-        // Chronometer onTick Listener and Time Formatting
-        // This allows us to use the functionality of the Chronometer but to format it the way we desire
-        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                chronometer.setText(format.FormatMillisIntoHMS(SystemClock.elapsedRealtime() - chronometer.getBase()));
-
-                // Set the afterLife time to adjust the timer on restart while the timer isRunning
-                categoryTimeAfterLife = SystemClock.elapsedRealtime();
-
-            }
-        });
     } // End of onCreate
 
-
     /**
-     * Buttons onClick
-     *
+     * Timer Buttons onClick
      */
-    public void startButton(View view) {
-        // Set the base accurate to our currentTime and start the timer
-        chronometer.setBase(SystemClock.elapsedRealtime() - categoryCurrentTime);
-        chronometer.start();
 
-        // timer Started
+    public void startButton(View view) {
+        // Get the startTime and start the Timer
+        startTime = SystemClock.elapsedRealtime() - displayTime;
+        startTimer();
         timerRunning = true;
-        startButton.setEnabled(false);
-        pauseButton.setEnabled(true);
-        resetButton.setEnabled(false);
+        StartEnabledButtons();
     }
 
-
     public void pauseButton(View view) {
-        // Get the date as a string(In case they commit during pause)
+        // Get the current date and cancel the timer
         currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-
-        // Get the time from timer, format it into a string
-        categoryCurrentTime = SystemClock.elapsedRealtime() - chronometer.getBase();
-        timeStr = format.FormatMillisIntoHMS(categoryCurrentTime);
-
-        // timer Paused
-        chronometer.stop();
+        timer.cancel();
         timerRunning = false;
-        startButton.setEnabled(true);
-        pauseButton.setEnabled(false);
-        resetButton.setEnabled(true);
+        PauseEnabledButtons();
     }
 
     public void resetButton(View view) {
-        resetTimer();
+        // Reset timer
+        displayTime = 0;
+        setTimer(0);
+        DefaultEnabledButtons();
     }
 
     public void commitButton(View view) {
-        // If timer is running get new time, otherwise it should use the time we got from pause
-        if (timerRunning) {
-            // Get the current date
-            currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        // Create a timeBank object and insert it into the database
+        TimeBank timeBank = new TimeBank(displayTime, currentDate, categoryID);
+        categoryViewModel.insertTimeBank(timeBank);
 
-            // Get the time from timer, format it into a string
-            categoryCurrentTime = SystemClock.elapsedRealtime() - chronometer.getBase();
-            timeStr = format.FormatMillisIntoHMS(categoryCurrentTime);
-        }
-
-        if (categoryCurrentTime > 0) {
-            // Create a timeBank object
-            final TimeBank timeBank = new TimeBank(categoryCurrentTime, currentDate, categoryID);
-
-            // Insert the data
-            detailViewModel.insertTimeBank(timeBank);
-
-            // Update the category
-            currentCategory.setTimeAfterLife(0);
-            if (sumOfTimes == 0) { sumOfTimes = categoryCurrentTime; }
-            currentCategory.setTotalTime(sumOfTimes);
-            detailViewModel.updateCategory(currentCategory);
-        }
-        resetTimer();
+        // Reset timer
+        displayTime = 0;
+        setTimer(0);
+        DefaultEnabledButtons();
     }
 
-    public void resetTimer() {
-        // Timer stops, shows 00:00:00 and timerRunning false
-        chronometer.stop();
-        chronometer.setText(R.string.default_timer);
-        timerRunning = false;
+    /**
+     * Timer Methods
+     */
 
-        // Update the database category with the accurate data, currentTime to become "0"
-        categoryCurrentTime = 0;
+    public void startTimer() {
+        timer = new CountDownTimer(86400000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                displayTime = SystemClock.elapsedRealtime() - startTime;
+                setTimer(displayTime);
+            }
+            @Override
+            public void onFinish() {
+                Toast.makeText(getApplicationContext(), "I wonder if any user will ever see this?", Toast.LENGTH_LONG).show();
+            }
+        }.start();
+    }
 
-        // Enabled/Disable buttons
+    public void setTimer(long displayTime) {
+        timerView.setText(format.FormatMillisIntoHMS(displayTime));
+    }
+
+    /**
+     * SetEnabled Timer Button Methods - Three states of buttons
+     */
+
+    public void StartEnabledButtons() {
+        // timer Started
+        startButton.setEnabled(false);
+        pauseButton.setEnabled(true);
+        resetButton.setEnabled(false);
+        commitButton.setEnabled(false);
+    }
+
+    public void PauseEnabledButtons() {
+        // timer Paused
+        startButton.setEnabled(true);
+        pauseButton.setEnabled(false);
+        resetButton.setEnabled(true);
+        commitButton.setEnabled(true);
+    }
+
+    public void DefaultEnabledButtons() {
+        // timer Reset
         startButton.setEnabled(true);
         pauseButton.setEnabled(false);
         resetButton.setEnabled(false);
+        commitButton.setEnabled(false);
     }
 
 
@@ -373,24 +375,35 @@ public class DetailActivity extends AppCompatActivity {
     /**
      * onPause/onDestroy
      */
-    // Saved stuff to sharedPrefs
     @Override
     protected void onPause() {
         super.onPause();
+        // Todo: Review options
+        // Get the time just before the app is killed
+        timeAfterLife = SystemClock.elapsedRealtime();
 
-        //Todo: Find a better way?
-        // Prevent null - Update the category with the correct sumTime aka totalTime
-       // if (currentCategory == null) { currentCategory = new Category("CategoryFormerlyKnownAsNull", -100000, -100000, 0, false, false); }
-        currentCategory.setCurrentTime(categoryCurrentTime);
-        currentCategory.setTimeAfterLife(categoryTimeAfterLife);
+        // Update our category object with relevant data and update database with it
+        currentCategory.setTotalTime(sumOfTime);
+        currentCategory.setDisplayTime(displayTime);
+        currentCategory.setTimeAfterLife(timeAfterLife);
         currentCategory.setTimerRunning(timerRunning);
         currentCategory.setFavorite(isFavorite);
-        detailViewModel.updateCategory(currentCategory);
+        categoryViewModel.updateCategory(currentCategory);
     }
 
-    // Saved stuff to sharedPrefs
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        // Get the time just before the app is killed
+        timeAfterLife = SystemClock.elapsedRealtime();
+
+        // Update our category object with relevant data and update database with it
+        currentCategory.setTotalTime(sumOfTime);
+        currentCategory.setDisplayTime(displayTime);
+        currentCategory.setTimeAfterLife(timeAfterLife);
+        currentCategory.setTimerRunning(timerRunning);
+        currentCategory.setFavorite(isFavorite);
+        categoryViewModel.updateCategory(currentCategory);
     }
 }

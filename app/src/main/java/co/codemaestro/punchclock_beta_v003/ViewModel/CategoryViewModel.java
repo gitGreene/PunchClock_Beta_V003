@@ -33,6 +33,12 @@ public class CategoryViewModel extends AndroidViewModel {
         allTimeBanks = repository.getAllTimeBanks();
     }
 
+    /**
+     * Detail Activity non Database
+     */
+
+    //TODO: Integrate this bullshit timer into this bullshit viewmodel
+
 
     /** Category Methods */
 
