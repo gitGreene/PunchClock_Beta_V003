@@ -150,7 +150,9 @@ public class DetailActivity extends AppCompatActivity {
          * ViewModel
          */
         // Get a link to the ViewModel
+
         categoryVM = ViewModelProviders.of(this).get(CategoryViewModel.class);
+
 
 //        // Set categoryView to Category Title String
 //        categoryVM.testGetCategoryTitleString(categoryView, categoryID);
