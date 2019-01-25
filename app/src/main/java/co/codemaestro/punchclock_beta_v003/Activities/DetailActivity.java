@@ -142,8 +142,8 @@ public class DetailActivity extends AppCompatActivity {
         categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
         // Set categoryView to Category Title String
-        detailViewModel.testGetCategoryTitleString(categoryView, categoryID);
-        detailViewModel.setCategoryTitle(categoryID);
+        categoryViewModel.testGetCategoryTitleString(categoryView, categoryID);
+        categoryViewModel.setCategoryTitle(categoryID);
 
 
 
