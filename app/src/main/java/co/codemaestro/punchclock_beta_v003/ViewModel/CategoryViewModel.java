@@ -48,15 +48,15 @@ public class CategoryViewModel extends AndroidViewModel {
 
     /** Category */
 
-    // TODO: test 1
-    public void testGetCategoryTitleString(TextView textView, int id) {
-        repository.testGetCategoryTitleString(textView, id);
-    }
-
-    // TODO: test 2
-    public void setCategoryTitle(int id) {
-        repository.setCategoryTitle(categoryTitle, id);
-    }
+//    // TODO: test 1
+//    public void testGetCategoryTitleString(TextView textView, int id) {
+//        repository.testGetCategoryTitleString(textView, id);
+//    }
+//
+//    // TODO: test 2
+//    public void setCategoryTitle(int id) {
+//        repository.setCategoryTitle(categoryTitle, id);
+//    }
 
     // TODO: test 3
     public String returnCategoryTitle() {

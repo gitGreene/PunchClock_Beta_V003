@@ -44,15 +44,15 @@ public class CategoryRepository {
 
     /** Category Methods */
 
-    // TODO: test 1
-    public void testGetCategoryTitleString(TextView textView, int id) {
-        new testGetCategoryTitleStringAsync(categoryDao, textView).execute(id);
-    }
-
-    // TODO: test 2
-    public void setCategoryTitle(String categoryTitle, int id) {
-        new SetCategoryTitleAsync(categoryDao, categoryTitle).execute(id);
-    }
+//    // TODO: test 1
+//    public void testGetCategoryTitleString(TextView textView, int id) {
+//        new testGetCategoryTitleStringAsync(categoryDao, textView).execute(id);
+//    }
+//
+//    // TODO: test 2
+//    public void setCategoryTitle(String categoryTitle, int id) {
+//        new SetCategoryTitleAsync(categoryDao, categoryTitle).execute(id);
+//    }
 
 
     public LiveData<String> getCategoryTest(String title) {
@@ -168,52 +168,52 @@ public class CategoryRepository {
 //    }
 
 
-    // TODO: test 1
-    private static class SetCategoryTitleAsync extends AsyncTask<Integer, Void, String> {
-        private CategoryDao categoryDao;
-        private WeakReference<String> categoryTitle;
-
-        public SetCategoryTitleAsync(CategoryDao categoryDao, String categoryTitle) {
-            this.categoryDao = categoryDao;
-            this.categoryTitle = new WeakReference<>(categoryTitle);
-        }
-
-        @Override
-        protected String doInBackground(Integer... integers) {
-            Category category = categoryDao.getCategoryById(integers[0]);
-            return category.getCategory();
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-//            categoryTitle.get() = s;
-        }
-
-    }
-    // TODO: test 2 works
-    private static class testGetCategoryTitleStringAsync extends AsyncTask<Integer, Void, String> {
-        private CategoryDao categoryDao;
-        private WeakReference<TextView> categoryTitleString;
-
-
-        public testGetCategoryTitleStringAsync(CategoryDao categoryDao, TextView categoryTitleString) {
-            this.categoryDao = categoryDao;
-            this.categoryTitleString = new WeakReference<>(categoryTitleString);
-        }
-
-        @Override
-        protected String doInBackground(Integer... integers) {
-            Category category = categoryDao.getCategoryById(integers[0]);
-            return category.getCategory();
-        }
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            categoryTitleString.get().setText(s);
-        }
-
-    }
+//    // TODO: test 1
+//    private static class SetCategoryTitleAsync extends AsyncTask<Integer, Void, String> {
+//        private CategoryDao categoryDao;
+//        private WeakReference<String> categoryTitle;
+//
+//        public SetCategoryTitleAsync(CategoryDao categoryDao, String categoryTitle) {
+//            this.categoryDao = categoryDao;
+//            this.categoryTitle = new WeakReference<>(categoryTitle);
+//        }
+//
+//        @Override
+//        protected String doInBackground(Integer... integers) {
+//            Category category = categoryDao.getCategoryById(integers[0]);
+//            return category.getCategory();
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+////            categoryTitle.get() = s;
+//        }
+//
+//    }
+//    // TODO: test 2 works
+//    private static class testGetCategoryTitleStringAsync extends AsyncTask<Integer, Void, String> {
+//        private CategoryDao categoryDao;
+//        private WeakReference<TextView> categoryTitleString;
+//
+//
+//        public testGetCategoryTitleStringAsync(CategoryDao categoryDao, TextView categoryTitleString) {
+//            this.categoryDao = categoryDao;
+//            this.categoryTitleString = new WeakReference<>(categoryTitleString);
+//        }
+//
+//        @Override
+//        protected String doInBackground(Integer... integers) {
+//            Category category = categoryDao.getCategoryById(integers[0]);
+//            return category.getCategory();
+//        }
+//        @Override
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+//            categoryTitleString.get().setText(s);
+//        }
+//
+//    }
 
 
 
