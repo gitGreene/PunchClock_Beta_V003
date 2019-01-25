@@ -26,51 +26,51 @@ public class TimerViewModel extends AndroidViewModel {
     /**
      * Getters/Setters
      */
-    public int getCategoryID() {
+    public int getCategoryIDTimer() {
         return categoryID;
     }
 
-    public void setCategoryID(int categoryID) {
+    public void setCategoryIDTimer(int categoryID) {
         this.categoryID = categoryID;
     }
 
-    public String getCategoryTitleString() {
+    public String getCategoryTitleStringTimer() {
         return categoryTitleString;
     }
 
-    public void setCategoryTitleString(String categoryTitleString) {
+    public void setCategoryTitleStringTimer(String categoryTitleString) {
         this.categoryTitleString = categoryTitleString;
     }
 
-    public long getDisplayTime() {
+    public long getDisplayTimeTimer() {
         return displayTime;
     }
 
-    public void setDisplayTime(long displayTime) {
+    public void setDisplayTimeTimer(long displayTime) {
         this.displayTime = displayTime;
     }
 
-    public long getTimeAfterLife() {
+    public long getTimeAfterLifeTimer() {
         return timeAfterLife;
     }
 
-    public void setTimeAfterLife(long timeAfterLife) {
+    public void setTimeAfterLifeTimer(long timeAfterLife) {
         this.timeAfterLife = timeAfterLife;
     }
 
-    public boolean isTimerRunning() {
+    public boolean isTimerRunningTimer() {
         return timerRunning;
     }
 
-    public void setTimerRunning(boolean timerRunning) {
+    public void setTimerRunningTimer(boolean timerRunning) {
         this.timerRunning = timerRunning;
     }
 
-    public boolean isFavorite() {
+    public boolean isFavoriteTimer() {
         return isFavorite;
     }
 
-    public void setFavorite(boolean favorite) {
+    public void setFavoriteTimer(boolean favorite) {
         isFavorite = favorite;
     }
 }

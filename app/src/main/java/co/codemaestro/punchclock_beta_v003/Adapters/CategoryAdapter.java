@@ -108,7 +108,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             detailIntent.putExtra("display_time", currentCategory.getDisplayTime());
             detailIntent.putExtra("timer_after_life", currentCategory.getTimeAfterLife());
             detailIntent.putExtra("is_running", currentCategory.isTimerRunning());
-            detailIntent.putExtra("click_flag", 1);
+            detailIntent.putExtra("is_favorite", currentCategory.isFavorite());
 
             ActivityOptionsCompat options =
                     ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, categoryCardLayout, ViewCompat.getTransitionName(categoryCardLayout));
