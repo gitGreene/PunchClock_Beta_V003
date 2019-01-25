@@ -36,9 +36,12 @@ public class MainActivity extends AppCompatActivity implements
     private static final int PREFS_MODE = Context.MODE_PRIVATE;
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
     private boolean nightModeEnabled = false;
+    private int startingPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         // Use sharedprefs to reactivate nightMode
         SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
         nightModeEnabled = prefs.getBoolean(nightModeBooleanKey, false);
@@ -47,13 +50,8 @@ public class MainActivity extends AppCompatActivity implements
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        loadFragment(new HomeFragment());
+        loadFragment(new HomeFragment(), 1);
         catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-
-
-
 
         // FAB
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -72,32 +70,46 @@ public class MainActivity extends AppCompatActivity implements
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         Fragment fragment = null;
+                        int newPosition = 0;
 
                         switch (menuItem.getItemId()) {
                             case R.id.bottom_nav_home:
                                 fragment = new HomeFragment();
+                                newPosition = 1;
                                 break;
                             case R.id.bottom_nav_favorites:
                                 fragment = new FavoritesFragment();
+                                newPosition = 2;
                                 break;
                             case R.id.bottom_nav_settings:
                                 fragment = new SettingsFragment();
+                                newPosition = 3;
                                 break;
                         }
-                        return loadFragment(fragment);
+                        return loadFragment(fragment, newPosition);
                     }
                 }
         );
     } // End of onCreate
 
-    private boolean loadFragment(Fragment fragment) {
+    private boolean loadFragment(Fragment fragment, int newPosition) {
         if(fragment != null) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
-            transaction.replace(R.id.container, fragment);
-            transaction.commit();
+            if(startingPosition > newPosition) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right );
+                transaction.replace(R.id.container, fragment);
+                transaction.commit();
+            }
+            if(startingPosition < newPosition) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+                transaction.replace(R.id.container, fragment);
+                transaction.commit();
+            }
+            startingPosition = newPosition;
             return true;
         }
+
         return false;
     }
 
