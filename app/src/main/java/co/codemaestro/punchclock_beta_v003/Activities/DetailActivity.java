@@ -51,13 +51,11 @@ public class DetailActivity extends AppCompatActivity {
     // Initiates RecView Chronometer, buttons, timerView and creating a Handler for the runnable
     private RecyclerView detailRecyclerView;
     private ToggleButton startButton, pauseButton, resetButton, favoriteIcon;
-    //Todo: Make this button real
+    //Todo: Make this button real - ToggleButton?
     private Button commitButton;
     public TextView categoryView, timerView;
 
-
     // Variables for Database and UI
-    private Category currentCategory;
     boolean timerRunning, nightModeEnabled, isFavorite;
     String categoryTitleString, currentDate;
     int categoryID;
@@ -73,9 +71,6 @@ public class DetailActivity extends AppCompatActivity {
     private static final String PREFS_FILE = "SharedPreferences";
     private static final int PREFS_MODE = Context.MODE_PRIVATE;
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,9 +96,6 @@ public class DetailActivity extends AppCompatActivity {
             GetTimerVMData();
         }
 
-        // Instantiate a new category with our new values(totalTime is not needed here so it can remain 0 until onPause/Destroy)
-        currentCategory = new Category(categoryID, categoryTitleString, 0, displayTime, timeAfterLife, timerRunning, isFavorite);
-
         // Creates references for recView, chronometer, textViews and buttons
         detailRecyclerView = findViewById(R.id.detailRecyclerView);
         timerView = findViewById(R.id.detailTimer);
@@ -113,7 +105,7 @@ public class DetailActivity extends AppCompatActivity {
         resetButton = findViewById(R.id.resetButton);
         commitButton = findViewById(R.id.commitButton);
 
-        // Set Text
+        // Set categoryView text
         categoryView.setText(categoryTitleString);
 
         /**
@@ -216,6 +208,92 @@ public class DetailActivity extends AppCompatActivity {
         }
 
     } // End of onCreate
+
+    /**
+     * onPause/onDestroy
+     */
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Todo: Review options
+        // Get the time just before the app is killed
+        timeAfterLife = SystemClock.elapsedRealtime();
+
+        // Set TimerViewModel data and update Category in database
+        SetTimerVMData();
+        UpdateCategory();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Todo: Review options
+        // Get the time just before the app is killed
+        timeAfterLife = SystemClock.elapsedRealtime();
+
+        // Set TimerViewModel data and update Category in database
+        SetTimerVMData();
+        UpdateCategory();
+    }
+
+    /**
+     *
+     * Options menu
+     *
+     */
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate menu
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    // Differs slightly from the version in the MainActivity with the intent at the end
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.about:
+                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.nightMode:
+                Toast.makeText(this, "Night Mode Activate!", Toast.LENGTH_SHORT).show();
+
+                // Get shared Prefs reference and toggle NightMode
+                SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
+                if (!nightModeEnabled) {
+                    nightModeEnabled = true;
+                } else {
+                    nightModeEnabled = false;
+                }
+
+                // Save the correct nightModeEnabled value to preferences and change the app to nightMode
+                if (nightModeEnabled) {
+                    //Save "nightModeOn = true" to sharedPref and....
+                    prefs.edit().putBoolean(nightModeBooleanKey, true).apply();
+
+                    // Set the night mode theme
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    //Save "nightModeOn = false" to sharedPref and...
+                    prefs.edit().putBoolean(nightModeBooleanKey, false).apply();
+
+                    // Set the theme as not being night mode yo
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+
+                // Differs from Main activity so that we start from the Main Activity on reload
+                Intent intent = new Intent(this, MainActivity.class);
+                finish();
+                startActivity(intent);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     /**
      * Timer Buttons onClick
@@ -340,102 +418,10 @@ public class DetailActivity extends AppCompatActivity {
         isFavorite = timerVM.isFavoriteTimer();
     }
 
-
-    /**
-     *
-     * Options menu
-     *
-     */
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate menu
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.settings_menu, menu);
-        return true;
-    }
-
-    // Differs slightly from the version in the MainActivity with the intent at the end
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.about:
-                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.nightMode:
-                Toast.makeText(this, "Night Mode Activate!", Toast.LENGTH_SHORT).show();
-
-                // Get shared Prefs reference and toggle NightMode
-                SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
-                if (!nightModeEnabled) {
-                    nightModeEnabled = true;
-                } else {
-                    nightModeEnabled = false;
-                }
-
-                // Save the correct nightModeEnabled value to preferences and change the app to nightMode
-                if (nightModeEnabled) {
-                    //Save "nightModeOn = true" to sharedPref and....
-                    prefs.edit().putBoolean(nightModeBooleanKey, true).apply();
-
-                    // Set the night mode theme
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                } else {
-                    //Save "nightModeOn = false" to sharedPref and...
-                    prefs.edit().putBoolean(nightModeBooleanKey, false).apply();
-
-                    // Set the theme as not being night mode yo
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
-
-                // Differs from Main activity so that we start from the Main Activity on reload
-                Intent intent = new Intent(this, MainActivity.class);
-                finish();
-                startActivity(intent);
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    /**
-     * onPause/onDestroy
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Todo: Review options
-        // Get the time just before the app is killed
-        timeAfterLife = SystemClock.elapsedRealtime();
-
-        // Set TimerViewModel data
-        SetTimerVMData();
-
-        // Update our category object with relevant data and update database with it
-        currentCategory.setTotalTime(sumOfTime);
-        currentCategory.setDisplayTime(displayTime);
-        currentCategory.setTimeAfterLife(timeAfterLife);
-        currentCategory.setTimerRunning(timerRunning);
-        currentCategory.setFavorite(isFavorite);
-        categoryVM.updateCategory(currentCategory);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        // Get the time just before the app is killed
-        timeAfterLife = SystemClock.elapsedRealtime();
-
-        // Set TimerViewModel data
-        SetTimerVMData();
-
-        // Update our category object with relevant data and update database with it
-        currentCategory.setTotalTime(sumOfTime);
-        currentCategory.setDisplayTime(displayTime);
-        currentCategory.setTimeAfterLife(timeAfterLife);
-        currentCategory.setTimerRunning(timerRunning);
-        currentCategory.setFavorite(isFavorite);
-        categoryVM.updateCategory(currentCategory);
+    public void UpdateCategory() {
+        // Create new category object with relevant data and update database with it
+        Category category = new Category(categoryID, categoryTitleString, sumOfTime,
+                                         displayTime, timeAfterLife, timerRunning, isFavorite);
+        categoryVM.updateCategory(category);
     }
 }
