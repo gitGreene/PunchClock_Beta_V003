@@ -21,7 +21,7 @@ import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Fragments.AddCategoryFragment;
 import co.codemaestro.punchclock_beta_v003.Fragments.FavoritesFragment;
 import co.codemaestro.punchclock_beta_v003.Fragments.HomeFragment;
-import co.codemaestro.punchclock_beta_v003.Fragments.SettingsFragment;
+import co.codemaestro.punchclock_beta_v003.Fragments.TimerFragment;
 import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 
@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements
                                 fragment = new FavoritesFragment();
                                 newPosition = 2;
                                 break;
-                            case R.id.bottom_nav_settings:
-                                fragment = new SettingsFragment();
+                            case R.id.bottom_nav_timer:
+                                fragment = new TimerFragment();
                                 newPosition = 3;
                                 break;
                         }
@@ -135,30 +135,27 @@ public class MainActivity extends AppCompatActivity implements
                 return true;
             case R.id.nightMode:
                 Toast.makeText(this, "Night Mode Activate!", Toast.LENGTH_SHORT).show();
-
                 // Get shared Prefs reference and toggle NightMode
                 SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
-                if (!nightModeEnabled) { nightModeEnabled = true; }
-                else { nightModeEnabled = false; }
-
+                if (!nightModeEnabled) {
+                    nightModeEnabled = true;
+                }
+                else {
+                    nightModeEnabled = false;
+                }
                 // Save the correct nightModeEnabled value to preferences and change the app to nightMode
                 if (nightModeEnabled) {
                     //Save "nightModeOn = true" to sharedPref and....
                     prefs.edit().putBoolean(nightModeBooleanKey, true).apply();
-
                     // Set the night mode theme
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
-
                     //Save "nightModeOn = false" to sharedPref and...
                     prefs.edit().putBoolean(nightModeBooleanKey, false).apply();
-
                     // Set the theme as not being night mode yo
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
                 }
                 recreate();
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

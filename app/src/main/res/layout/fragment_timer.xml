@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.SettingsFragment"
+    tools:context=".Fragments.TimerFragment"
     android:background="@color/colorBackground">
 
     <TextView
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:text="Settings"
+        android:text="Timer Fragment"
         android:textSize="70sp"
         android:gravity="center"/>
 </FrameLayout>

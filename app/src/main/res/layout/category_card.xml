@@ -31,9 +31,7 @@
                 style="@style/time_bank_title"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:fontFamily="@font/droid_sans"/>
-
+                app:layout_constraintLeft_toLeftOf="parent" />
         </android.support.constraint.ConstraintLayout>
 
 
@@ -51,8 +49,7 @@
                 android:paddingLeft="10dp"
                 android:textColor="@color/secondaryTextColor"
                 android:textSize="24sp"
-                tools:text="Time Bank Value"
-                android:fontFamily="@font/droid_sans"/>
+                tools:text="Time Bank Value" />
 
             <Button
                 android:id="@+id/playButton"
