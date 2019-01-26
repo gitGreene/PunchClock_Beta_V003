@@ -61,7 +61,8 @@ public class DetailActivity extends AppCompatActivity {
     boolean timerRunning, nightModeEnabled, isFavorite;
     String categoryTitleString, currentDate;
     int categoryID;
-    long sumOfTime;
+    private long startTime, displayTime, timeAfterLife, sumOfTime;
+    private CountDownTimer timer;
 
     WeakReference<TextView> testTextViewReference;
 
@@ -74,9 +75,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
 
 
-    // New timer variables
-    private long startTime, displayTime, timeAfterLife;
-    private CountDownTimer timer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,33 +92,14 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        //Todo: This data is "transient data", as in we need this shit to update the UI...
-        //Todo: Therefore we'll make a viewmodel that we'll ignore the intent aspec and update the VIewmodel instead
-
         // Instantiate timerVM
-//        timerVM = ViewModelProviders.of(this).get(TimerViewModel.class);
-
-        // Get extras from Intent
-        categoryID = getIntent().getIntExtra("category_id", -1);
-        categoryTitleString = getIntent().getStringExtra("category_title");
-        displayTime = getIntent().getLongExtra("display_time", 0L);
-        timeAfterLife = getIntent().getLongExtra("timer_after_life", 0L);
-        timerRunning = getIntent().getBooleanExtra("is_running", false);
-        isFavorite = getIntent().getBooleanExtra("is_favorite", false);
-
-//        if (categoryID == -1) {
-//            timerVM.setCategoryIDTimer(categoryID);
-//            timerVM.setCategoryTitleStringTimer(categoryTitleString);
-//            timerVM.setDisplayTimeTimer(displayTime);
-//            timerVM.setTimeAfterLifeTimer(timeAfterLife);
-//            timerVM.setTimerRunningTimer(timerRunning);
-//        } else {
-//            categoryID = timerVM.getCategoryIDTimer();
-//            categoryTitleString = timerVM.getCategoryTitleStringTimer();
-//            displayTime = timerVM.getDisplayTimeTimer();
-//            timeAfterLife = timerVM.getTimeAfterLifeTimer();
-//            timerRunning = timerVM.isTimerRunningTimer();
-//        }
+        timerVM = ViewModelProviders.of(this).get(TimerViewModel.class);
+        if (timerVM.getCategoryIDTimer() == 0) { // Get Intent extras and set the View Model
+            GetIntentExtras();
+            SetTimerVMData();
+        } else { // Or get the data from the ViewModel(after configuration changes)
+            GetTimerVMData();
+        }
 
         // Instantiate a new category with our new values(totalTime is not needed here so it can remain 0 until onPause/Destroy)
         currentCategory = new Category(categoryID, categoryTitleString, 0, displayTime, timeAfterLife, timerRunning, isFavorite);
@@ -150,14 +130,7 @@ public class DetailActivity extends AppCompatActivity {
          * ViewModel
          */
         // Get a link to the ViewModel
-
         categoryVM = ViewModelProviders.of(this).get(CategoryViewModel.class);
-
-
-//        // Set categoryView to Category Title String
-//        categoryVM.testGetCategoryTitleString(categoryView, categoryID);
-//        categoryVM.setCategoryTitle(categoryID);
-
 
         // Observer - Updates data set for detailRecyclerView
         categoryVM.getCategoryTimeBanks(categoryID).observe(this, new Observer<List<TimeBank>>() {
@@ -179,6 +152,10 @@ public class DetailActivity extends AppCompatActivity {
                 sumOfTime = sumTime;
             }
         });
+
+        // Set categoryView to Category Title String
+//        categoryVM.testGetCategoryTitleString(categoryView, categoryID);
+//        categoryVM.setCategoryTitle(categoryID);
 
 
         /**
@@ -214,7 +191,6 @@ public class DetailActivity extends AppCompatActivity {
          */
 
         if(timerRunning) { // If timer was running, restart it with the correct values
-
             // Get the time that the app was destroyed for
             timeAfterLife = SystemClock.elapsedRealtime() - timeAfterLife;
 
@@ -254,8 +230,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void pauseButton(View view) {
-        // Get the current date and cancel the timer
-        currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        // Cancel the timer
         timer.cancel();
         timerRunning = false;
         PauseEnabledButtons();
@@ -269,7 +244,8 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void commitButton(View view) {
-        // Create a timeBank object and insert it into the database
+        // Get the current date then Create a timeBank object and insert it into the database
+        currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         TimeBank timeBank = new TimeBank(displayTime, currentDate, categoryID);
         categoryVM.insertTimeBank(timeBank);
 
@@ -277,10 +253,6 @@ public class DetailActivity extends AppCompatActivity {
         displayTime = 0;
         setTimer(0);
         DefaultEnabledButtons();
-    }
-
-    public void resetTimer(View view) {
-
     }
 
     /**
@@ -332,6 +304,40 @@ public class DetailActivity extends AppCompatActivity {
         pauseButton.setEnabled(false);
         resetButton.setEnabled(false);
         commitButton.setEnabled(false);
+    }
+
+    /**
+     * Additional Methods
+     */
+
+    public void GetIntentExtras() {
+        // Get extras from Intent
+        categoryID = getIntent().getIntExtra("category_id", 0);
+        categoryTitleString = getIntent().getStringExtra("category_title");
+        displayTime = getIntent().getLongExtra("display_time", 0L);
+        timeAfterLife = getIntent().getLongExtra("timer_after_life", 0L);
+        timerRunning = getIntent().getBooleanExtra("is_running", false);
+        isFavorite = getIntent().getBooleanExtra("is_favorite", false);
+    }
+
+    public void SetTimerVMData() {
+        // Set TimerViewModel data
+        timerVM.setCategoryIDTimer(categoryID);
+        timerVM.setCategoryTitleStringTimer(categoryTitleString);
+        timerVM.setDisplayTimeTimer(displayTime);
+        timerVM.setTimeAfterLifeTimer(timeAfterLife);
+        timerVM.setTimerRunningTimer(timerRunning);
+        timerVM.setFavoriteTimer(isFavorite);
+    }
+
+    public void GetTimerVMData() {
+        // Get TimerViewModel data
+        categoryID = timerVM.getCategoryIDTimer();
+        categoryTitleString = timerVM.getCategoryTitleStringTimer();
+        displayTime = timerVM.getDisplayTimeTimer();
+        timeAfterLife = timerVM.getTimeAfterLifeTimer();
+        timerRunning = timerVM.isTimerRunningTimer();
+        isFavorite = timerVM.isFavoriteTimer();
     }
 
 
@@ -402,12 +408,8 @@ public class DetailActivity extends AppCompatActivity {
         // Get the time just before the app is killed
         timeAfterLife = SystemClock.elapsedRealtime();
 
-        //  Update the viewModel
-//        timerVM.setCategoryIDTimer(categoryID);
-//        timerVM.setCategoryTitleStringTimer(categoryTitleString);
-//        timerVM.setDisplayTimeTimer(displayTime);
-//        timerVM.setTimeAfterLifeTimer(timeAfterLife);
-//        timerVM.setTimerRunningTimer(timerRunning);
+        // Set TimerViewModel data
+        SetTimerVMData();
 
         // Update our category object with relevant data and update database with it
         currentCategory.setTotalTime(sumOfTime);
@@ -425,12 +427,8 @@ public class DetailActivity extends AppCompatActivity {
         // Get the time just before the app is killed
         timeAfterLife = SystemClock.elapsedRealtime();
 
-        // Update the viewModel
-//        timerVM.setCategoryIDTimer(categoryID);
-//        timerVM.setCategoryTitleStringTimer(categoryTitleString);
-//        timerVM.setDisplayTimeTimer(displayTime);
-//        timerVM.setTimeAfterLifeTimer(timeAfterLife);
-//        timerVM.setTimerRunningTimer(timerRunning);
+        // Set TimerViewModel data
+        SetTimerVMData();
 
         // Update our category object with relevant data and update database with it
         currentCategory.setTotalTime(sumOfTime);
