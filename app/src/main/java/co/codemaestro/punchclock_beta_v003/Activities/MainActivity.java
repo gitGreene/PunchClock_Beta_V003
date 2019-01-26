@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         loadFragment(new HomeFragment(), 1);
+        getSupportActionBar().setTitle(R.string.bottom_nav_home);
         catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
         // FAB
@@ -75,14 +76,17 @@ public class MainActivity extends AppCompatActivity implements
                         switch (menuItem.getItemId()) {
                             case R.id.bottom_nav_home:
                                 fragment = new HomeFragment();
+                                getSupportActionBar().setTitle(R.string.bottom_nav_home);
                                 newPosition = 1;
                                 break;
                             case R.id.bottom_nav_favorites:
                                 fragment = new FavoritesFragment();
+                                getSupportActionBar().setTitle(R.string.bottom_nav_favorites);
                                 newPosition = 2;
                                 break;
                             case R.id.bottom_nav_timer:
                                 fragment = new TimerFragment();
+                                getSupportActionBar().setTitle(R.string.bottom_nav_timer);
                                 newPosition = 3;
                                 break;
                         }
