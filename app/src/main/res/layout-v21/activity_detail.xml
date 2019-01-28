@@ -102,16 +102,44 @@
             android:text=""
             android:textOff=""
             android:textOn="" />
+
+        <ToggleButton
+            android:id="@+id/commitButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/ic_reset_button_selector"
+            android:onClick="commitButton"
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
     </LinearLayout>
 
 
-    <Button
-        android:id="@+id/commitButton"
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="commitButton"
-        android:gravity="center_horizontal"
-        android:text="@string/commit_button" />
+        android:orientation="horizontal"
+        android:background="@color/secondaryLightColor">
+        <TextView
+            android:id="@+id/dateHeaderView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="DATE"
+            android:layout_weight="1"
+            android:textColor="@color/primaryTextColor"/>
+        <TextView
+            android:id="@+id/timeHeaderView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="TIME"
+            android:layout_weight="1"
+            android:textColor="@color/primaryTextColor"/>
+    </LinearLayout>
 
 
     <android.support.v7.widget.RecyclerView
