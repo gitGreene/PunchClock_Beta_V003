@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio1/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_timer_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_playlist_add_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,8 +28,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_timer_black_24dp" />
-                            <entry key="sourceFile" value="C:\Users\mitgreene-c" />
+                            <entry key="opacityPercent" value="50" />
+                            <entry key="outputName" value="ic_commit_button_greyed" />
+                            <entry key="sourceFile" value="$USER_HOME$" />
                           </map>
                         </option>
                       </PersistentState>
