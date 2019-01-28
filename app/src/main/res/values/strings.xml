@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PunchClock</string>
+    <string name="app_name">Punch Clock</string>
 
     <!-- Bottom Nav Labels -->
     <string name="bottom_nav_home">Home</string>

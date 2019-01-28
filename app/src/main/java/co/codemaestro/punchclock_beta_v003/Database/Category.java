@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 @Entity(tableName = "category_table")
 public class Category {
 
-
     /**
      * Column Names
      */
@@ -41,7 +40,6 @@ public class Category {
     /**
      * Constructors
      */
-
 
     @Ignore
     public Category(String category, long totalTime, long displayTime, long timeAfterLife, boolean timerRunning, boolean isFavorite) {
