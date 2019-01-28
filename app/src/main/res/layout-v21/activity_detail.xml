@@ -53,7 +53,6 @@
 
     </android.support.constraint.ConstraintLayout>
 
-
     <TextView
         android:id="@+id/detailTimer"
         android:layout_width="match_parent"
@@ -108,7 +107,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="10dp"
-            android:background="@drawable/ic_reset_button_selector"
+            android:background="@drawable/ic_commit_button_selector"
             android:onClick="commitButton"
             android:text=""
             android:textOff=""
