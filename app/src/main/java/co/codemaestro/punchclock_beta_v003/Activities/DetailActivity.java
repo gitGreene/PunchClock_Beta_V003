@@ -50,9 +50,8 @@ public class DetailActivity extends AppCompatActivity {
 
     // Initiates RecView Chronometer, buttons, timerView and creating a Handler for the runnable
     private RecyclerView detailRecyclerView;
-    private ToggleButton startButton, pauseButton, resetButton, favoriteIcon;
+    private ToggleButton startButton, pauseButton, resetButton, favoriteIcon, commitButton;
     //Todo: Make this button real - ToggleButton?
-    private Button commitButton;
     public TextView categoryView, timerView;
 
     // Variables for Database and UI
