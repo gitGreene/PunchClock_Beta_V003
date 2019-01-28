@@ -16,11 +16,6 @@ public interface CategoryDao {
     // Insert category
     @Insert
     void insert(Category category);
-
-    // Delete all categories
-    @Query("DELETE FROM category_table")
-    void deleteAll();
-
     //
     @Query("SELECT * from category_table")
     LiveData<List<Category>> getAllCategories();
@@ -28,12 +23,6 @@ public interface CategoryDao {
     //
     @Query("SELECT * from category_table LIMIT 1")
     Category[] getAnyCategory();
-
-    @Query("SELECT category from category_table WHERE category = :title")
-    LiveData<String> getCategoryTest(String title);
-
-//    @Query("SELECT category from category_table WHERE id = :id")
-//    Category[] getSpecificCategory(int id);
 
     //
     @Query("SELECT * from category_table WHERE id = :categoryId")
@@ -46,22 +35,6 @@ public interface CategoryDao {
     @Update
     void updateCategory(Category category);
 
-    //
-    @Delete
-    void deleteCategory(Category category);
-
-    //@Query("SELECT * from category_table WHERE isFavorite = 'true'")
-
     @Query("SELECT * from category_table WHERE isFavorite")
     LiveData<List<Category>> getFavorites();
-
-    @Query("UPDATE category_table SET isFavorite = 'true' WHERE id = :id")
-    void setAsFavorite(int id);
-
-    @Query("UPDATE category_table SET isFavorite = 'false' WHERE id = :id")
-    void setAsNotFavorite(int id);
-
-    @Query("SELECT isFavorite from category_table WHERE id = :id")
-    LiveData<Boolean> checkIfFavorite(int id);
-
 }

@@ -4,9 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
-import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import co.codemaestro.punchclock_beta_v003.Database.Category;
@@ -23,8 +21,6 @@ public class CategoryViewModel extends AndroidViewModel {
     private LiveData<List<Category>> favorites;
     private LiveData<Category> category;
 
-    private String categoryTitle;
-
     //Timebank variables
     private LiveData<List<TimeBank>> allTimeBanks;
     private LiveData<List<TimeBank>> categoryTimeBanks;
@@ -36,33 +32,6 @@ public class CategoryViewModel extends AndroidViewModel {
         allCategories = repository.getAllCategories();
         allTimeBanks = repository.getAllTimeBanks();
     }
-
-    /**
-     * Detail Activity non Database
-     */
-
-    //TODO: Integrate this bullshit timer into this bullshit viewmodel
-
-
-    /** Category Methods */
-
-    /** Category */
-
-//    // TODO: test 1
-//    public void testGetCategoryTitleString(TextView textView, int id) {
-//        repository.testGetCategoryTitleString(textView, id);
-//    }
-//
-//    // TODO: test 2
-//    public void setCategoryTitle(int id) {
-//        repository.setCategoryTitle(categoryTitle, id);
-//    }
-
-    // TODO: test 3
-    public String returnCategoryTitle() {
-        return categoryTitle;
-    }
-
 
     public LiveData<List<Category>> getAllCategories() {
         return allCategories;
@@ -81,27 +50,10 @@ public class CategoryViewModel extends AndroidViewModel {
         repository.updateCategory(category);
     }
 
-    public void deleteAll() {
-        repository.deleteAll();
-    }
-
     public LiveData<List<Category>> getFavorites() {
         favorites = repository.getFavorites();
         return favorites;
     }
-
-    public void setAsFavorite(int id) {
-        repository.setAsFavorite(id);
-    }
-
-    public void setAsNotFavorite(int id){
-        repository.setAsNotFavorite(id);
-    }
-
-    public LiveData<Boolean> checkIfFavorite(int id) {
-        return repository.checkIfFavorite(id);
-    }
-
 
     /** TimeBank Methods */
 

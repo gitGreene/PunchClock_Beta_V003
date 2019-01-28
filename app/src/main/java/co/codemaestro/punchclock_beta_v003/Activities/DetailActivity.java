@@ -62,8 +62,6 @@ public class DetailActivity extends AppCompatActivity {
     private long startTime, displayTime, timeAfterLife, sumOfTime;
     private CountDownTimer timer;
 
-    WeakReference<TextView> testTextViewReference;
-
     // Create formatMillis class instance
     FormatMillis format = new FormatMillis();
 
@@ -144,10 +142,6 @@ public class DetailActivity extends AppCompatActivity {
                 sumOfTime = sumTime;
             }
         });
-
-        // Set categoryView to Category Title String
-//        categoryVM.testGetCategoryTitleString(categoryView, categoryID);
-//        categoryVM.setCategoryTitle(categoryID);
 
 
         /**
