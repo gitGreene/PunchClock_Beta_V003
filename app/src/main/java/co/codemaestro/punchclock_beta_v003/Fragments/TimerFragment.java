@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 import co.codemaestro.punchclock_beta_v003.R;
 
@@ -37,6 +38,10 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
 
     public TimerFragment() {
         // Required empty public constructor
+    }
+
+    private static TimerFragment newInstance() {
+        return new TimerFragment();
     }
 
 
