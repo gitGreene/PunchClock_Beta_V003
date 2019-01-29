@@ -11,11 +11,13 @@ import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 
+//Todo: Try/Catch for null warnings in sharedPrefs and other context stuff? Ways to avoid this warning or "fix" it?
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,10 +43,11 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
     private static final String timeAfterLifeKey = "co.codemaestro.punchclock_beta_v003.timeAfterLifeKey";
     private CategoryViewModel categoryVM;
     private ToggleButton startButton, pauseButton, resetButton, commitButton;
+    private Button submitToButton;
     private Spinner categorySpinner;
-    private TextView mainTimerView;
+    private TextView mainTimerView, submitTimeView;
     private FormatMillis format = new FormatMillis();
-    private long startTime, displayTime, timeAfterLife;
+    private long startTime, displayTime, timeAfterLife, submitTime;
     private CountDownTimer timer;
     private boolean timerRunning;
 
@@ -68,11 +72,13 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
 
         // Get references for views
         mainTimerView = view.findViewById(R.id.mainTimer);
+        submitTimeView = view.findViewById(R.id.submitTimeView);
         startButton = view.findViewById(R.id.mainStartButton);
         pauseButton = view.findViewById(R.id.mainPauseButton);
         resetButton = view.findViewById(R.id.mainResetButton);
         commitButton = view.findViewById(R.id.mainCommitButton);
-        categorySpinner = view.findViewById(R.id.spinner);
+        submitToButton = view.findViewById(R.id.submitToButton);
+        categorySpinner = view.findViewById(R.id.categorySpinner);
 
         // set onClickListeners
         startButton.setOnClickListener(this);
@@ -82,11 +88,11 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
 
 
         // Create an array of Strings
-        final ArrayList<String> categoryList = new ArrayList<String>();
+        final ArrayList<String> categoryList = new ArrayList<>();
+
         // Creating adapter for spinner
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_spinner_item, categoryList);
-        // Drop down layout style - list view with radio button
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), R.layout.timer_spinner_item, categoryList);
+        adapter.setDropDownViewResource(R.layout.timer_spinner_dropdown_item);
 
         // Observable for getting all Categories
         categoryVM = ViewModelProviders.of(this).get(CategoryViewModel.class);
@@ -95,9 +101,7 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
             public void onChanged(@Nullable List<Category> categories) {
 
                 // Avoid Null errors
-                if(categories == null || categories.size() == 0) {
-                    // No data in your database, call your api for data
-                } else {
+                if(categories != null || categories.size() != 0) {
                     // Turn the list into an array we can use for the spinner
                     categoryList.clear();
                     for (int i = 0; i < categories.size(); i++) {
@@ -110,7 +114,7 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        // Spinner
+        // categorySpinner on selected
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -122,6 +126,14 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
                 Toast.makeText(getContext(), "Do nothing I guess", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // submitToButton on click
+        submitToButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "Armin is the second hottest girl in this show.... SubmitTime:  " + submitTime, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -196,7 +208,10 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.mainCommitButton:
 
-                Toast.makeText(getContext(), "This doesn't do anything", Toast.LENGTH_SHORT).show();
+                // Get the view and variable ready to be submitted
+                submitTimeView.setText(format.FormatMillisIntoHMS(displayTime));
+                submitTime = displayTime;
+
                 // Reset timer
                 displayTime = 0;
                 setTimer(0);
@@ -261,14 +276,14 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
      */
 
     public void GetSharedPrefs() {
-        final SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_FILE, PREFS_MODE);
+        final SharedPreferences prefs = getContext().getSharedPreferences(PREFS_FILE, PREFS_MODE);
         displayTime = prefs.getLong(displayTimeKey, 0);
         timerRunning = prefs.getBoolean(timerRunningKey, false);
         timeAfterLife = prefs.getLong(timeAfterLifeKey, 0);
     }
 
     public void SaveSharedPrefs(){
-        final SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_FILE, PREFS_MODE);
+        final SharedPreferences prefs = getContext().getSharedPreferences(PREFS_FILE, PREFS_MODE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong(displayTimeKey, displayTime);
         editor.putBoolean(timerRunningKey, timerRunning);
