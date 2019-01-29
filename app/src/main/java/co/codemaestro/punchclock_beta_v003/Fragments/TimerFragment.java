@@ -1,22 +1,32 @@
 package co.codemaestro.punchclock_beta_v003.Fragments;
 
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
+import java.util.ArrayList;
+import java.util.List;
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
+import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.R;
+import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 
 
 /**
@@ -28,7 +38,9 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
     private static final String displayTimeKey = "co.codemaestro.punchclock_beta_v003.displayTimeKey";
     private static final String timerRunningKey = "co.codemaestro.punchclock_beta_v003.timerRunningKey";
     private static final String timeAfterLifeKey = "co.codemaestro.punchclock_beta_v003.timeAfterLifeKey";
+    private CategoryViewModel categoryVM;
     private ToggleButton startButton, pauseButton, resetButton, commitButton;
+    private Spinner categorySpinner;
     private TextView mainTimerView;
     private FormatMillis format = new FormatMillis();
     private long startTime, displayTime, timeAfterLife;
@@ -60,12 +72,59 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
         pauseButton = view.findViewById(R.id.mainPauseButton);
         resetButton = view.findViewById(R.id.mainResetButton);
         commitButton = view.findViewById(R.id.mainCommitButton);
+        categorySpinner = view.findViewById(R.id.spinner);
 
         // set onClickListeners
         startButton.setOnClickListener(this);
         pauseButton.setOnClickListener(this);
         resetButton.setOnClickListener(this);
         commitButton.setOnClickListener(this);
+
+
+        // Create an array of Strings
+        final ArrayList<String> categoryList = new ArrayList<String>();
+        // Creating adapter for spinner
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_spinner_item, categoryList);
+        // Drop down layout style - list view with radio button
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Observable for getting all Categories
+        categoryVM = ViewModelProviders.of(this).get(CategoryViewModel.class);
+        categoryVM.getAllCategories().observe(this, new Observer<List<Category>>() {
+            @Override
+            public void onChanged(@Nullable List<Category> categories) {
+
+                // Avoid Null errors
+                if(categories == null || categories.size() == 0) {
+                    // No data in your database, call your api for data
+                } else {
+                    // Turn the list into an array we can use for the spinner
+                    categoryList.clear();
+                    for (int i = 0; i < categories.size(); i++) {
+                        final Category current = categories.get(i);
+                        categoryList.add(current.getCategory());
+                    }
+                }
+                // Attaching data adapter to spinner
+                categorySpinner.setAdapter(adapter);
+            }
+        });
+
+        // Spinner
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // your code here
+                Toast.makeText(getContext(), "Category: " + categorySpinner.getSelectedItem(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+                Toast.makeText(getContext(), "Do nothing I guess", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         /**
          * Logic Based on the Timer Running/isFavorite
@@ -90,6 +149,11 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
         }
 
         return view;
+    } // End onCreate View
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -194,8 +258,6 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
 
     /**
      * SharedPreferences
-     *
-     * prefs.edit().putBoolean(nightModeBooleanKey, true).apply();
      */
 
     public void GetSharedPrefs() {
