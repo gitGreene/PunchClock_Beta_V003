@@ -22,11 +22,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
+import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
 import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 
@@ -45,6 +51,8 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
     private ToggleButton startButton, pauseButton, resetButton, commitButton;
     private Button submitToButton;
     private Spinner categorySpinner;
+    private List<Category> allCategories;
+    private Category spinnerCategory;
     private TextView mainTimerView, submitTimeView;
     private FormatMillis format = new FormatMillis();
     private long startTime, displayTime, timeAfterLife, submitTime;
@@ -88,10 +96,10 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
 
 
         // Create an array of Strings
-        final ArrayList<String> categoryList = new ArrayList<>();
+        final ArrayList<String> categoryTitleList = new ArrayList<>();
 
         // Creating adapter for spinner
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), R.layout.timer_spinner_item, categoryList);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), R.layout.timer_spinner_item, categoryTitleList);
         adapter.setDropDownViewResource(R.layout.timer_spinner_dropdown_item);
 
         // Observable for getting all Categories
@@ -103,11 +111,13 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
                 // Avoid Null errors
                 if(categories != null || categories.size() != 0) {
                     // Turn the list into an array we can use for the spinner
-                    categoryList.clear();
+                    categoryTitleList.clear();
                     for (int i = 0; i < categories.size(); i++) {
                         final Category current = categories.get(i);
-                        categoryList.add(current.getCategory());
+                        categoryTitleList.add(current.getCategory());
                     }
+                    // Get all of our categories for later
+                    allCategories = categories;
                 }
                 // Attaching data adapter to spinner
                 categorySpinner.setAdapter(adapter);
@@ -119,7 +129,7 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // your code here
-                Toast.makeText(getContext(), "Category: " + categorySpinner.getSelectedItem(), Toast.LENGTH_SHORT).show();
+                spinnerCategory = allCategories.get(position);
             }
 
             @Override
@@ -133,7 +143,25 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
         submitToButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Armin is the second hottest girl in this show.... SubmitTime:  " + submitTime, Toast.LENGTH_LONG).show();
+
+                if (submitTime > 0) {
+                    // Update totalTime and then update the category
+                    long totalTime = spinnerCategory.getTotalTime();
+                    totalTime = totalTime + submitTime;
+                    spinnerCategory.setTotalTime(totalTime);
+                    categoryVM.updateCategory(spinnerCategory);
+
+                    // Get the current date then Create a timeBank object and insert it into the database
+                    String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                    TimeBank timeBank = new TimeBank(submitTime, currentDate, spinnerCategory.getId());
+                    categoryVM.insertTimeBank(timeBank);
+
+                    submitTimeView.setText(R.string.default_timer);
+                    submitTime = 0;
+                } else {
+                    Toast.makeText(getContext(), "There is no value there fool", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
