@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryAdapter;
+import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
@@ -25,12 +26,14 @@ import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
  */
 public class FavoritesFragment extends Fragment {
     private CategoryViewModel categoryViewModel;
+    private static CategoryViewHolder.CategoryCardListener thisListener;
 
     public FavoritesFragment() {
         // Required empty public constructor
     }
 
-    public static FavoritesFragment newInstance() {
+    public static FavoritesFragment newInstance(CategoryViewHolder.CategoryCardListener listener) {
+        thisListener = listener;
         return new FavoritesFragment();
     }
 
@@ -41,7 +44,7 @@ public class FavoritesFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_favorites, container, false);
         final RecyclerView favoritesRecycler = view.findViewById(R.id.favorites_recyclerview);
-        final CategoryAdapter favoritesAdapter = new CategoryAdapter(getContext());
+        final CategoryAdapter favoritesAdapter = new CategoryAdapter(getContext(), thisListener);
         favoritesRecycler.setLayoutManager(new GridLayoutManager(getContext(), 1));
         favoritesRecycler.setAdapter(favoritesAdapter);
 

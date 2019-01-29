@@ -9,13 +9,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryAdapter;
+import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.R;
@@ -26,10 +29,17 @@ import co.codemaestro.punchclock_beta_v003.R;
  */
 public class HomeFragment extends Fragment {
     private CategoryViewModel catViewModel;
+    private static CategoryViewHolder.CategoryCardListener thisListener;
+    private static final String TAG = "TAG";
 
 
     public HomeFragment() {
         // Required empty public constructor
+    }
+
+    public static HomeFragment newInstance(CategoryViewHolder.CategoryCardListener listener) {
+        thisListener = listener;
+        return new HomeFragment();
     }
 
 
@@ -39,7 +49,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
         final RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
-        final CategoryAdapter adapter = new CategoryAdapter(getContext());
+        final CategoryAdapter adapter = new CategoryAdapter(getContext(), thisListener);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         recyclerView.setAdapter(adapter);
 
@@ -55,5 +65,4 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-
 }
