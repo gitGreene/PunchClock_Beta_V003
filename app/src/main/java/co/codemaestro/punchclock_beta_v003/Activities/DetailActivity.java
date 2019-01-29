@@ -192,6 +192,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
+        // TODO: Pull isFavorite from DB instead of intent
         // Set the favoriteIcon correctly
         if (isFavorite){
             favoriteIcon.setChecked(true);
