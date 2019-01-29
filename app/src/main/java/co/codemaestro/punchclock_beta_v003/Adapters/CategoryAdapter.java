@@ -12,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.List;
 
@@ -23,23 +25,27 @@ import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Activities.DetailActivity;
 import co.codemaestro.punchclock_beta_v003.R;
+import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 import co.codemaestro.punchclock_beta_v003.ViewModel.TimerViewModel;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
     private TimerViewModel timerViewModel;
     FormatMillis format = new FormatMillis();
-    private final LayoutInflater inflater;
     private List<Category> categories;
     private Context context;
 
     public CategoryAdapter(Context context) {
-        inflater = LayoutInflater.from(context);
         this.context = context;
     }
 
+    // Passes the list of categories we received from the Observer
+    //
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+
+        // Notifies the adapter that the underlying data has changed
+        // Therefore causing the Adapter to refresh
         notifyDataSetChanged();
     }
 
@@ -50,50 +56,74 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         } else return 0;
     }
 
-
-    @Override
-    public void onBindViewHolder(final CategoryViewHolder holder, int position) {
-        if(categories != null) {
-            final Category current = categories.get(position);
-            holder.timeBankTitleView.setText(current.getCategory());
-            holder.timeBankValueView.setText(format.FormatMillisIntoHMS(current.getTotalTime()));
-            holder.playButton.setText(R.string.play_button);
-            holder.playButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // TODO: Make this open DetailActivity + Start Timer
-                    Toast.makeText(context, "Damn son: " + current.getCategory(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(context);
         View itemView = inflater.inflate(R.layout.category_card, parent, false);
 
         return new CategoryViewHolder(itemView);
     }
 
+    @Override
+    public void onBindViewHolder(final CategoryViewHolder holder, int position) {
+        holder.setCategory(categories.get(position));
+        final Category current = categories.get(position);
+        holder.favoriteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(current.isFavorite()) {
+                    holder.favoriteIcon.setChecked(true);
+                } else {
+                    holder.favoriteIcon.setChecked(false);
+                }
+            }
+        });
+    }
 
 
     class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView timeBankTitleView;
         private final TextView timeBankValueView;
         private final Button playButton;
-        private final ConstraintLayout categoryCardTitle;
+        private final ToggleButton favoriteIcon;
         private final LinearLayout categoryCardLayout;
 
+        Category category;
 
         private CategoryViewHolder(View itemView) {
             super(itemView);
             timeBankTitleView = itemView.findViewById(R.id.timeBankTitle);
             timeBankValueView = itemView.findViewById(R.id.timeBankValue);
             playButton = itemView.findViewById(R.id.playButton);
-            categoryCardTitle = itemView.findViewById(R.id.category_title_container_card);
             categoryCardLayout = itemView.findViewById(R.id.card_layout);
-
+            favoriteIcon = itemView.findViewById(R.id.favorite_icon);
             itemView.setOnClickListener(this);
+
+
+
+            favoriteIcon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked) {
+                        category.setFavorite(true);
+                    } else {
+                        category.setFavorite(false);
+                    }
+                }
+            });
+
+        }
+
+        public void setCategory(final Category category) {
+            this.category = category;
+            timeBankTitleView.setText(category.getCategory());
+            timeBankValueView.setText(format.FormatMillisIntoHMS(category.getTotalTime()));
+            playButton.setText(R.string.play_button);
+            if(category.isFavorite()) {
+                favoriteIcon.setChecked(true);
+            } else {
+                favoriteIcon.setChecked(false);
+            }
         }
 
         @Override
