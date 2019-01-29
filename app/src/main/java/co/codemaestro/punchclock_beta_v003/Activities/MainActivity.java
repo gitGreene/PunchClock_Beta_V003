@@ -52,8 +52,9 @@ public class MainActivity extends AppCompatActivity implements
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
 
+        HomeFragment fragment = HomeFragment.newInstance(this);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, new HomeFragment());
+        transaction.replace(R.id.container, fragment);
         transaction.commit();
         getSupportActionBar().setTitle(R.string.bottom_nav_home);
 
