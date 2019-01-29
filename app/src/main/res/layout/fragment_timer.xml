@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,16 +7,11 @@
     android:background="@color/colorBackground"
     tools:context=".Fragments.TimerFragment">
 
+    <!--//TODO: Why is this frameLayout ^^^ here?-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dropdown" />
 
         <TextView
             android:id="@+id/mainTimer"
@@ -71,7 +67,47 @@
                 android:text=""
                 android:textOff=""
                 android:textOn="" />
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/submitTimeView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/default_timer"
+            android:layout_weight="1"
+            android:textSize="40sp"
+            android:padding="5dp"
+            android:gravity="center"
+            android:background="@color/secondaryColor"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/categorySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:layout_weight="1"
+                android:background="@color/secondaryColor"
+                tools:listitem="@layout/timer_spinner_item"/>
+
+            <Button
+                android:text="submit"
+                android:id="@+id/submitToButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="24sp"
+                android:background="@color/secondaryColor"/>
+
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </FrameLayout>
