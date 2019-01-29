@@ -43,6 +43,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     //
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+
         // Notifies the adapter that the underlying data has changed
         // Therefore causing the Adapter to refresh
         notifyDataSetChanged();
