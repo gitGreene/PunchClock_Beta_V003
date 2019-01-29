@@ -51,6 +51,9 @@ public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAd
 
     public void setTimeBanks(List<TimeBank> timeBanks) {
         this.timeBanks = timeBanks;
+
+        // Notifies the adapter that the underlying data has changed
+        // Therefore causing the Adapter to refresh
         notifyDataSetChanged();
     }
 

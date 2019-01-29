@@ -17,6 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Fragments.AddCategoryFragment;
 import co.codemaestro.punchclock_beta_v003.Fragments.FavoritesFragment;
@@ -26,7 +28,7 @@ import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 
 public class MainActivity extends AppCompatActivity implements
-        AddCategoryFragment.AddCategoryFragmentListener{
+        AddCategoryFragment.AddCategoryFragmentListener, CategoryViewHolder.CategoryCardListener {
 
     private CategoryViewModel catViewModel;
     private BottomNavigationView bottomNav;
@@ -50,8 +52,12 @@ public class MainActivity extends AppCompatActivity implements
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
 
-        loadFragment(new HomeFragment(), 1);
+        HomeFragment fragment = HomeFragment.newInstance(this);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
         getSupportActionBar().setTitle(R.string.bottom_nav_home);
+
         catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
         // FAB
@@ -70,33 +76,41 @@ public class MainActivity extends AppCompatActivity implements
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        Fragment fragment = null;
                         int newPosition = 0;
 
                         switch (menuItem.getItemId()) {
                             case R.id.bottom_nav_home:
-                                fragment = new HomeFragment();
                                 getSupportActionBar().setTitle(R.string.bottom_nav_home);
                                 newPosition = 1;
                                 break;
                             case R.id.bottom_nav_favorites:
-                                fragment = new FavoritesFragment();
                                 getSupportActionBar().setTitle(R.string.bottom_nav_favorites);
                                 newPosition = 2;
                                 break;
                             case R.id.bottom_nav_timer:
-                                fragment = new TimerFragment();
                                 getSupportActionBar().setTitle(R.string.bottom_nav_timer);
                                 newPosition = 3;
                                 break;
                         }
-                        return loadFragment(fragment, newPosition);
+                        return loadFragment(newPosition);
                     }
                 }
         );
     } // End of onCreate
 
-    private boolean loadFragment(Fragment fragment, int newPosition) {
+    private boolean loadFragment(int newPosition) {
+        Fragment fragment = null;
+        switch (newPosition) {
+            case 1:
+                fragment = HomeFragment.newInstance(this);
+                break;
+            case 2:
+                fragment = FavoritesFragment.newInstance(this);
+                break;
+            case 3:
+                fragment = new TimerFragment();
+                break;
+        }
         if(fragment != null) {
             if(startingPosition > newPosition) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -164,5 +178,10 @@ public class MainActivity extends AppCompatActivity implements
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onFavoriteIconClicked(boolean newFavoriteValue, Category category) {
+        catViewModel.updateCategory(category);
     }
 }
