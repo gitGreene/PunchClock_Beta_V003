@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
     private boolean nightModeEnabled = false;
     private int startingPosition = 0;
-    private static final String TAG = "TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +52,11 @@ public class MainActivity extends AppCompatActivity implements
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
 
-        loadFragment(1);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, new HomeFragment());
+        transaction.commit();
         getSupportActionBar().setTitle(R.string.bottom_nav_home);
+
         catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
         // FAB
