@@ -1,7 +1,7 @@
 package co.codemaestro.punchclock_beta_v003.Classes;
 
 public class FormatMillis {
-    String time;
+    private String time;
 
     public String FormatMillisIntoHMS(long milliseconds) {
 
@@ -20,23 +20,22 @@ public class FormatMillis {
         return time;
     }
 
-    String FormatLongIntoHMS(Long milliseconds) {
+    public String FormatMillisIntoHMMeridiem(long milliseconds) {
+        int hours, minutes;
 
-        int seconds, minutes, hours;
-
-        //Turn millisecondsLong into ints and h/m/s
-        seconds = (int) (milliseconds/1000);
-        minutes = seconds/60;
+        //Turn milliseconds into ints and h/m
+        minutes = (int)(milliseconds/60000);
         hours = minutes/60;
-        // Mod those ints to keep them from 0-59
-        seconds = seconds % 60;
+
         minutes = minutes % 60;
-        hours = hours % 60;
-        // Update the timer and do String.format magic
-        time = (String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds));
+
+        time = (String.format("%02d", hours) + ":" + String.format("%02d", minutes));
+
+        if (milliseconds >= 43200000) {
+            time = time + "am";
+        } else {
+            time = time+ "pm";
+        }
         return time;
     }
-
-
-
 }

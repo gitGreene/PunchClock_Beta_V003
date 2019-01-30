@@ -50,7 +50,6 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         this.categories = categories;
         this.context = context;
         itemView.setOnClickListener(this);
-
     }
 
     public void setCategory(final Category category) {

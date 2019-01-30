@@ -152,8 +152,9 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
                     categoryVM.updateCategory(spinnerCategory);
 
                     // Get the current date then Create a timeBank object and insert it into the database
-                    String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                    TimeBank timeBank = new TimeBank(submitTime, currentDate, spinnerCategory.getId());
+                    String currentDate = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(new Date());
+                    String endTime = new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(new Date());
+                    TimeBank timeBank = new TimeBank(submitTime, endTime, currentDate, spinnerCategory.getId());
                     categoryVM.insertTimeBank(timeBank);
 
                     submitTimeView.setText(R.string.default_timer);

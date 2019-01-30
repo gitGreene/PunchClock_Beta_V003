@@ -18,7 +18,7 @@ public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAd
 
 
     // FormatMillis object
-    FormatMillis format = new FormatMillis();
+    FormatMillis form = new FormatMillis();
 
     // Our data
     private List<TimeBank> timeBanks = new ArrayList<>();
@@ -38,9 +38,9 @@ public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAd
         //Create a TimeBank object with the relevant position
         TimeBank currentTimeBank = timeBanks.get(position);
         //Use the holder to set the text to the correct values in database, correctly formatting the time
+        detailTimeBankHolder.textViewEndTime.setText(currentTimeBank.getEndTime());
+        detailTimeBankHolder.textViewTime.setText(form.FormatMillisIntoHMS(currentTimeBank.getTimeValue()));
         detailTimeBankHolder.textViewDate.setText(currentTimeBank.getDate());
-        detailTimeBankHolder.textViewTime.setText(format.FormatMillisIntoHMS(currentTimeBank.getTimeValue()));
-
     }
 
     @Override
@@ -58,14 +58,14 @@ public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAd
     }
 
     class DetailTimeBankHolder extends RecyclerView.ViewHolder {
-        private TextView textViewDate;
-        private TextView textViewTime;
+        private TextView textViewDate, textViewTime, textViewEndTime;
 
         public DetailTimeBankHolder(@NonNull View itemView) {
             super(itemView);
 
             textViewDate = itemView.findViewById(R.id.textViewDate);
             textViewTime = itemView.findViewById(R.id.textViewTime);
+            textViewEndTime = itemView.findViewById(R.id.textViewEndTime);
         }
     }
 

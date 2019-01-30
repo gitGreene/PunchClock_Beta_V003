@@ -2,7 +2,6 @@ package co.codemaestro.punchclock_beta_v003.Activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.persistence.room.Update;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,14 +20,13 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.ScaleAnimation;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -55,13 +53,13 @@ public class DetailActivity extends AppCompatActivity {
 
     // Variables for Database and UI
     boolean timerRunning, nightModeEnabled, isFavorite;
-    String categoryTitleString, currentDate;
+    String categoryTitleString;
     int categoryID;
     private long startTime, displayTime, timeAfterLife, sumOfTime;
     private CountDownTimer timer;
 
     // Create formatMillis class instance
-    FormatMillis format = new FormatMillis();
+    FormatMillis form = new FormatMillis();
 
     // Variables for sharedPrefs
     private static final String PREFS_FILE = "SharedPreferences";
@@ -316,8 +314,11 @@ public class DetailActivity extends AppCompatActivity {
 
     public void commitButton(View view) {
         // Get the current date then Create a timeBank object and insert it into the database
-        currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-        TimeBank timeBank = new TimeBank(displayTime, currentDate, categoryID);
+        //Todo: Make form.Methods for these
+        String endTime = new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(new Date());
+        String currentDate = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(new Date());
+
+        TimeBank timeBank = new TimeBank(displayTime, endTime, currentDate, categoryID);
         categoryVM.insertTimeBank(timeBank);
 
         // Reset timer
@@ -346,7 +347,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
     public void setTimer(long displayTime) {
-        timerView.setText(format.FormatMillisIntoHMS(displayTime));
+        timerView.setText(form.FormatMillisIntoHMS(displayTime));
     }
 
     /**
