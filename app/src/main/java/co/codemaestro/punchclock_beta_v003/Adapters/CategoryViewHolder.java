@@ -8,6 +8,9 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -63,9 +66,21 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
             favoriteIcon.setChecked(false);
         }
 
+        final ScaleAnimation scaleAnimation =
+                new ScaleAnimation(0.9f, 1.1f, 0.9f, 1.1f,
+                        Animation.RELATIVE_TO_SELF, 0.7f,
+                        Animation.RELATIVE_TO_SELF, 0.7f);
+
+        scaleAnimation.setDuration(200);
+        BounceInterpolator bounceInterpolator = new BounceInterpolator();
+        scaleAnimation.setInterpolator(bounceInterpolator);
+
+
         favoriteIcon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                buttonView.startAnimation(scaleAnimation);
+
                 if(isChecked) {
                     category.setFavorite(true);
                     listener.onFavoriteIconClicked(true, category);
@@ -89,7 +104,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         detailIntent.putExtra("display_time", currentCategory.getDisplayTime());
         detailIntent.putExtra("timer_after_life", currentCategory.getTimeAfterLife());
         detailIntent.putExtra("is_running", currentCategory.isTimerRunning());
-        detailIntent.putExtra("is_favorite", currentCategory.isFavorite());
+//        detailIntent.putExtra("is_favorite", currentCategory.isFavorite());
 
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, categoryCardLayout, ViewCompat.getTransitionName(categoryCardLayout));

@@ -66,6 +66,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
 
     String startTime;
+    Category currentCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,24 @@ public class DetailActivity extends AppCompatActivity {
         // Get a link to the ViewModel
         categoryVM = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
+        categoryVM.getAllCategories().observe(this, new Observer<List<Category>>() {
+            @Override
+            public void onChanged(@Nullable List<Category> categories) {
+                // Avoid Null errors
+                if(categories != null || categories.size() != 0) {
+                    currentCategory = categories.get(categoryID-1);
+                    isFavorite = currentCategory.isFavorite();
+                    // TODO: Pull isFavorite from DB instead of intent
+                    // Set the favoriteIcon correctly
+                    if (isFavorite){
+                        favoriteIcon.setChecked(true);
+                    } else {
+                        favoriteIcon.setChecked(false);
+                    }
+                }
+            }
+        });
+
         // Observer - Updates data set for detailRecyclerView
         categoryVM.getCategoryTimeBanks(categoryID).observe(this, new Observer<List<TimeBank>>() {
             @Override
@@ -161,9 +180,11 @@ public class DetailActivity extends AppCompatActivity {
                 buttonView.startAnimation(scaleAnimation);
 
                 if(isChecked) {
-                    isFavorite = true;
+                    currentCategory.setFavorite(true);
+                    categoryVM.updateCategory(currentCategory);
                 } else {
-                    isFavorite = false;
+                    currentCategory.setFavorite(false);
+                    categoryVM.updateCategory(currentCategory);
                 }
             }
         });
@@ -177,7 +198,7 @@ public class DetailActivity extends AppCompatActivity {
             // Get the time that the app was destroyed for
             timeAfterLife = SystemClock.elapsedRealtime() - timeAfterLife;
 
-            // Set the initialTime to the adjusted time and start the timer
+            // Set the xxxxx to the adjusted time and start the timer
             initialTime = SystemClock.elapsedRealtime() - displayTime - timeAfterLife;
             startTimer();
             StartEnabledButtons();
@@ -191,13 +212,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
-        // TODO: Pull isFavorite from DB instead of intent
-        // Set the favoriteIcon correctly
-        if (isFavorite){
-            favoriteIcon.setChecked(true);
-        } else {
-            favoriteIcon.setChecked(false);
-        }
+
 
     } // End of onCreate
 
@@ -209,13 +224,13 @@ public class DetailActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        // Todo: Review options
-        // Get the time just before the app is killed
-        timeAfterLife = SystemClock.elapsedRealtime();
-
-        // Set TimerViewModel data and update Category in database
-        SetTimerVMData();
-        UpdateCategory();
+//        // Todo: Review options
+//        // Get the time just before the app is killed
+//        timeAfterLife = SystemClock.elapsedRealtime();
+//
+//        // Set TimerViewModel data and update Category in database
+//        SetTimerVMData();
+//        UpdateCategory();
     }
 
     @Override
@@ -393,7 +408,7 @@ public class DetailActivity extends AppCompatActivity {
         displayTime = getIntent().getLongExtra("display_time", 0L);
         timeAfterLife = getIntent().getLongExtra("timer_after_life", 0L);
         timerRunning = getIntent().getBooleanExtra("is_running", false);
-        isFavorite = getIntent().getBooleanExtra("is_favorite", false);
+//        isFavorite = getIntent().getBooleanExtra("is_favorite", false);
     }
 
     public void SetTimerVMData() {
@@ -418,8 +433,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public void UpdateCategory() {
         // Create new category object with relevant data and update database with it
-        Category category = new Category(categoryID, categoryTitleString, sumOfTime,
-                                         displayTime, timeAfterLife, timerRunning, isFavorite);
-        categoryVM.updateCategory(category);
+//        Category category = new Category(categoryID, categoryTitleString, sumOfTime, displayTime, timeAfterLife, timerRunning, isFavorite);
+        categoryVM.updateCategory(currentCategory);
     }
 }
