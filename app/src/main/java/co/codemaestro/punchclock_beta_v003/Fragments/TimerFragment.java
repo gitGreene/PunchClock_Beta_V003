@@ -2,7 +2,6 @@ package co.codemaestro.punchclock_beta_v003.Fragments;
 
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,7 +10,6 @@ import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +27,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
@@ -47,6 +44,7 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
     private static final String displayTimeKey = "co.codemaestro.punchclock_beta_v003.displayTimeKey";
     private static final String timerRunningKey = "co.codemaestro.punchclock_beta_v003.timerRunningKey";
     private static final String timeAfterLifeKey = "co.codemaestro.punchclock_beta_v003.timeAfterLifeKey";
+    private static final String startTimeStringKey = "co.codemaestro.punchclock_beta_v003.timeStartTime";
     private CategoryViewModel categoryVM;
     private ToggleButton startButton, pauseButton, resetButton, commitButton;
     private Button submitToButton;
@@ -55,9 +53,10 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
     private Category spinnerCategory;
     private TextView mainTimerView, submitTimeView;
     private FormatMillis format = new FormatMillis();
-    private long startTime, displayTime, timeAfterLife, submitTime;
+    private long initialTime, displayTime, timeAfterLife, submitTime;
     private CountDownTimer timer;
     private boolean timerRunning;
+    private String startTime;
 
 
     public TimerFragment() {
@@ -152,8 +151,9 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
                     categoryVM.updateCategory(spinnerCategory);
 
                     // Get the current date then Create a timeBank object and insert it into the database
-                    String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                    TimeBank timeBank = new TimeBank(submitTime, currentDate, spinnerCategory.getId());
+                    String currentDate = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(new Date());
+                    String endTime = new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(new Date());
+                    TimeBank timeBank = new TimeBank(submitTime, startTime, endTime, currentDate, spinnerCategory.getId());
                     categoryVM.insertTimeBank(timeBank);
 
                     submitTimeView.setText(R.string.default_timer);
@@ -174,8 +174,8 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
             // Get the time that the app was destroyed for
             timeAfterLife = SystemClock.elapsedRealtime() - timeAfterLife;
 
-            // Set the startTime to the adjusted time and start the timer
-            startTime = SystemClock.elapsedRealtime() - displayTime - timeAfterLife;
+            // Set the initialTime to the adjusted time and start the timer
+            initialTime = SystemClock.elapsedRealtime() - displayTime - timeAfterLife;
             startTimer();
             StartEnabledButtons();
 
@@ -190,11 +190,6 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
 
         return view;
     } // End onCreate View
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
 
     @Override
     public void onPause() {
@@ -216,11 +211,12 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mainStartButton:
-                // Get the startTime and start the Timer
-                startTime = SystemClock.elapsedRealtime() - displayTime;
+                // Get the initialTime and start the Timer
+                initialTime = SystemClock.elapsedRealtime() - displayTime;
                 startTimer();
                 timerRunning = true;
                 StartEnabledButtons();
+                startTime = new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(new Date());
                 break;
             case R.id.mainPauseButton:
                 // Cancel the timer
@@ -256,7 +252,7 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
         timer = new CountDownTimer(86400000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                displayTime = SystemClock.elapsedRealtime() - startTime;
+                displayTime = SystemClock.elapsedRealtime() - initialTime;
                 setTimer(displayTime);
             }
             @Override

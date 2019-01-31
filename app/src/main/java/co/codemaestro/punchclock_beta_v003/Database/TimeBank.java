@@ -27,6 +27,12 @@ public class TimeBank {
     @ColumnInfo(name = "timeValue")
     private long timeValue;
 
+    @ColumnInfo(name = "startTime")
+    private String startTime;
+
+    @ColumnInfo(name = "endTime")
+    private String endTime;
+
     @ColumnInfo(name = "date")
     private String date;
 
@@ -39,27 +45,20 @@ public class TimeBank {
      */
 
     @Ignore
-    public TimeBank(long timeValue) {
+    public TimeBank(long timeValue, String startTime, String endTime, String date, int categoryId) {
         this.timeValue = timeValue;
-    }
-
-    @Ignore
-    public TimeBank(long timeValue, String date, int categoryId) {
-        this.timeValue = timeValue;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.date = date;
         this.categoryId = categoryId;
     }
 
-    @Ignore
-    public TimeBank(int id, long timeValue, int categoryId ){
-        this.id = id;
-        this.timeValue = timeValue;
-        this.categoryId = categoryId;
-    }
 
-    public TimeBank(int id, long timeValue,  String date, int categoryId){
+    public TimeBank(int id, long timeValue, String startTime, String endTime, String date, int categoryId){
         this.id = id;
         this.timeValue = timeValue;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.date = date;
         this.categoryId = categoryId;
     }
@@ -84,7 +83,24 @@ public class TimeBank {
         this.timeValue = timeValue;
     }
 
-    public String getDate() { return date;
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public void setDate(String date) {
@@ -92,14 +108,10 @@ public class TimeBank {
     }
 
     public int getCategoryId() {
-        return categoryId ;
+        return categoryId;
     }
 
-    public void setCategoryId(int categoryId ) {
-        this.categoryId  = categoryId ;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
-
-
-
-
 }
