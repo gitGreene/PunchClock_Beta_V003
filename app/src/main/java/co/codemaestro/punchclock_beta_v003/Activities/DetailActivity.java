@@ -26,7 +26,6 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -55,7 +54,7 @@ public class DetailActivity extends AppCompatActivity {
     boolean timerRunning, nightModeEnabled, isFavorite;
     String categoryTitleString;
     int categoryID;
-    private long startTime, displayTime, timeAfterLife, sumOfTime;
+    private long initialTime, displayTime, timeAfterLife, sumOfTime;
     private CountDownTimer timer;
 
     // Create formatMillis class instance
@@ -65,6 +64,8 @@ public class DetailActivity extends AppCompatActivity {
     private static final String PREFS_FILE = "SharedPreferences";
     private static final int PREFS_MODE = Context.MODE_PRIVATE;
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
+
+    String startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,8 +177,8 @@ public class DetailActivity extends AppCompatActivity {
             // Get the time that the app was destroyed for
             timeAfterLife = SystemClock.elapsedRealtime() - timeAfterLife;
 
-            // Set the startTime to the adjusted time and start the timer
-            startTime = SystemClock.elapsedRealtime() - displayTime - timeAfterLife;
+            // Set the initialTime to the adjusted time and start the timer
+            initialTime = SystemClock.elapsedRealtime() - displayTime - timeAfterLife;
             startTimer();
             StartEnabledButtons();
 
@@ -291,11 +292,14 @@ public class DetailActivity extends AppCompatActivity {
      */
 
     public void startButton(View view) {
-        // Get the startTime and start the Timer
-        startTime = SystemClock.elapsedRealtime() - displayTime;
+        // Get the initialTime and start the Timer
+        initialTime = SystemClock.elapsedRealtime() - displayTime;
         startTimer();
+
+        //Todo: Loaded startTime
         timerRunning = true;
         StartEnabledButtons();
+        startTime = new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(new Date());
     }
 
     public void pauseButton(View view) {
@@ -318,7 +322,7 @@ public class DetailActivity extends AppCompatActivity {
         String endTime = new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(new Date());
         String currentDate = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(new Date());
 
-        TimeBank timeBank = new TimeBank(displayTime, endTime, currentDate, categoryID);
+        TimeBank timeBank = new TimeBank(displayTime, startTime, endTime, currentDate, categoryID);
         categoryVM.insertTimeBank(timeBank);
 
         // Reset timer
@@ -335,7 +339,7 @@ public class DetailActivity extends AppCompatActivity {
         timer = new CountDownTimer(86400000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                displayTime = SystemClock.elapsedRealtime() - startTime;
+                displayTime = SystemClock.elapsedRealtime() - initialTime;
                 setTimer(displayTime);
             }
             @Override

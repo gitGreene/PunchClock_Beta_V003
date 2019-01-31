@@ -19,23 +19,4 @@ public class FormatMillis {
         time = (String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds));
         return time;
     }
-
-    public String FormatMillisIntoHMMeridiem(long milliseconds) {
-        int hours, minutes;
-
-        //Turn milliseconds into ints and h/m
-        minutes = (int)(milliseconds/60000);
-        hours = minutes/60;
-
-        minutes = minutes % 60;
-
-        time = (String.format("%02d", hours) + ":" + String.format("%02d", minutes));
-
-        if (milliseconds >= 43200000) {
-            time = time + "am";
-        } else {
-            time = time+ "pm";
-        }
-        return time;
-    }
 }

@@ -38,6 +38,7 @@ public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAd
         //Create a TimeBank object with the relevant position
         TimeBank currentTimeBank = timeBanks.get(position);
         //Use the holder to set the text to the correct values in database, correctly formatting the time
+        detailTimeBankHolder.textViewStartTime.setText(currentTimeBank.getStartTime());
         detailTimeBankHolder.textViewEndTime.setText(currentTimeBank.getEndTime());
         detailTimeBankHolder.textViewTime.setText(form.FormatMillisIntoHMS(currentTimeBank.getTimeValue()));
         detailTimeBankHolder.textViewDate.setText(currentTimeBank.getDate());
@@ -58,14 +59,14 @@ public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAd
     }
 
     class DetailTimeBankHolder extends RecyclerView.ViewHolder {
-        private TextView textViewDate, textViewTime, textViewEndTime;
+        private TextView textViewStartTime, textViewEndTime, textViewTime, textViewDate;
 
         public DetailTimeBankHolder(@NonNull View itemView) {
             super(itemView);
-
-            textViewDate = itemView.findViewById(R.id.textViewDate);
-            textViewTime = itemView.findViewById(R.id.textViewTime);
+            textViewStartTime = itemView.findViewById(R.id.textViewStartTime);
             textViewEndTime = itemView.findViewById(R.id.textViewEndTime);
+            textViewTime = itemView.findViewById(R.id.textViewTime);
+            textViewDate = itemView.findViewById(R.id.textViewDate);
         }
     }
 

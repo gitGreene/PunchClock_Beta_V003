@@ -8,14 +8,26 @@
     android:padding="6dp">
 
     <TextView
+        android:id="@+id/textViewStartTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primaryColor"
+        android:textSize="20sp"
+        tools:text="00:00AM"
+        android:layout_weight="1"
+        android:padding="2dp"
+        android:background="@drawable/border"/>
+
+    <TextView
         android:id="@+id/textViewEndTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/primaryColor"
-        android:textSize="24sp"
+        android:textSize="20sp"
         tools:text="00:00AM"
         android:layout_weight="1"
-        android:padding="2dp"/>
+        android:padding="2dp"
+        android:background="@drawable/border"/>
 
     <TextView
         android:id="@+id/textViewTime"
@@ -23,18 +35,20 @@
         android:layout_height="wrap_content"
         android:text="02:26:34"
         android:textColor="@color/primaryColor"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:layout_weight="1"
-        android:padding="2dp"/>
+        android:padding="2dp"
+        android:background="@drawable/border"/>
 
     <TextView
         android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/primaryColor"
-        android:textSize="24sp"
+        android:textSize="20sp"
         tools:text="1991/06/26"
         android:layout_weight="1"
-        android:padding="2dp"/>
+        android:padding="2dp"
+        android:background="@drawable/border"/>
 
 </LinearLayout>

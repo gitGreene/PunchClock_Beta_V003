@@ -123,11 +123,19 @@
         android:orientation="horizontal"
         android:background="@color/secondaryLightColor">
         <TextView
-            android:id="@+id/dateHeaderView"
+            android:id="@+id/startTimeHeaderView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
-            android:text="DATE"
+            android:text="Start"
+            android:layout_weight="1"
+            android:textColor="@color/primaryTextColor"/>
+        <TextView
+            android:id="@+id/endTimeHeaderView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="End"
             android:layout_weight="1"
             android:textColor="@color/primaryTextColor"/>
         <TextView
@@ -138,6 +146,14 @@
             android:text="TIME"
             android:layout_weight="1"
             android:textColor="@color/primaryTextColor"/>
+        <TextView
+            android:id="@+id/dateHeaderView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="DATE"
+            android:layout_weight="1"
+            android:textColor="@color/primaryTextColor"/>
     </LinearLayout>
 
 
@@ -145,8 +161,8 @@
         android:id="@+id/detailRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="12dp"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        tools:listitem="@layout/recyclerview_row_activity_detail"/>
 
 
 </LinearLayout>
