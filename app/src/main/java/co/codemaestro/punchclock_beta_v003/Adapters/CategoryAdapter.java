@@ -36,6 +36,7 @@ public class CategoryAdapter extends RecyclerView.Adapter {
         // Notifies the adapter that the underlying data has changed
         // Therefore causing the Adapter to refresh
         notifyDataSetChanged();
+
     }
 
     @Override

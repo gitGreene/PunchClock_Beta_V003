@@ -2,7 +2,6 @@ package co.codemaestro.punchclock_beta_v003.Activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.persistence.room.Update;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,13 +20,11 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.ScaleAnimation;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -146,7 +143,7 @@ public class DetailActivity extends AppCompatActivity {
          * Favorites
          */
         // Initiates Favorite Icon and Animation
-        favoriteIcon = findViewById(R.id.favorite_icon);
+        favoriteIcon = findViewById(R.id.category_card_favicon);
         final ScaleAnimation scaleAnimation =
                 new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f,
                         Animation.RELATIVE_TO_SELF, 0.7f,

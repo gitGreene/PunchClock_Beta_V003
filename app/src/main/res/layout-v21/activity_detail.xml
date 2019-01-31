@@ -31,12 +31,12 @@
             android:textAlignment="viewStart"
             android:textColor="@color/primaryTextColor"
             android:textSize="50sp"
-            app:layout_constraintEnd_toStartOf="@+id/favorite_icon"
+            app:layout_constraintEnd_toStartOf="@+id/category_card_favicon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ToggleButton
-            android:id="@+id/favorite_icon"
+            android:id="@+id/category_card_favicon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="8dp"
