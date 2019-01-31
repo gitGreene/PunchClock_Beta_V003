@@ -26,10 +26,10 @@ import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.R;
 
 public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private TextView timeBankTitleView;
-    private TextView timeBankValueView;
-    private Button playButton;
-    private ToggleButton favoriteIcon;
+    private TextView categoryCardTitle;
+    private TextView categoryCardTotalTime;
+    private Button categoryCardPlayButton;
+    private ToggleButton categoryCardFavicon;
     private LinearLayout categoryCardLayout;
     private FormatMillis format = new FormatMillis();
     private Category category;
@@ -45,26 +45,28 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
     CategoryViewHolder(View itemView, List<Category> categories, Context context, final CategoryCardListener listener) {
         super(itemView);
         this.listener = listener;
-        timeBankTitleView = itemView.findViewById(R.id.timeBankTitle);
-        timeBankValueView = itemView.findViewById(R.id.timeBankValue);
-        playButton = itemView.findViewById(R.id.playButton);
-        categoryCardLayout = itemView.findViewById(R.id.card_layout);
-        favoriteIcon = itemView.findViewById(R.id.favorite_icon);
         this.categories = categories;
         this.context = context;
+        categoryCardTitle = itemView.findViewById(R.id.category_card_title);
+        categoryCardTotalTime = itemView.findViewById(R.id.category_card_total_time);
+        categoryCardPlayButton = itemView.findViewById(R.id.category_card_play_button);
+        categoryCardLayout = itemView.findViewById(R.id.card_layout);
+        categoryCardFavicon = itemView.findViewById(R.id.category_card_favicon);
+
         itemView.setOnClickListener(this);
     }
 
     public void setCategory(final Category category) {
         this.category = category;
-        timeBankTitleView.setText(category.getCategory());
-        timeBankValueView.setText(format.FormatMillisIntoHMS(category.getTotalTime()));
-        playButton.setText(R.string.play_button);
+        categoryCardTitle.setText(category.getCategory());
+        categoryCardTotalTime.setText(format.FormatMillisIntoHMS(category.getTotalTime()));
+        categoryCardPlayButton.setText(R.string.play_button);
         if (category.isFavorite()) {
-            favoriteIcon.setChecked(true);
+            categoryCardFavicon.setChecked(true);
         } else {
-            favoriteIcon.setChecked(false);
+            categoryCardFavicon.setChecked(false);
         }
+
 
         final ScaleAnimation scaleAnimation =
                 new ScaleAnimation(0.9f, 1.1f, 0.9f, 1.1f,
@@ -75,8 +77,8 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         BounceInterpolator bounceInterpolator = new BounceInterpolator();
         scaleAnimation.setInterpolator(bounceInterpolator);
 
+        categoryCardFavicon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-        favoriteIcon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 buttonView.startAnimation(scaleAnimation);

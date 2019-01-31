@@ -164,7 +164,7 @@ public class DetailActivity extends AppCompatActivity {
          * Favorites
          */
         // Initiates Favorite Icon and Animation
-        favoriteIcon = findViewById(R.id.favorite_icon);
+        favoriteIcon = findViewById(R.id.category_card_favicon);
         final ScaleAnimation scaleAnimation =
                 new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f,
                         Animation.RELATIVE_TO_SELF, 0.7f,
