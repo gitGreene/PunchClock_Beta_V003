@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements
                 fragment = new TimerFragment();
                 break;
         }
+
         if(fragment != null) {
             if(startingPosition > newPosition) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
