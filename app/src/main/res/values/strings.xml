@@ -12,7 +12,6 @@
     <string name="add_category_fragment_cancel">Cancel</string>
 
     <!-- CardView -->
-    <string name="play_button">PLAY</string>
     <string name="default_timer">00:00:00</string>
 
     <!-- Commit Button -->

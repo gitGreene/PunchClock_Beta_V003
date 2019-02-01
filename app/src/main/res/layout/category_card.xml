@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/card_layout"
@@ -23,20 +24,26 @@
             <!-- TODO: Fix Category Title -->
             <TextView
                 android:id="@+id/category_card_title"
+                style="@style/time_bank_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:textSize="27sp"
                 android:background="@color/primaryColor"
                 android:textColor="@color/primaryTextColor"
-                tools:text="Category Title"
-                style="@style/time_bank_title"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/category_card_title_container"
+                tools:text="Category Title" />
 
             <ToggleButton
                 android:id="@+id/category_card_favicon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
                 android:layout_margin="8dp"
                 android:background="@drawable/ic_favorite_heart_selector"
                 android:checked="false"
@@ -48,11 +55,18 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/category_card_border" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/light_gray">
 
             <!-- TODO: Fix Style for timeBankValue -->
             <TextView
@@ -60,20 +74,47 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="10dp"
+                android:paddingLeft="15dp"
                 android:textColor="@color/secondaryTextColor"
-                android:textSize="24sp"
-                tools:text="Time Bank Value" />
+                android:textSize="32sp"
+                tools:text="00:00:00"
+                android:layout_gravity="center"/>
 
-            <Button
-                android:id="@+id/category_card_play_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/primaryColor"
-                android:textSize="16sp"
-                tools:text="PLAY" />
+            <!--<Button-->
+                <!--android:id="@+id/category_card_play_button"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:textColor="@color/primaryColor"-->
+                <!--android:textSize="16sp"-->
+                <!--tools:text="PLAY" />-->
+
+            <ToggleButton
+                android:id="@+id/category_card_start_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_start_button_selector"
+                android:onClick="startButton"
+                android:text=""
+                android:textOff=""
+                android:textOn=""
+                android:layout_gravity="center"
+                android:backgroundTint="@color/primaryColor"/>
+
+            <ToggleButton
+                android:id="@+id/pauseButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_pause_button_selector"
+                android:onClick="pauseButton"
+                android:text=""
+                android:textOff=""
+                android:textOn=""
+                android:layout_gravity="center"
+                android:backgroundTint="@color/primaryColor"/>
 
         </LinearLayout>
     </LinearLayout>
