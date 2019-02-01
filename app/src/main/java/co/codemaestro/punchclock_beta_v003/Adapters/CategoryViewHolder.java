@@ -49,7 +49,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         this.context = context;
         categoryCardTitle = itemView.findViewById(R.id.category_card_title);
         categoryCardTotalTime = itemView.findViewById(R.id.category_card_total_time);
-        categoryCardPlayButton = itemView.findViewById(R.id.category_card_play_button);
+        categoryCardPlayButton = itemView.findViewById(R.id.category_card_start_icon);
         categoryCardLayout = itemView.findViewById(R.id.card_layout);
         categoryCardFavicon = itemView.findViewById(R.id.category_card_favicon);
 
@@ -60,7 +60,6 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         this.category = category;
         categoryCardTitle.setText(category.getCategory());
         categoryCardTotalTime.setText(format.FormatMillisIntoHMS(category.getTotalTime()));
-        categoryCardPlayButton.setText(R.string.play_button);
         if (category.isFavorite()) {
             categoryCardFavicon.setChecked(true);
         } else {
