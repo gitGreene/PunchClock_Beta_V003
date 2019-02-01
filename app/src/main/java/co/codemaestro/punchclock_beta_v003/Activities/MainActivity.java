@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onFavoriteIconClicked(boolean newFavoriteValue, Category category) {
+    public void onCardAction(Category category) {
         catViewModel.updateCategory(category);
     }
 }

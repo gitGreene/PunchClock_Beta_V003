@@ -80,41 +80,29 @@
                 tools:text="00:00:00"
                 android:layout_gravity="center"/>
 
-            <!--<Button-->
-                <!--android:id="@+id/category_card_play_button"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="center"-->
-                <!--android:textColor="@color/primaryColor"-->
-                <!--android:textSize="16sp"-->
-                <!--tools:text="PLAY" />-->
-
             <ToggleButton
-                android:id="@+id/category_card_start_icon"
+                android:id="@+id/category_card_play_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/ic_start_button_selector"
-                android:onClick="startButton"
                 android:text=""
                 android:textOff=""
                 android:textOn=""
                 android:layout_gravity="center"
-                android:backgroundTint="@color/primaryColor"/>
+                android:backgroundTint="@color/primaryColor" />
 
             <ToggleButton
-                android:id="@+id/pauseButton"
+                android:id="@+id/category_card_pause_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/ic_pause_button_selector"
-                android:onClick="pauseButton"
                 android:text=""
                 android:textOff=""
                 android:textOn=""
                 android:layout_gravity="center"
-                android:backgroundTint="@color/primaryColor"/>
+                android:backgroundTint="@color/primaryColor"  />
 
         </LinearLayout>
     </LinearLayout>
