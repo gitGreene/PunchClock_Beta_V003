@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
@@ -28,7 +29,7 @@ import co.codemaestro.punchclock_beta_v003.R;
 public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView categoryCardTitle;
     private TextView categoryCardTotalTime;
-    private Button categoryCardPlayButton;
+    private Button categoryCardPauseButton, categoryCardPlayButton;
     private ToggleButton categoryCardFavicon;
     private LinearLayout categoryCardLayout;
     private FormatMillis format = new FormatMillis();
@@ -36,10 +37,12 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
     private List<Category> categories;
     private Context context;
     private CategoryCardListener listener;
+    private boolean timerRunning;
+
 
 
     public interface CategoryCardListener {
-        void onFavoriteIconClicked(boolean newFavoriteValue, Category category);
+        void onCardAction(Category category);
     }
 
     CategoryViewHolder(View itemView, List<Category> categories, Context context, final CategoryCardListener listener) {
@@ -49,9 +52,12 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         this.context = context;
         categoryCardTitle = itemView.findViewById(R.id.category_card_title);
         categoryCardTotalTime = itemView.findViewById(R.id.category_card_total_time);
-        categoryCardPlayButton = itemView.findViewById(R.id.category_card_start_icon);
+        categoryCardPlayButton = itemView.findViewById(R.id.category_card_play_button);
+        categoryCardPauseButton = itemView.findViewById(R.id.category_card_pause_button);
         categoryCardLayout = itemView.findViewById(R.id.card_layout);
         categoryCardFavicon = itemView.findViewById(R.id.category_card_favicon);
+
+
 
         itemView.setOnClickListener(this);
     }
@@ -84,13 +90,45 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
 
                 if(isChecked) {
                     category.setFavorite(true);
-                    listener.onFavoriteIconClicked(true, category);
+                    listener.onCardAction(category);
                 } else {
                     category.setFavorite(false);
-                    listener.onFavoriteIconClicked(false, category);
+                    listener.onCardAction(category);
                 }
             }
         });
+
+        if(category.isTimerRunning()) {
+            categoryCardPlayButton.setEnabled(false);
+            categoryCardPauseButton.setEnabled(true);
+        } else {
+            categoryCardPlayButton.setEnabled(true);
+            categoryCardPauseButton.setEnabled(false);
+        }
+
+        categoryCardPlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(context, "Start Button Clicked Yo", Toast.LENGTH_LONG).show();
+//                timerRunning = true;
+//                category.setTimerRunning(true);
+//                listener.onCardAction(category);
+            }
+        });
+
+        categoryCardPauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(context, "Pause Button Clicked Yo", Toast.LENGTH_LONG).show();
+//                timerRunning = false;
+//                category.setTimerRunning(false);
+//                listener.onCardAction(category);
+            }
+        });
+
+
+
+
     }
 
     @Override
