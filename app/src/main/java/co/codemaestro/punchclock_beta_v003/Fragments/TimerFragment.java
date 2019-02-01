@@ -304,6 +304,7 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
         displayTime = prefs.getLong(displayTimeKey, 0);
         timerRunning = prefs.getBoolean(timerRunningKey, false);
         timeAfterLife = prefs.getLong(timeAfterLifeKey, 0);
+        startTime = prefs.getString(startTimeStringKey, "00:00 AM");
     }
 
     public void SaveSharedPrefs(){
@@ -312,6 +313,7 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
         editor.putLong(displayTimeKey, displayTime);
         editor.putBoolean(timerRunningKey, timerRunning);
         editor.putLong(timeAfterLifeKey, timeAfterLife);
+        editor.putString(startTimeStringKey, startTime);
         editor.apply();
     }
 }

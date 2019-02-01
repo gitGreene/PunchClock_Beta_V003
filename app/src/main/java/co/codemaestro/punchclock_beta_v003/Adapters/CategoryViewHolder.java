@@ -99,6 +99,8 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         // Create category object to hold category
         Category currentCategory = categories.get(getAdapterPosition());
 
+        //TODO: FIX THE INTENTS UP AND GET THE DAMN HOME WOK SHIT WORKING---- ALSO THE STARTTIME
+
         // Send category over and start the detail activity
         Intent detailIntent = new Intent(context, DetailActivity.class);
         detailIntent.putExtra("category_id", currentCategory.getId());
@@ -106,7 +108,6 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         detailIntent.putExtra("display_time", currentCategory.getDisplayTime());
         detailIntent.putExtra("timer_after_life", currentCategory.getTimeAfterLife());
         detailIntent.putExtra("is_running", currentCategory.isTimerRunning());
-//        detailIntent.putExtra("is_favorite", currentCategory.isFavorite());
 
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, categoryCardLayout, ViewCompat.getTransitionName(categoryCardLayout));

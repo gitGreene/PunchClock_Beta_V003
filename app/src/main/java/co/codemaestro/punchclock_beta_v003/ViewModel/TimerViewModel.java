@@ -2,75 +2,71 @@ package co.codemaestro.punchclock_beta_v003.ViewModel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
+
+import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
+import co.codemaestro.punchclock_beta_v003.Database.Category;
+
+//Todo: MutableLiveData is used if you want to change the livedata outside of the viewmodel
 
 public class TimerViewModel extends AndroidViewModel {
-
-    /**
-     * Variables for the transient data we need in Detail Activity
-     */
-    private int categoryID;
-    private String categoryTitleString;
-    private long displayTime;
-    private long timeAfterLife;
-    private boolean timerRunning;
-    private boolean isFavorite;
-
     public TimerViewModel(@NonNull Application application) {
         super(application);
     }
 
+    /**
+     * Variables for the transient data we need in Detail Activity
+     */
+
+    private LiveData<String> timeToShow = new MutableLiveData<>();
+    private CountDownTimer timer;
+    private Category currentCategory;
+    private long initialTime;
+    private FormatMillis form = new FormatMillis();
+
+    public LiveData<String> getTimerTime() {
+
+        return timeToShow;
+    }
+
+
+    public void startTimer() {
+        initialTime = SystemClock.elapsedRealtime();
+        timer = new CountDownTimer(86400000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                currentCategory.setDisplayTime(SystemClock.elapsedRealtime() - initialTime);
+                ((MutableLiveData<String>) timeToShow).setValue(form.FormatMillisIntoHMS(currentCategory.getDisplayTime()));
+
+            }
+            @Override
+            public void onFinish() {
+            }
+        }.start();
+    }
+
+    public void pauseTimer() {
+        timer.cancel();
+    }
 
     /**
      * Getters/Setters
      */
-    public int getCategoryIDTimer() {
-        return categoryID;
+
+    public Category getCurrentCategory() {
+        return currentCategory;
     }
 
-    public void setCategoryIDTimer(int categoryID) {
-        this.categoryID = categoryID;
+    public void setCurrentCategory(Category currentCategory) {
+        this.currentCategory = currentCategory;
     }
 
-    public String getCategoryTitleStringTimer() {
-        return categoryTitleString;
-    }
-
-    public void setCategoryTitleStringTimer(String categoryTitleString) {
-        this.categoryTitleString = categoryTitleString;
-    }
-
-    public long getDisplayTimeTimer() {
-        return displayTime;
-    }
-
-    public void setDisplayTimeTimer(long displayTime) {
-        this.displayTime = displayTime;
-    }
-
-    public long getTimeAfterLifeTimer() {
-        return timeAfterLife;
-    }
-
-    public void setTimeAfterLifeTimer(long timeAfterLife) {
-        this.timeAfterLife = timeAfterLife;
-    }
-
-    public boolean isTimerRunningTimer() {
-        return timerRunning;
-    }
-
-    public void setTimerRunningTimer(boolean timerRunning) {
-        this.timerRunning = timerRunning;
-    }
-
-    public boolean isFavoriteTimer() {
-        return isFavorite;
-    }
-
-    public void setFavoriteTimer(boolean favorite) {
-        isFavorite = favorite;
-    }
 }
