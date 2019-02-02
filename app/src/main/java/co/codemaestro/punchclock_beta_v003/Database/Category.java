@@ -31,6 +31,9 @@ public class Category {
     @ColumnInfo(name = "timeAfterLife")
     private long timeAfterLife;
 
+    @ColumnInfo(name = "startTime")
+    private String startTime;
+
     @ColumnInfo(name = "timerRunning")
     private boolean timerRunning;
 
@@ -42,22 +45,24 @@ public class Category {
      */
 
     @Ignore
-    public Category(String category, long totalTime, long displayTime, long timeAfterLife, boolean timerRunning, boolean isFavorite) {
+    public Category(String category, long totalTime, long displayTime, long timeAfterLife, String startTime, boolean timerRunning, boolean isFavorite) {
         this.category = category;
         this.totalTime = totalTime;
         this.displayTime = displayTime;
         this.timeAfterLife = timeAfterLife;
         this.timerRunning = timerRunning;
+        this.startTime = startTime;
         this.isFavorite = isFavorite;
 
     }
 
-    public Category(int id, @NonNull String category, long totalTime, long displayTime, long timeAfterLife, boolean timerRunning, boolean isFavorite) {
+    public Category(int id, @NonNull String category, long totalTime, long displayTime, long timeAfterLife, String startTime, boolean timerRunning, boolean isFavorite) {
         this.id = id;
         this.category = category;
         this.totalTime = totalTime;
         this.displayTime = displayTime;
         this.timeAfterLife = timeAfterLife;
+        this.startTime = startTime;
         this.timerRunning = timerRunning;
         this.isFavorite = isFavorite;
 
@@ -112,6 +117,15 @@ public class Category {
 
     public void setTimeAfterLife(long timeAfterLife) {
         this.timeAfterLife = timeAfterLife;
+    }
+
+    //startTime
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
     //timerRunning

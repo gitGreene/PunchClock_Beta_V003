@@ -67,11 +67,6 @@ public class CategoryViewModel extends AndroidViewModel {
         categoryTimeBanks = repository.getCategoryTimeBanks(id);
         return categoryTimeBanks;
     }
-    // Get sum of all times by category
-    public LiveData<Long> getCategoryTimeSum(int id) {
-        categoryTimeSum = repository.getCategoryTimeSum(id);
-        return categoryTimeSum;
-    }
 
     // Insert TimeBanks
     public void insertTimeBank(TimeBank timeBank) {
