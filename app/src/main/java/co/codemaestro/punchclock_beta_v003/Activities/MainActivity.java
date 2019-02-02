@@ -37,25 +37,30 @@ public class MainActivity extends AppCompatActivity implements
     private static final String PREFS_FILE = "SharedPreferences";
     private static final int PREFS_MODE = Context.MODE_PRIVATE;
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
+    private static final String currentFragmentChosenKey = "co.codemaestro.punchclock_beta_v003.currentFragChosen";
     private boolean nightModeEnabled = false;
-    private int startingPosition = 0;
+    private int startingPosition = 1;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Use sharedprefs to reactivate nightMode
-        SharedPreferences prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
+        prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
         nightModeEnabled = prefs.getBoolean(nightModeBooleanKey, false);
         if (nightModeEnabled) {
             // Set the night mode theme
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
 
-        HomeFragment fragment = HomeFragment.newInstance(this);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
+        startingPosition = prefs.getInt(currentFragmentChosenKey, 1);
+        loadFragment(startingPosition);
+
+//        HomeFragment fragment = HomeFragment.newInstance(this);
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.container, fragment);
+//        transaction.commit();
         getSupportActionBar().setTitle(R.string.bottom_nav_home);
 
         catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
@@ -125,7 +130,14 @@ public class MainActivity extends AppCompatActivity implements
                 transaction.replace(R.id.container, fragment);
                 transaction.commit();
             }
+            if(startingPosition == newPosition) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, fragment);
+                transaction.commit();
+            }
+
             startingPosition = newPosition;
+            prefs.edit().putInt(currentFragmentChosenKey, newPosition).apply();
             return true;
         }
 
