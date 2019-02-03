@@ -77,20 +77,20 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         }
 
 
-        final ScaleAnimation scaleAnimation =
+        final ScaleAnimation cardIconScaleAnimation =
                 new ScaleAnimation(0.9f, 1.1f, 0.9f, 1.1f,
                         Animation.RELATIVE_TO_SELF, 0.7f,
                         Animation.RELATIVE_TO_SELF, 0.7f);
 
-        scaleAnimation.setDuration(200);
+        cardIconScaleAnimation.setDuration(200);
         BounceInterpolator bounceInterpolator = new BounceInterpolator();
-        scaleAnimation.setInterpolator(bounceInterpolator);
+        cardIconScaleAnimation.setInterpolator(bounceInterpolator);
 
         categoryCardFavicon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                buttonView.startAnimation(scaleAnimation);
+                buttonView.startAnimation(cardIconScaleAnimation);
 
                 if(isChecked) {
                     category.setFavorite(true);
@@ -110,9 +110,11 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
             categoryCardPauseButton.setEnabled(false);
         }
 
+
         categoryCardPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                categoryCardPlayButton.startAnimation(cardIconScaleAnimation);
                 Toast.makeText(context, "Start Button Clicked Yo", Toast.LENGTH_LONG).show();
                 timerRunning = true;
                 category.setTimerRunning(true);
@@ -125,6 +127,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         categoryCardPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                categoryCardPauseButton.startAnimation(cardIconScaleAnimation);
                 Toast.makeText(context, "Pause Button Clicked Yo", Toast.LENGTH_LONG).show();
                 timerRunning = false;
                 category.setTimerRunning(false);
