@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.renderscript.Sampler;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
@@ -65,7 +66,10 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
     public void setCategory(final Category category) {
         this.category = category;
         categoryCardTitle.setText(category.getCategory());
+
         categoryCardTotalTime.setText(format.FormatMillisIntoHMS(category.getTotalTime()));
+
+
         if (category.isFavorite()) {
             categoryCardFavicon.setChecked(true);
         } else {
@@ -109,20 +113,24 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         categoryCardPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(context, "Start Button Clicked Yo", Toast.LENGTH_LONG).show();
-//                timerRunning = true;
-//                category.setTimerRunning(true);
-//                listener.onCardAction(category);
+                Toast.makeText(context, "Start Button Clicked Yo", Toast.LENGTH_LONG).show();
+                timerRunning = true;
+                category.setTimerRunning(true);
+                listener.onCardAction(category);
+                categoryCardPauseButton.setEnabled(true);
+                categoryCardPlayButton.setEnabled(false);
             }
         });
 
         categoryCardPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(context, "Pause Button Clicked Yo", Toast.LENGTH_LONG).show();
-//                timerRunning = false;
-//                category.setTimerRunning(false);
-//                listener.onCardAction(category);
+                Toast.makeText(context, "Pause Button Clicked Yo", Toast.LENGTH_LONG).show();
+                timerRunning = false;
+                category.setTimerRunning(false);
+                listener.onCardAction(category);
+                categoryCardPauseButton.setEnabled(false);
+                categoryCardPlayButton.setEnabled(true);
             }
         });
 

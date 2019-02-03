@@ -19,17 +19,20 @@
             android:id="@+id/category_card_title_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryColor">
+            android:layout_margin="2dp"
+            android:background="@color/primaryColor"
+            android:backgroundTint="@color/primaryColor">
 
             <!-- TODO: Fix Category Title -->
             <TextView
                 android:id="@+id/category_card_title"
-                style="@style/time_bank_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
                 android:layout_marginBottom="8dp"
                 android:textSize="27sp"
                 android:background="@color/primaryColor"
@@ -63,7 +66,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/light_gray">
@@ -73,12 +76,11 @@
                 android:id="@+id/category_card_total_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="15dp"
                 android:textColor="@color/secondaryTextColor"
-                android:textSize="32sp"
-                tools:text="00:00:00"
-                android:layout_gravity="center"/>
+                android:textSize="32sp"/>
 
             <ToggleButton
                 android:id="@+id/category_card_play_button"
