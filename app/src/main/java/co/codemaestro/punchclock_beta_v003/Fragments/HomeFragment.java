@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import co.codemaestro.punchclock_beta_v003.Adapters.AddCategoryCardViewHolder;
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryAdapter;
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
@@ -27,9 +28,11 @@ import co.codemaestro.punchclock_beta_v003.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class
+HomeFragment extends Fragment {
     private CategoryViewModel catViewModel;
-    private static CategoryViewHolder.CategoryCardListener thisListener;
+    private static CategoryViewHolder.CategoryCardListener listener1;
+    private static AddCategoryCardViewHolder.AddCategoryCardListener listener2;
     private static final String TAG = "TAG";
 
 
@@ -37,8 +40,10 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static HomeFragment newInstance(CategoryViewHolder.CategoryCardListener listener) {
-        thisListener = listener;
+    public static HomeFragment newInstance(CategoryViewHolder.CategoryCardListener listener, AddCategoryCardViewHolder.AddCategoryCardListener listener2) {
+        listener1 = listener;
+        listener2 = listener2;
+
         return new HomeFragment();
     }
 
@@ -49,7 +54,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
         final RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
-        final CategoryAdapter adapter = new CategoryAdapter(getContext(), thisListener);
+        final CategoryAdapter adapter = new CategoryAdapter(getContext(), listener1, listener2);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         recyclerView.setAdapter(adapter);
 

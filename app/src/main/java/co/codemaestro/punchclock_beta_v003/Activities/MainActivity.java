@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import co.codemaestro.punchclock_beta_v003.Adapters.AddCategoryCardViewHolder;
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Fragments.AddCategoryFragment;
@@ -28,7 +29,7 @@ import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 
 public class MainActivity extends AppCompatActivity implements
-        AddCategoryFragment.AddCategoryFragmentListener, CategoryViewHolder.CategoryCardListener {
+        AddCategoryFragment.AddCategoryFragmentListener, CategoryViewHolder.CategoryCardListener, AddCategoryCardViewHolder.AddCategoryCardListener {
 
     private CategoryViewModel catViewModel;
     private BottomNavigationView bottomNav;
@@ -66,14 +67,14 @@ public class MainActivity extends AppCompatActivity implements
         catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
         // FAB
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddCategoryFragment addCategoryFragment = AddCategoryFragment.newInstance();
-                addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                AddCategoryFragment addCategoryFragment = AddCategoryFragment.newInstance();
+//                addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
+//            }
+//        });
 
         // Bottom Nav
         bottomNav = findViewById(R.id.bottom_nav);
@@ -107,10 +108,10 @@ public class MainActivity extends AppCompatActivity implements
         Fragment fragment = null;
         switch (newPosition) {
             case 1:
-                fragment = HomeFragment.newInstance(this);
+                fragment = HomeFragment.newInstance(this, this);
                 break;
             case 2:
-                fragment = FavoritesFragment.newInstance(this);
+                fragment = FavoritesFragment.newInstance(this, this);
                 break;
             case 3:
                 fragment = new TimerFragment();
@@ -196,5 +197,11 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onCardAction(Category category) {
         catViewModel.updateCategory(category);
+    }
+
+    @Override
+    public void addCategoryCardAction() {
+        AddCategoryFragment addCategoryFragment = AddCategoryFragment.newInstance();
+        addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
     }
 }
