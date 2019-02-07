@@ -7,10 +7,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-
 import co.codemaestro.punchclock_beta_v003.Database.Category;
-
-//Todo: MutableLiveData is used if you want to change the livedata outside of the viewmodel
 
 public class TimerViewModel extends AndroidViewModel {
     public TimerViewModel(@NonNull Application application) {
@@ -20,57 +17,53 @@ public class TimerViewModel extends AndroidViewModel {
     /**
      * Variables for the transient data we need in Detail Activity
      */
-
     private LiveData<Long> timeToShow = new MutableLiveData<>();
     private CountDownTimer timer;
     private long initialTime;
+    private Category currentCategory;
 
+
+    // Method that returns liveData object which can be observed
     public LiveData<Long> getTimerTime() {
         return timeToShow;
     }
 
 
-    public void startTimer(final Category category) {
-        initialTime = SystemClock.elapsedRealtime() - category.getDisplayTime();
+    // Method for starting the timer
+    public void startTimer() {
+
+        if (currentCategory.isTimerRunning() && currentCategory.getTimeAfterLife() > 0 ){
+            // Gives us the time the activity related to this category was dead
+            currentCategory.setTimeAfterLife(SystemClock.elapsedRealtime() - currentCategory.getTimeAfterLife());
+            initialTime = SystemClock.elapsedRealtime() - currentCategory.getDisplayTime() - currentCategory.getTimeAfterLife();
+        } else {
+            initialTime = SystemClock.elapsedRealtime() - currentCategory.getDisplayTime();
+        }
+
         timer = new CountDownTimer(86400000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 ((MutableLiveData<Long>) timeToShow).setValue(SystemClock.elapsedRealtime() - initialTime);
-                category.setDisplayTime(SystemClock.elapsedRealtime() - initialTime);
             }
 
             @Override
             public void onFinish() {
             }
         }.start();
-
-    }
-    public void continueTimer(Category category) {
-//Todo: Does countdown timer survive configuration changes
-        if (category.isTimerRunning()) {
-
-            // Gives us the time the activity related to this category was dead
-            category.setTimeAfterLife(SystemClock.elapsedRealtime() - category.getTimeAfterLife());
-
-            initialTime = SystemClock.elapsedRealtime() - category.getDisplayTime() - category.getTimeAfterLife();
-            timer = new CountDownTimer(86400000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    ((MutableLiveData<Long>) timeToShow).setValue(SystemClock.elapsedRealtime() - initialTime);
-                }
-
-                @Override
-                public void onFinish() {
-                }
-            }.start();
-
-        } else {
-            ((MutableLiveData<Long>) timeToShow).setValue(category.getDisplayTime());
-        }
     }
 
+    // Method for setting the timer value
+    public void setTimer() {
+        ((MutableLiveData<Long>) timeToShow).setValue(currentCategory.getDisplayTime());
+    }
+
+    // Method for killing the timer aka pausing it
     public void pauseTimer() {
         timer.cancel();
     }
 
+    // Setter for currentCategory
+    public void setCurrentCategory(Category currentCategory) {
+        this.currentCategory = currentCategory;
+    }
 }

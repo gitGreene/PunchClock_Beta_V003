@@ -115,16 +115,18 @@ public class DetailActivity extends AppCompatActivity {
                     // Set categoryView text
                     categoryView.setText(currentCategory.getCategory());
 
-                    timerVM.continueTimer(currentCategory);
+                    timerVM.setCurrentCategory(currentCategory);
 
                     if (currentCategory.isTimerRunning()) {
                         StartEnabledButtons();
+                        timerVM.startTimer();
                     } else {
                         if(currentCategory.getDisplayTime() > 0){
                             PauseEnabledButtons();
                         } else {
                             DefaultEnabledButtons();
-                      }
+                        }
+                        timerVM.setTimer();
                     }
 
                     // Set the favoriteIcon correctly
@@ -194,7 +196,13 @@ public class DetailActivity extends AppCompatActivity {
 
         // Todo: Review options
         // Set TimerViewModel data and update Category in database
-        currentCategory.setTimeAfterLife(SystemClock.elapsedRealtime());
+
+        if (currentCategory.isTimerRunning()) {
+            timerVM.pauseTimer();
+            currentCategory.setTimeAfterLife(SystemClock.elapsedRealtime());
+            timerVM.setCurrentCategory(currentCategory);
+        }
+
         categoryVM.updateCategory(currentCategory);
     }
 
@@ -255,7 +263,8 @@ public class DetailActivity extends AppCompatActivity {
     public void startButton(View view) {
         // Get the initialTime and start the Timer
         currentCategory.setTimerRunning(true);
-        timerVM.startTimer(currentCategory);
+        timerVM.setCurrentCategory(currentCategory);
+        timerVM.startTimer();
         StartEnabledButtons();
         if (currentCategory.getDisplayTime() == 0) {
             currentCategory.setStartTime(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(new Date()));
@@ -265,6 +274,7 @@ public class DetailActivity extends AppCompatActivity {
     public void pauseButton(View view) {
         // Cancel the timer
         currentCategory.setTimerRunning(false);
+        timerVM.setCurrentCategory(currentCategory);
         timerVM.pauseTimer();
         PauseEnabledButtons();
 
@@ -273,6 +283,8 @@ public class DetailActivity extends AppCompatActivity {
     public void resetButton(View view) {
         // Reset timer
         currentCategory.setDisplayTime(0);
+        currentCategory.setTimeAfterLife(0);
+        timerVM.setCurrentCategory(currentCategory);
         timerView.setText(form.FormatMillisIntoHMS(currentCategory.getDisplayTime()));
         DefaultEnabledButtons();
     }
@@ -289,6 +301,7 @@ public class DetailActivity extends AppCompatActivity {
 
         // Reset timer
         currentCategory.setDisplayTime(0);
+        timerVM.setCurrentCategory(currentCategory);
         timerView.setText(form.FormatMillisIntoHMS(currentCategory.getDisplayTime()));
         DefaultEnabledButtons();
     }
