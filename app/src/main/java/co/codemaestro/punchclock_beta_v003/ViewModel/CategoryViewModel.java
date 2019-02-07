@@ -24,7 +24,6 @@ public class CategoryViewModel extends AndroidViewModel {
     //Timebank variables
     private LiveData<List<TimeBank>> allTimeBanks;
     private LiveData<List<TimeBank>> categoryTimeBanks;
-    private LiveData<Long> categoryTimeSum;
 
     public CategoryViewModel(@NonNull Application application) {
         super(application);
