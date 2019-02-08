@@ -40,9 +40,9 @@ HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static HomeFragment newInstance(CategoryViewHolder.CategoryCardListener listener, AddCategoryCardViewHolder.AddCategoryCardListener listener2) {
+    public static HomeFragment newInstance(CategoryViewHolder.CategoryCardListener listener, AddCategoryCardViewHolder.AddCategoryCardListener addCategoryListener) {
         listener1 = listener;
-        listener2 = listener2;
+        listener2 = addCategoryListener;
 
         return new HomeFragment();
     }

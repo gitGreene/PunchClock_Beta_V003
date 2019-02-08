@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onChoice(boolean choice, String newCategory) {
         // Add category to database
         Log.d("LOG", newCategory);
-        Category addedCategory = new Category(newCategory, 0, 0, 0, "00:00 AM", false, false);
+        Category addedCategory = new Category(newCategory, 0, 0, "00:00 AM", false, false, 0);
         catViewModel.insert(addedCategory);
     }
 
