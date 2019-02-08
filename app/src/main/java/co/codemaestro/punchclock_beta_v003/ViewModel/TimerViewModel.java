@@ -29,15 +29,8 @@ public class TimerViewModel extends AndroidViewModel {
     }
 
     // Method for setting the timer value
-    public void setTimer(Category currentCategory) {
-        if (currentCategory.getTimeAtDeath() > 0) {
-            // Gives us the time the activity related to this category was dead
-            timeAfterLife = SystemClock.elapsedRealtime() - currentCategory.getTimeAtDeath();
-            initialTime = SystemClock.elapsedRealtime() - currentCategory.getDisplayTime() - timeAfterLife;
-        } else {
-            initialTime = SystemClock.elapsedRealtime() - currentCategory.getDisplayTime();
-        }
-        ((MutableLiveData<Long>) timeToShow).setValue(SystemClock.elapsedRealtime() - initialTime);
-        Log.e(TAG, "setTimer: " + (SystemClock.elapsedRealtime() - initialTime));
+    public void setTimer(long displayTime) {
+        ((MutableLiveData<Long>) timeToShow).setValue(displayTime);
+        Log.e(TAG, "setTimer: " + (displayTime));
     }
 }
