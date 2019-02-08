@@ -15,16 +15,6 @@
         android:fitsSystemWindows="true">
     </FrameLayout>
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignBottom="@+id/bottom_nav"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_marginRight="16dp"-->
-        <!--android:layout_marginBottom="67dp"-->
-        <!--android:src="@drawable/add_category_fab" />-->
-
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"

@@ -57,24 +57,9 @@ public class MainActivity extends AppCompatActivity implements
 
         startingPosition = prefs.getInt(currentFragmentChosenKey, 1);
         loadFragment(startingPosition);
-
-//        HomeFragment fragment = HomeFragment.newInstance(this);
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.container, fragment);
-//        transaction.commit();
         getSupportActionBar().setTitle(R.string.bottom_nav_home);
 
         catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-
-        // FAB
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AddCategoryFragment addCategoryFragment = AddCategoryFragment.newInstance();
-//                addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
-//            }
-//        });
 
         // Bottom Nav
         bottomNav = findViewById(R.id.bottom_nav);

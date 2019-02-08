@@ -32,7 +32,7 @@ public class
 HomeFragment extends Fragment {
     private CategoryViewModel catViewModel;
     private static CategoryViewHolder.CategoryCardListener listener1;
-    private static AddCategoryCardViewHolder.AddCategoryCardListener listener2;
+    private static AddCategoryCardViewHolder.AddCategoryCardListener plusCardListener;
     private static final String TAG = "TAG";
 
 
@@ -40,9 +40,9 @@ HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static HomeFragment newInstance(CategoryViewHolder.CategoryCardListener listener, AddCategoryCardViewHolder.AddCategoryCardListener addCategoryListener) {
+    public static HomeFragment newInstance(CategoryViewHolder.CategoryCardListener listener, AddCategoryCardViewHolder.AddCategoryCardListener listener2) {
         listener1 = listener;
-        listener2 = addCategoryListener;
+        plusCardListener = listener2;
 
         return new HomeFragment();
     }
@@ -54,7 +54,7 @@ HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
         final RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
-        final CategoryAdapter adapter = new CategoryAdapter(getContext(), listener1, listener2);
+        final CategoryAdapter adapter = new CategoryAdapter(getContext(), listener1, plusCardListener);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         recyclerView.setAdapter(adapter);
 
