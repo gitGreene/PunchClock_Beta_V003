@@ -62,7 +62,9 @@ public class DetailActivity extends AppCompatActivity {
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
     private static final String TAG = "DetailActivity";
 
-    Handler handler;
+    private Handler handler;
+    private long initialTime;
+    private long displayTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,16 +125,23 @@ public class DetailActivity extends AppCompatActivity {
                 categoryView.setText(currentCategory.getCategory());
 
                 if (currentCategory.isTimerRunning()) {
+                    // Gives us the time the activity related to this category was dead
+                    long timeAfterLife = SystemClock.elapsedRealtime() - currentCategory.getTimeAtDeath();
+                    initialTime = SystemClock.elapsedRealtime() - currentCategory.getDisplayTime() - timeAfterLife;
                     handler.postDelayed(timerRun, 1000 );// to work on mainThread, consider new Thread instead
                     StartEnabledButtons();
+                } else {
+                    // Set the paused timer value
+                    timerVM.setTimer(currentCategory.getDisplayTime());
+                    // Set buttons enabled
+                    if(currentCategory.getDisplayTime() > 0){
+                        PauseEnabledButtons();
+                    } else {
+                        DefaultEnabledButtons();
+                    }
                 }
 
-                // Set buttons enabled
-                if(currentCategory.getDisplayTime() > 0){
-                    PauseEnabledButtons();
-                } else {
-                    DefaultEnabledButtons();
-                }
+
 
                 // Set the favoriteIcon correctly
                 if (currentCategory.isFavorite()){
@@ -155,8 +164,6 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable Long time) {
                 timerView.setText(form.FormatMillisIntoHMS(time));
-                currentCategory.setDisplayTime(time);
-
             }
         });
 
@@ -196,10 +203,9 @@ public class DetailActivity extends AppCompatActivity {
 
         // Todo: Review options
         // Set TimerViewModel data and update Category in database
-
+        handler.removeCallbacks(timerRun);
         if (currentCategory.isTimerRunning()) {
             currentCategory.setTimeAtDeath(SystemClock.elapsedRealtime());
-            handler.removeCallbacks(timerRun);
         } else {
             currentCategory.setTimeAtDeath(0);
         }
@@ -263,7 +269,7 @@ public class DetailActivity extends AppCompatActivity {
     public void startButton(View view) {
         // Get the initialTime and start the Timer
         currentCategory.setTimerRunning(true);
-        currentCategory.setTimeAtDeath(0);
+        initialTime = SystemClock.elapsedRealtime() - currentCategory.getDisplayTime();
         handler.postDelayed(timerRun, 1000);
         StartEnabledButtons();
         if (currentCategory.getDisplayTime() == 0) {
@@ -275,7 +281,6 @@ public class DetailActivity extends AppCompatActivity {
         // Cancel the timer
         handler.removeCallbacks(timerRun);
         currentCategory.setTimerRunning(false);
-        currentCategory.setTimeAtDeath(0);
         PauseEnabledButtons();
 
     }
@@ -284,6 +289,7 @@ public class DetailActivity extends AppCompatActivity {
         // Reset timer
         currentCategory.setDisplayTime(0);
         currentCategory.setTimeAtDeath(0);
+        initialTime = 0;
         timerView.setText(form.FormatMillisIntoHMS(currentCategory.getDisplayTime()));
         DefaultEnabledButtons();
     }
@@ -300,6 +306,8 @@ public class DetailActivity extends AppCompatActivity {
 
         // Reset timer
         currentCategory.setDisplayTime(0);
+        currentCategory.setTimeAtDeath(0);
+        initialTime = 0;
         timerView.setText(form.FormatMillisIntoHMS(currentCategory.getDisplayTime()));
         DefaultEnabledButtons();
     }
@@ -335,7 +343,16 @@ public class DetailActivity extends AppCompatActivity {
     //StopWatch Logic
     public Runnable timerRun = new Runnable() {
         public void run() {
-            timerVM.setTimer(currentCategory);
+//            if (currentCategory.getTimeAtDeath() > 0) {
+//                // Gives us the time the activity related to this category was dead
+//                long timeAfterLife = SystemClock.elapsedRealtime() - currentCategory.getTimeAtDeath();
+//                initialTime = SystemClock.elapsedRealtime() - currentCategory.getDisplayTime() - timeAfterLife;
+//            } else {
+//                initialTime = SystemClock.elapsedRealtime() - currentCategory.getDisplayTime();
+//            }
+            displayTime = SystemClock.elapsedRealtime() - initialTime;
+            currentCategory.setDisplayTime(displayTime);
+            timerVM.setTimer(displayTime);
             handler.postDelayed(this, 1000);
         }
     };
