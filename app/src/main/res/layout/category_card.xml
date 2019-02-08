@@ -46,7 +46,7 @@
                 tools:text="Category Title" />
 
             <ToggleButton
-                android:id="@+id/category_card_favicon"
+                android:id="@+id/detail_activity_favicon"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:layout_margin="8dp"

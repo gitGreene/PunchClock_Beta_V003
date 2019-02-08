@@ -1,168 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:orientation="vertical"
-    tools:context=".Activities.DetailActivity"
-    android:transitionName="@string/category_title_transition">
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/category_title_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@color/primaryColor"
-        android:backgroundTint="@color/primaryColor">
-
-        <TextView
-            android:id="@+id/categoryView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:gravity="start"
-            android:textAlignment="viewStart"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="50sp"
-            app:layout_constraintEnd_toStartOf="@+id/category_card_favicon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ToggleButton
-            android:id="@+id/category_card_favicon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/ic_favorite_heart_selector"
-            android:checked="false"
-            android:text=""
-            android:textOff=""
-            android:textOn=""
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/detailTimer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/default_timer"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+    android:background="@color/light_gray">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <ToggleButton
-            android:id="@+id/startButton"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/ic_start_button_selector"
-            android:onClick="startButton"
-            android:text=""
-            android:textOff=""
-            android:textOn="" />
-
-        <ToggleButton
-            android:id="@+id/pauseButton"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/ic_pause_button_selector"
-            android:onClick="pauseButton"
-            android:text=""
-            android:textOff=""
-            android:textOn="" />
-
-        <ToggleButton
-            android:id="@+id/resetButton"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/ic_reset_button_selector"
-            android:onClick="resetButton"
-            android:text=""
-            android:textOff=""
-            android:textOn="" />
-
-        <ToggleButton
-            android:id="@+id/commitButton"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/ic_commit_button_selector"
-            android:onClick="commitButton"
-            android:text=""
-            android:textOff=""
-            android:textOn="" />
-    </LinearLayout>
-
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/secondaryLightColor">
-        <TextView
-            android:id="@+id/startTimeHeaderView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="Start"
-            android:layout_weight="1"
-            android:textColor="@color/primaryTextColor"/>
-        <TextView
-            android:id="@+id/endTimeHeaderView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="End"
-            android:layout_weight="1"
-            android:textColor="@color/primaryTextColor"/>
-        <TextView
-            android:id="@+id/timeHeaderView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="TIME"
-            android:layout_weight="1"
-            android:textColor="@color/primaryTextColor"/>
-        <TextView
-            android:id="@+id/dateHeaderView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="DATE"
-            android:layout_weight="1"
-            android:textColor="@color/primaryTextColor"/>
-    </LinearLayout>
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/detailRecyclerView"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="20sp"
-        tools:listitem="@layout/recyclerview_row_activity_detail"/>
+        android:layout_margin="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:transitionName="@string/category_title_transition"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/detail_activity_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/detail_activity_title_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/primaryColor"
+                android:backgroundTint="@color/primaryColor"
+                app:layout_constraintEnd_toEndOf="@id/detail_activity_container"
+                app:layout_constraintStart_toStartOf="@id/detail_activity_container"
+                app:layout_constraintTop_toTopOf="@+id/detail_activity_container">
+
+                <TextView
+                    android:id="@+id/detail_activity_category_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="50sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ToggleButton
+                    android:id="@+id/detail_activity_favicon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/ic_favorite_heart_selector"
+                    android:checked="false"
+                    android:text=""
+                    android:textOff=""
+                    android:textOn=""
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/detail_activity_timer_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_activity_title_container">
+
+                <TextView
+                    android:id="@+id/detailTimer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/default_timer"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="50sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/detailTimer">
+
+                    <ToggleButton
+                        android:id="@+id/startButton"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/ic_start_button_selector"
+                        android:onClick="startButton"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn="" />
+
+                    <ToggleButton
+                        android:id="@+id/pauseButton"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/ic_pause_button_selector"
+                        android:onClick="pauseButton"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn="" />
+
+                    <ToggleButton
+                        android:id="@+id/resetButton"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/ic_reset_button_selector"
+                        android:onClick="resetButton"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn="" />
+
+                    <ToggleButton
+                        android:id="@+id/commitButton"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/ic_commit_button_selector"
+                        android:onClick="commitButton"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn="" />
+                </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_activity_timer_container">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/detailRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="20sp"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:listitem="@layout/recyclerview_row_activity_detail" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.constraint.ConstraintLayout>
 
 
-</LinearLayout>
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>

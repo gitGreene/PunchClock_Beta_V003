@@ -1,6 +1,5 @@
 package co.codemaestro.punchclock_beta_v003.Activities;
 
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -83,7 +82,7 @@ public class DetailActivity extends AppCompatActivity {
         // Creates references for recView, chronometer, textViews and buttons
         detailRecyclerView = findViewById(R.id.detailRecyclerView);
         timerView = findViewById(R.id.detailTimer);
-        categoryView = findViewById(R.id.categoryView);
+        categoryView = findViewById(R.id.detail_activity_category_title);
         startButton = findViewById(R.id.startButton);
         pauseButton = findViewById(R.id.pauseButton);
         resetButton = findViewById(R.id.resetButton);
@@ -166,7 +165,7 @@ public class DetailActivity extends AppCompatActivity {
          * Favorites
          */
         // Initiates Favorite Icon and Animation
-        favoriteIcon = findViewById(R.id.category_card_favicon);
+        favoriteIcon = findViewById(R.id.detail_activity_favicon);
         final ScaleAnimation scaleAnimation =
                 new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f,
                         Animation.RELATIVE_TO_SELF, 0.7f,

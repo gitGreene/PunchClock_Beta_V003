@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.renderscript.Sampler;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
@@ -56,7 +55,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         categoryCardPlayButton = itemView.findViewById(R.id.category_card_play_button);
         categoryCardPauseButton = itemView.findViewById(R.id.category_card_pause_button);
         categoryCardLayout = itemView.findViewById(R.id.card_layout);
-        categoryCardFavicon = itemView.findViewById(R.id.category_card_favicon);
+        categoryCardFavicon = itemView.findViewById(R.id.detail_activity_favicon);
 
 
 

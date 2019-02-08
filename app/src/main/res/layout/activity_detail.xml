@@ -11,7 +11,7 @@
     android:transitionName="@string/category_title_transition">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/category_title_container"
+        android:id="@+id/detail_activity_title_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -19,7 +19,7 @@
         android:backgroundTint="@color/primaryColor">
 
         <TextView
-            android:id="@+id/categoryView"
+            android:id="@+id/detail_activity_category_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -31,12 +31,12 @@
             android:textAlignment="viewStart"
             android:textColor="@color/primaryTextColor"
             android:textSize="50sp"
-            app:layout_constraintEnd_toStartOf="@+id/category_card_favicon"
+            app:layout_constraintEnd_toStartOf="@+id/detail_activity_favicon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ToggleButton
-            android:id="@+id/category_card_favicon"
+            android:id="@+id/detail_activity_favicon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="8dp"
