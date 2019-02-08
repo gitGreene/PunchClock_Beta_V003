@@ -33,9 +33,9 @@ public class CategoryAdapter extends RecyclerView.Adapter {
 
     public CategoryAdapter(Context context, CategoryViewHolder.CategoryCardListener listener, AddCategoryCardViewHolder.AddCategoryCardListener listener2) {
         this.context = context;
-        this.listener2 = listener2;
         this.inflater = LayoutInflater.from(context);
         this.listener = listener;
+        this.listener2 = listener2;
     }
 
     // Passes the list of categories we received from the Observer
@@ -77,7 +77,7 @@ public class CategoryAdapter extends RecyclerView.Adapter {
                 break;
             case CARD_LAYOUT_TWO:
                 View view2 = inflater.inflate(R.layout.add_category_card, viewGroup, false);
-                viewHolder = new CardTwoViewHolder(view2);
+                viewHolder = new AddCategoryCardViewHolder(view2, context, listener2);
                 break;
         }
         return viewHolder;
@@ -91,26 +91,11 @@ public class CategoryAdapter extends RecyclerView.Adapter {
                 viewHolder1.setCategory(categories.get(position));
                 break;
             case CARD_LAYOUT_TWO:
-                CardTwoViewHolder viewHolder2 = (CardTwoViewHolder) viewHolder;
+                AddCategoryCardViewHolder viewHolder2 = (AddCategoryCardViewHolder) viewHolder;
                 break;
         }
     }
 
-    private static class CardTwoViewHolder extends RecyclerView.ViewHolder {
-        ToggleButton addCategoryButton;
-
-        public CardTwoViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.addCategoryButton = itemView.findViewById(R.id.add_category_button);
-
-            addCategoryButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-        }
-    }
 
 
 }

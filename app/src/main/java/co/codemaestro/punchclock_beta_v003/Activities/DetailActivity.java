@@ -1,10 +1,12 @@
 package co.codemaestro.punchclock_beta_v003.Activities;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -58,6 +61,9 @@ public class DetailActivity extends AppCompatActivity {
     private static final String PREFS_FILE = "SharedPreferences";
     private static final int PREFS_MODE = Context.MODE_PRIVATE;
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
+    private static final String TAG = "DetailActivity";
+
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +101,10 @@ public class DetailActivity extends AppCompatActivity {
         final DetailTimeBankAdapter adapter = new DetailTimeBankAdapter();
         detailRecyclerView.setAdapter(adapter);
 
+        // Runnable for timer
+        handler = new Handler();
+
+
         /**
          * ViewModel
          */
@@ -106,35 +116,30 @@ public class DetailActivity extends AppCompatActivity {
         categoryVM.getAllCategories().observe(this, new Observer<List<Category>>() {
             @Override
             public void onChanged(@Nullable List<Category> categories) {
-                // Avoid Null errors
-                if(categories != null || categories.size() != 0) {
+                Log.e(TAG, "getAllCategoriesObserver");
+                // Get the current Category
+                currentCategory = categories.get(categoryID-1);
 
-                    // Get the current Category
-                    currentCategory = categories.get(categoryID-1);
+                // Set categoryView text
+                categoryView.setText(currentCategory.getCategory());
 
-                    // Set categoryView text
-                    categoryView.setText(currentCategory.getCategory());
+                if (currentCategory.isTimerRunning()) {
+                    handler.postDelayed(timerRun, 1000 );// to work on mainThread, consider new Thread instead
+                    StartEnabledButtons();
+                }
 
-                    timerVM.setCurrentCategory(currentCategory);
+                // Set buttons enabled
+                if(currentCategory.getDisplayTime() > 0){
+                    PauseEnabledButtons();
+                } else {
+                    DefaultEnabledButtons();
+                }
 
-                    if (currentCategory.isTimerRunning()) {
-                        StartEnabledButtons();
-                        timerVM.startTimer();
-                    } else {
-                        if(currentCategory.getDisplayTime() > 0){
-                            PauseEnabledButtons();
-                        } else {
-                            DefaultEnabledButtons();
-                        }
-                        timerVM.setTimer();
-                    }
-
-                    // Set the favoriteIcon correctly
-                    if (currentCategory.isFavorite()){
-                        favoriteIcon.setChecked(true);
-                    } else {
-                        favoriteIcon.setChecked(false);
-                    }
+                // Set the favoriteIcon correctly
+                if (currentCategory.isFavorite()){
+                    favoriteIcon.setChecked(true);
+                } else {
+                    favoriteIcon.setChecked(false);
                 }
             }
         });
@@ -150,12 +155,9 @@ public class DetailActivity extends AppCompatActivity {
         timerVM.getTimerTime().observe(DetailActivity.this , new Observer<Long>() {
             @Override
             public void onChanged(@Nullable Long time) {
-                if (time != null) {
-                    timerView.setText(form.FormatMillisIntoHMS(time));
-                    currentCategory.setDisplayTime(time);
-                } else {
-                    timerView.setText(R.string.default_timer);
-                }
+                timerView.setText(form.FormatMillisIntoHMS(time));
+                currentCategory.setDisplayTime(time);
+
             }
         });
 
@@ -181,14 +183,13 @@ public class DetailActivity extends AppCompatActivity {
 
                 if(isChecked) {
                     currentCategory.setFavorite(true);
-                   // categoryVM.updateCategory(currentCategory);
                 } else {
                     currentCategory.setFavorite(false);
-                   // categoryVM.updateCategory(currentCategory);
                 }
             }
         });
     } // End of onCreate
+
 
     @Override
     protected void onDestroy() {
@@ -198,11 +199,11 @@ public class DetailActivity extends AppCompatActivity {
         // Set TimerViewModel data and update Category in database
 
         if (currentCategory.isTimerRunning()) {
-            timerVM.pauseTimer();
-            currentCategory.setTimeAfterLife(SystemClock.elapsedRealtime());
-            timerVM.setCurrentCategory(currentCategory);
+            currentCategory.setTimeAtDeath(SystemClock.elapsedRealtime());
+            handler.removeCallbacks(timerRun);
+        } else {
+            currentCategory.setTimeAtDeath(0);
         }
-
         categoryVM.updateCategory(currentCategory);
     }
 
@@ -263,8 +264,8 @@ public class DetailActivity extends AppCompatActivity {
     public void startButton(View view) {
         // Get the initialTime and start the Timer
         currentCategory.setTimerRunning(true);
-        timerVM.setCurrentCategory(currentCategory);
-        timerVM.startTimer();
+        currentCategory.setTimeAtDeath(0);
+        handler.postDelayed(timerRun, 1000);
         StartEnabledButtons();
         if (currentCategory.getDisplayTime() == 0) {
             currentCategory.setStartTime(new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(new Date()));
@@ -273,9 +274,9 @@ public class DetailActivity extends AppCompatActivity {
 
     public void pauseButton(View view) {
         // Cancel the timer
+        handler.removeCallbacks(timerRun);
         currentCategory.setTimerRunning(false);
-        timerVM.setCurrentCategory(currentCategory);
-        timerVM.pauseTimer();
+        currentCategory.setTimeAtDeath(0);
         PauseEnabledButtons();
 
     }
@@ -283,8 +284,7 @@ public class DetailActivity extends AppCompatActivity {
     public void resetButton(View view) {
         // Reset timer
         currentCategory.setDisplayTime(0);
-        currentCategory.setTimeAfterLife(0);
-        timerVM.setCurrentCategory(currentCategory);
+        currentCategory.setTimeAtDeath(0);
         timerView.setText(form.FormatMillisIntoHMS(currentCategory.getDisplayTime()));
         DefaultEnabledButtons();
     }
@@ -301,7 +301,6 @@ public class DetailActivity extends AppCompatActivity {
 
         // Reset timer
         currentCategory.setDisplayTime(0);
-        timerVM.setCurrentCategory(currentCategory);
         timerView.setText(form.FormatMillisIntoHMS(currentCategory.getDisplayTime()));
         DefaultEnabledButtons();
     }
@@ -333,4 +332,12 @@ public class DetailActivity extends AppCompatActivity {
         resetButton.setEnabled(false);
         commitButton.setEnabled(false);
     }
+
+    //StopWatch Logic
+    public Runnable timerRun = new Runnable() {
+        public void run() {
+            timerVM.setTimer(currentCategory);
+            handler.postDelayed(this, 1000);
+        }
+    };
 }

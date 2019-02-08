@@ -154,7 +154,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         detailIntent.putExtra("category_id", currentCategory.getId());
         detailIntent.putExtra("category_title", currentCategory.getCategory());
         detailIntent.putExtra("display_time", currentCategory.getDisplayTime());
-        detailIntent.putExtra("timer_after_life", currentCategory.getTimeAfterLife());
+        detailIntent.putExtra("timer_at_death", currentCategory.getTimeAtDeath());
         detailIntent.putExtra("is_running", currentCategory.isTimerRunning());
 
         ActivityOptionsCompat options =
