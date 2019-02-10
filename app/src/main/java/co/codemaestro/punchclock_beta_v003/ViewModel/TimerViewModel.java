@@ -18,7 +18,6 @@ public class TimerViewModel extends AndroidViewModel {
      * Variables for the transient data we need in Detail Activity
      */
     private LiveData<Long> timeToShow = new MutableLiveData<>();
-    private long initialTime, timeAfterLife;
     public TimerViewModel(@NonNull Application application) {
         super(application);
     }
