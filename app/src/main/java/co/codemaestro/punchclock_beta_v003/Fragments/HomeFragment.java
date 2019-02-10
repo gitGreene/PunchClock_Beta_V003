@@ -5,19 +5,16 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.List;
 
-import co.codemaestro.punchclock_beta_v003.Adapters.AddCategoryCardViewHolder;
+import co.codemaestro.punchclock_beta_v003.Adapters.PlusCardViewHolder;
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryAdapter;
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
@@ -32,7 +29,7 @@ public class
 HomeFragment extends Fragment {
     private CategoryViewModel catViewModel;
     private static CategoryViewHolder.CategoryCardListener listener1;
-    private static AddCategoryCardViewHolder.AddCategoryCardListener plusCardListener;
+    private static PlusCardViewHolder.PlusCardListener plusCardListener;
     private static final String TAG = "TAG";
 
 
@@ -40,7 +37,7 @@ HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static HomeFragment newInstance(CategoryViewHolder.CategoryCardListener listener, AddCategoryCardViewHolder.AddCategoryCardListener listener2) {
+    public static HomeFragment newInstance(CategoryViewHolder.CategoryCardListener listener, PlusCardViewHolder.PlusCardListener listener2) {
         listener1 = listener;
         plusCardListener = listener2;
 

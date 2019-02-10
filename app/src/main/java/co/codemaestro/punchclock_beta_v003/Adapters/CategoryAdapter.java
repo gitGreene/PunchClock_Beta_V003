@@ -2,20 +2,15 @@ package co.codemaestro.punchclock_beta_v003.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import java.util.List;
 
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
-import co.codemaestro.punchclock_beta_v003.Fragments.AddCategoryFragment;
 import co.codemaestro.punchclock_beta_v003.R;
 
 public class CategoryAdapter extends RecyclerView.Adapter {
@@ -24,18 +19,18 @@ public class CategoryAdapter extends RecyclerView.Adapter {
     private List<Category> categories;
     private LayoutInflater inflater;
     private Context context;
-    private CategoryViewHolder.CategoryCardListener listener;
-    private AddCategoryCardViewHolder.AddCategoryCardListener listener2;
+    private CategoryViewHolder.CategoryCardListener categoryCardListener;
+    private PlusCardViewHolder.PlusCardListener plusCardListener;
 
-    private static final int CARD_LAYOUT_ONE = 1;
-    private static final int CARD_LAYOUT_TWO = 2;
+    private static final int CATEGORY_CARD_LAYOUT_TAG = 1;
+    private static final int PLUS_CARD_LAYOUT_TAG = 2;
 
 
-    public CategoryAdapter(Context context, CategoryViewHolder.CategoryCardListener listener, AddCategoryCardViewHolder.AddCategoryCardListener listener2) {
+    public CategoryAdapter(Context context, CategoryViewHolder.CategoryCardListener categoryCardListener, PlusCardViewHolder.PlusCardListener plusCardListener) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
-        this.listener = listener;
-        this.listener2 = listener2;
+        this.categoryCardListener = categoryCardListener;
+        this.plusCardListener = plusCardListener;
     }
 
     // Passes the list of categories we received from the Observer
@@ -59,9 +54,9 @@ public class CategoryAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         if(position == categories.size()) {
-            return CARD_LAYOUT_TWO;
+            return PLUS_CARD_LAYOUT_TAG;
         } else {
-            return CARD_LAYOUT_ONE;
+            return CATEGORY_CARD_LAYOUT_TAG;
         }
     }
 
@@ -69,15 +64,14 @@ public class CategoryAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
-        LayoutInflater inflator = LayoutInflater.from(context);
         switch(viewType) {
-            case CARD_LAYOUT_ONE:
+            case CATEGORY_CARD_LAYOUT_TAG:
                 View view1 = inflater.inflate(R.layout.category_card, viewGroup, false);
-                viewHolder = new CategoryViewHolder(view1, categories, context, listener);
+                viewHolder = new CategoryViewHolder(view1, categories, context, categoryCardListener);
                 break;
-            case CARD_LAYOUT_TWO:
+            case PLUS_CARD_LAYOUT_TAG:
                 View view2 = inflater.inflate(R.layout.add_category_card, viewGroup, false);
-                viewHolder = new AddCategoryCardViewHolder(view2, context, listener2);
+                viewHolder = new PlusCardViewHolder(view2, context, plusCardListener);
                 break;
         }
         return viewHolder;
@@ -86,12 +80,12 @@ public class CategoryAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         switch (viewHolder.getItemViewType()) {
-            case CARD_LAYOUT_ONE:
+            case CATEGORY_CARD_LAYOUT_TAG:
                 CategoryViewHolder viewHolder1 = (CategoryViewHolder) viewHolder;
                 viewHolder1.setCategory(categories.get(position));
                 break;
-            case CARD_LAYOUT_TWO:
-                AddCategoryCardViewHolder viewHolder2 = (AddCategoryCardViewHolder) viewHolder;
+            case PLUS_CARD_LAYOUT_TAG:
+                PlusCardViewHolder viewHolder2 = (PlusCardViewHolder) viewHolder;
                 break;
         }
     }

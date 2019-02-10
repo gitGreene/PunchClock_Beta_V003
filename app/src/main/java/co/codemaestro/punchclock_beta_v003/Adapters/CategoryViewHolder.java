@@ -37,7 +37,6 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
     private List<Category> categories;
     private Context context;
     private CategoryCardListener listener;
-    private boolean timerRunning;
 
 
 
@@ -85,13 +84,12 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         BounceInterpolator bounceInterpolator = new BounceInterpolator();
         cardIconScaleAnimation.setInterpolator(bounceInterpolator);
 
-        categoryCardFavicon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
+        categoryCardFavicon.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                buttonView.startAnimation(cardIconScaleAnimation);
+            public void onClick(View v) {
+                categoryCardFavicon.startAnimation(cardIconScaleAnimation);
 
-                if(isChecked) {
+                if(categoryCardFavicon.isChecked()) {
                     category.setFavorite(true);
                     listener.onCardAction(category);
                 } else {
@@ -115,7 +113,6 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
             public void onClick(View v) {
                 categoryCardPlayButton.startAnimation(cardIconScaleAnimation);
                 Toast.makeText(context, "Start Button Clicked Yo", Toast.LENGTH_LONG).show();
-                timerRunning = true;
                 category.setTimerRunning(true);
                 listener.onCardAction(category);
                 categoryCardPauseButton.setEnabled(true);
@@ -128,7 +125,6 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
             public void onClick(View v) {
                 categoryCardPauseButton.startAnimation(cardIconScaleAnimation);
                 Toast.makeText(context, "Pause Button Clicked Yo", Toast.LENGTH_LONG).show();
-                timerRunning = false;
                 category.setTimerRunning(false);
                 listener.onCardAction(category);
                 categoryCardPauseButton.setEnabled(false);
