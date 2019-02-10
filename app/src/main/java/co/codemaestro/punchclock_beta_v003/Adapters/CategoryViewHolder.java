@@ -135,35 +135,20 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
                 categoryCardPlayButton.setEnabled(true);
             }
         });
-
-
-
-
     }
 
     @Override
     public void onClick(View v) {
         // Create category object to hold category
         Category currentCategory = categories.get(getAdapterPosition());
-
-        //TODO: FIX THE INTENTS UP AND GET THE DAMN HOME WOK SHIT WORKING---- ALSO THE STARTTIME
-
         // Send category over and start the detail activity
         Intent detailIntent = new Intent(context, DetailActivity.class);
         detailIntent.putExtra("category_id", currentCategory.getId());
-        detailIntent.putExtra("category_title", currentCategory.getCategory());
-        detailIntent.putExtra("display_time", currentCategory.getDisplayTime());
-        detailIntent.putExtra("timer_at_death", currentCategory.getTimeAtDeath());
-        detailIntent.putExtra("is_running", currentCategory.isTimerRunning());
-
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, categoryCardLayout, ViewCompat.getTransitionName(categoryCardLayout));
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             context.startActivity(detailIntent, options.toBundle());
         }
-
-
     }
 }
 
