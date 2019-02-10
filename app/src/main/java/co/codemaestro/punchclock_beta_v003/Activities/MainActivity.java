@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -15,10 +14,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import co.codemaestro.punchclock_beta_v003.Adapters.AddCategoryCardViewHolder;
+import co.codemaestro.punchclock_beta_v003.Adapters.PlusCardViewHolder;
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Fragments.AddCategoryFragment;
@@ -29,7 +27,7 @@ import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 
 public class MainActivity extends AppCompatActivity implements
-        AddCategoryFragment.AddCategoryFragmentListener, CategoryViewHolder.CategoryCardListener, AddCategoryCardViewHolder.AddCategoryCardListener {
+        AddCategoryFragment.AddCategoryFragmentListener, CategoryViewHolder.CategoryCardListener, PlusCardViewHolder.PlusCardListener {
 
     private CategoryViewModel catViewModel;
     private BottomNavigationView bottomNav;
@@ -185,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void addCategoryCardAction() {
+    public void onPlusCardAction() {
         AddCategoryFragment addCategoryFragment = AddCategoryFragment.newInstance();
         addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
     }

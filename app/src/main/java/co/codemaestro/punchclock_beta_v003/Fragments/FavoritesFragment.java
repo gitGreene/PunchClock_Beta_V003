@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import co.codemaestro.punchclock_beta_v003.Adapters.AddCategoryCardViewHolder;
+import co.codemaestro.punchclock_beta_v003.Adapters.PlusCardViewHolder;
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryAdapter;
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
@@ -28,13 +28,13 @@ import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 public class FavoritesFragment extends Fragment {
     private CategoryViewModel categoryViewModel;
     private static CategoryViewHolder.CategoryCardListener listener1;
-    private static AddCategoryCardViewHolder.AddCategoryCardListener listener2;
+    private static PlusCardViewHolder.PlusCardListener listener2;
 
     public FavoritesFragment() {
         // Required empty public constructor
     }
 
-    public static FavoritesFragment newInstance(CategoryViewHolder.CategoryCardListener listener, AddCategoryCardViewHolder.AddCategoryCardListener listener2) {
+    public static FavoritesFragment newInstance(CategoryViewHolder.CategoryCardListener listener, PlusCardViewHolder.PlusCardListener listener2) {
         listener1 = listener;
         listener2 = listener2;
         return new FavoritesFragment();
