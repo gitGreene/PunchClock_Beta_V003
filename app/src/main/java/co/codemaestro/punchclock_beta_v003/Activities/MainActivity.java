@@ -69,17 +69,28 @@ public class MainActivity extends AppCompatActivity implements
 
                         switch (menuItem.getItemId()) {
                             case R.id.bottom_nav_home:
-                                getSupportActionBar().setTitle(R.string.bottom_nav_home);
-                                newPosition = 1;
+                                if (startingPosition != 1) {
+                                    getSupportActionBar().setTitle(R.string.bottom_nav_home);
+                                    newPosition = 1;
+                                    return loadFragment(newPosition);
+                                }
                                 break;
                             case R.id.bottom_nav_favorites:
-                                getSupportActionBar().setTitle(R.string.bottom_nav_favorites);
-                                newPosition = 2;
+                                if (startingPosition != 2) {
+                                    getSupportActionBar().setTitle(R.string.bottom_nav_favorites);
+                                    newPosition = 2;
+                                    return loadFragment(newPosition);
+                                }
                                 break;
                             case R.id.bottom_nav_timer:
-                                getSupportActionBar().setTitle(R.string.bottom_nav_timer);
-                                newPosition = 3;
+                                if (startingPosition != 3) {
+                                    getSupportActionBar().setTitle(R.string.bottom_nav_timer);
+                                    newPosition = 3;
+                                    return loadFragment(newPosition);
+                                }
                                 break;
+                            default:
+                                return loadFragment(newPosition);
                         }
                         return loadFragment(newPosition);
                     }
