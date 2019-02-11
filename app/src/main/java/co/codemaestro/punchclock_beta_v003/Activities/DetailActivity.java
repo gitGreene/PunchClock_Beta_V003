@@ -297,7 +297,7 @@ public class DetailActivity extends AppCompatActivity {
         // Create a timeBank object with relevant endTime/Date and insert it into the database
         TimeBank timeBank = new TimeBank(currentCategory.getDisplayTime(),
                                          currentCategory.getStartTime(), new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(new Date()),
-                                         new SimpleDateFormat("mm/dd/yyyy", Locale.getDefault()).format(new Date()), categoryID);
+                                         new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date()), categoryID);
         categoryVM.insertTimeBank(timeBank);
 
         // Update the totalTime
