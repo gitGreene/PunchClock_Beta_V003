@@ -30,12 +30,12 @@ import co.codemaestro.punchclock_beta_v003.R;
 
 public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView categoryCardTitle;
-    private TextView categoryCardTotalTime;
+    private TextView categoryCardTimer, categoryCardTotalTime;
     private ProgressBar progressBar;
     private Button categoryCardPlayButton, categoryCardPauseButton, categoryCardResetButton, categoryCardCommitButton;
     private ToggleButton categoryCardFavicon;
     private LinearLayout categoryCardLayout;
-    private FormatMillis format = new FormatMillis();
+    private FormatMillis form = new FormatMillis();
     private Category category;
     private List<Category> categories;
     private Context context;
@@ -53,6 +53,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         this.categories = categories;
         this.context = context;
         categoryCardTitle = itemView.findViewById(R.id.category_card_title);
+        categoryCardTimer = itemView.findViewById(R.id.category_card_timer);
         categoryCardTotalTime = itemView.findViewById(R.id.category_card_total_time);
         categoryCardPlayButton = itemView.findViewById(R.id.category_card_play_button);
         categoryCardPauseButton = itemView.findViewById(R.id.category_card_pause_button);
@@ -66,7 +67,8 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
     public void setCategory(final Category category) {
         this.category = category;
         categoryCardTitle.setText(category.getCategory());
-        categoryCardTotalTime.setText(format.FormatMillisIntoHMS(category.getTotalTime()));
+        categoryCardTimer.setText(form.FormatMillisIntoHMS(category.getDisplayTime()));
+        categoryCardTotalTime.setText(form.FormatMillisIntoDHM(category.getTotalTime()));
 
         if (category.isFavorite()) {
             categoryCardFavicon.setChecked(true);
