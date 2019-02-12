@@ -22,9 +22,9 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:animateLayoutChanges="false"
-        android:background="@color/primaryColor"
+        android:background="@color/bottom_nav_background_color"
         app:itemIconTint="@color/primaryTextColor"
-        app:itemTextColor="@color/primaryTextColor"
+        app:itemTextColor="@color/white"
         app:menu="@menu/bottom_nav">
 
     </android.support.design.widget.BottomNavigationView>
