@@ -55,7 +55,21 @@ public class MainActivity extends AppCompatActivity implements
 
         startingPosition = prefs.getInt(currentFragmentChosenKey, 1);
         loadFragment(startingPosition);
-        getSupportActionBar().setTitle(R.string.bottom_nav_home);
+        // Depending on the startingPosition, load a different SupportActionBar title string
+        switch(startingPosition) {
+            case 1:
+                getSupportActionBar().setTitle(R.string.bottom_nav_home);
+                break;
+            case 2:
+                getSupportActionBar().setTitle(R.string.bottom_nav_favorites);
+                break;
+            case 3:
+                getSupportActionBar().setTitle(R.string.bottom_nav_timer);
+                break;
+            default:
+                getSupportActionBar().setTitle(R.string.bottom_nav_home);
+        }
+
 
         catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
