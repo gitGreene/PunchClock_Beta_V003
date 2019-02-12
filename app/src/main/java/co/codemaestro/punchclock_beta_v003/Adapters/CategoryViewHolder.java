@@ -29,7 +29,7 @@ import co.codemaestro.punchclock_beta_v003.R;
 public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView categoryCardTitle;
     private TextView categoryCardTotalTime;
-    private Button categoryCardPauseButton, categoryCardPlayButton;
+    private Button categoryCardPlayButton, categoryCardPauseButton, categoryCardResetButton, categoryCardCommitButton;
     private ToggleButton categoryCardFavicon;
     private LinearLayout categoryCardLayout;
     private FormatMillis format = new FormatMillis();
@@ -53,6 +53,8 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         categoryCardTotalTime = itemView.findViewById(R.id.category_card_total_time);
         categoryCardPlayButton = itemView.findViewById(R.id.category_card_play_button);
         categoryCardPauseButton = itemView.findViewById(R.id.category_card_pause_button);
+        categoryCardResetButton = itemView.findViewById(R.id.category_card_reset_button);
+        categoryCardCommitButton = itemView.findViewById(R.id.category_card_commit_button);
         categoryCardLayout = itemView.findViewById(R.id.card_layout);
         categoryCardFavicon = itemView.findViewById(R.id.detail_activity_favicon);
         itemView.setOnClickListener(this);
@@ -110,10 +112,9 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
             public void onClick(View v) {
                 categoryCardPlayButton.startAnimation(cardIconScaleAnimation);
                 Toast.makeText(context, "Start Button Clicked Yo", Toast.LENGTH_LONG).show();
-                category.setTimerRunning(true);
+                //category.setTimerRunning(true);
                 listener.onCardAction(category);
-                categoryCardPauseButton.setEnabled(true);
-                categoryCardPlayButton.setEnabled(false);
+                StartEnabledButtons();
             }
         });
 
@@ -122,10 +123,29 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
             public void onClick(View v) {
                 categoryCardPauseButton.startAnimation(cardIconScaleAnimation);
                 Toast.makeText(context, "Pause Button Clicked Yo", Toast.LENGTH_LONG).show();
-                category.setTimerRunning(false);
+                //category.setTimerRunning(false);
                 listener.onCardAction(category);
-                categoryCardPauseButton.setEnabled(false);
-                categoryCardPlayButton.setEnabled(true);
+                PauseEnabledButtons();
+            }
+        });
+
+        categoryCardResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categoryCardPauseButton.startAnimation(cardIconScaleAnimation);
+                Toast.makeText(context, "Reset Button Clicked Yo", Toast.LENGTH_LONG).show();
+                listener.onCardAction(category);
+                DefaultEnabledButtons();
+            }
+        });
+
+        categoryCardCommitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categoryCardPauseButton.startAnimation(cardIconScaleAnimation);
+                Toast.makeText(context, "Commit Button Clicked Yo", Toast.LENGTH_LONG).show();
+                listener.onCardAction(category);
+                DefaultEnabledButtons();
             }
         });
     }
@@ -140,6 +160,34 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             context.startActivity(detailIntent, options.toBundle());
         }
+    }
+
+    /**
+     * SetEnabled Timer Button Methods - Three states of buttons
+     */
+
+    public void StartEnabledButtons() {
+        // timer Started
+        categoryCardPlayButton.setEnabled(false);
+        categoryCardPauseButton.setEnabled(true);
+        categoryCardResetButton.setEnabled(false);
+        categoryCardCommitButton.setEnabled(false);
+    }
+
+    public void PauseEnabledButtons() {
+        // timer Paused
+        categoryCardPlayButton.setEnabled(true);
+        categoryCardPauseButton.setEnabled(false);
+        categoryCardResetButton.setEnabled(true);
+        categoryCardCommitButton.setEnabled(true);
+    }
+
+    public void DefaultEnabledButtons() {
+        // timer Reset
+        categoryCardPlayButton.setEnabled(true);
+        categoryCardPauseButton.setEnabled(false);
+        categoryCardResetButton.setEnabled(false);
+        categoryCardCommitButton.setEnabled(false);
     }
 }
 
