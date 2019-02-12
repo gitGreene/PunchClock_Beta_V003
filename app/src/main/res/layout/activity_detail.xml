@@ -57,6 +57,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/default_timer"
+        android:textColor="@color/secondaryTextColor"
         android:textSize="50sp"
         android:textStyle="bold" />
 
