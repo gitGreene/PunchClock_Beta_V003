@@ -89,7 +89,4 @@ public class CategoryAdapter extends RecyclerView.Adapter {
                 break;
         }
     }
-
-
-
 }
