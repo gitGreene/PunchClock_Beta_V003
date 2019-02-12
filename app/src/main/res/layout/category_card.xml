@@ -106,6 +106,30 @@
                 android:layout_gravity="center"
                 android:backgroundTint="@color/primaryColor"  />
 
+            <ToggleButton
+                android:id="@+id/category_card_reset_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_reset_button_selector"
+                android:text=""
+                android:textOff=""
+                android:textOn=""
+                android:layout_gravity="center"
+                android:backgroundTint="@color/primaryColor"  />
+
+            <ToggleButton
+                android:id="@+id/category_card_commit_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_commit_button_selector"
+                android:text=""
+                android:textOff=""
+                android:textOn=""
+                android:layout_gravity="center"
+                android:backgroundTint="@color/primaryColor"  />
+
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -31,7 +31,7 @@ public abstract class CategoryDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             CategoryDatabase.class, "category_database")
                             .addCallback(sRoomDatabaseCallback)
-                            .fallbackToDestructiveMigration() //TODO: understand migrations
+                            .fallbackToDestructiveMigration() //TODO: understand migrations   https://developer.android.com/training/data-storage/room/migrating-db-versions - https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
                             .build();
                 }
             }
