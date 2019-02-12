@@ -42,7 +42,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/category_card_title_container"
-                tools:text="Category Title" />
+                tools:text="Category" />
+
+            <TextView
+                android:id="@+id/category_card_total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                app:layout_constraintBottom_toBottomOf="@+id/category_card_title_container"
+                app:layout_constraintEnd_toStartOf="@+id/detail_activity_favicon"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="0d0h0m" />
 
             <ToggleButton
                 android:id="@+id/detail_activity_favicon"
@@ -79,7 +94,7 @@
 
             <!-- TODO: Fix Style for timeBankValue -->
             <TextView
-                android:id="@+id/category_card_total_time"
+                android:id="@+id/category_card_timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -89,7 +104,8 @@
                 android:textSize="32sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="@string/default_timer"/>
 
             <ToggleButton
                 android:id="@+id/category_card_play_button"
@@ -101,7 +117,7 @@
                 android:textOff=""
                 android:textOn=""
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/category_card_total_time"
+                app:layout_constraintStart_toEndOf="@id/category_card_timer"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ToggleButton
@@ -139,10 +155,9 @@
                 android:text=""
                 android:textOff=""
                 android:textOn=""
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/category_card_reset_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
