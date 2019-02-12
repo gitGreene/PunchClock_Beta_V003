@@ -55,9 +55,6 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         categoryCardPauseButton = itemView.findViewById(R.id.category_card_pause_button);
         categoryCardLayout = itemView.findViewById(R.id.card_layout);
         categoryCardFavicon = itemView.findViewById(R.id.detail_activity_favicon);
-
-
-
         itemView.setOnClickListener(this);
     }
 
@@ -136,10 +133,8 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
     @Override
     public void onClick(View v) {
         // Create category object to hold category
-        Category currentCategory = categories.get(getAdapterPosition());
-        // Send category over and start the detail activity
         Intent detailIntent = new Intent(context, DetailActivity.class);
-        detailIntent.putExtra("category_id", currentCategory.getId());
+        detailIntent.putExtra("category_id", category.getId());
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, categoryCardLayout, ViewCompat.getTransitionName(categoryCardLayout));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

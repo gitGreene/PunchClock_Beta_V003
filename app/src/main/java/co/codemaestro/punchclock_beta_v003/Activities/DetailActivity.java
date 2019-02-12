@@ -105,7 +105,6 @@ public class DetailActivity extends AppCompatActivity {
         // Runnable for timer
         handler = new Handler();
 
-
         /**
          * ViewModel
          */
