@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements
                 fragment = HomeFragment.newInstance(this, this);
                 break;
             case 2:
-                fragment = FavoritesFragment.newInstance(this, this);
+                fragment = FavoritesFragment.newInstance(this);
                 break;
             case 3:
                 fragment = new TimerFragment();
