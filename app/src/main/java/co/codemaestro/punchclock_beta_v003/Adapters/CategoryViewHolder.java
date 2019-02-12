@@ -3,6 +3,7 @@ package co.codemaestro.punchclock_beta_v003.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
@@ -14,6 +15,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -29,6 +31,7 @@ import co.codemaestro.punchclock_beta_v003.R;
 public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView categoryCardTitle;
     private TextView categoryCardTotalTime;
+    private ProgressBar progressBar;
     private Button categoryCardPlayButton, categoryCardPauseButton, categoryCardResetButton, categoryCardCommitButton;
     private ToggleButton categoryCardFavicon;
     private LinearLayout categoryCardLayout;
@@ -63,16 +66,13 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
     public void setCategory(final Category category) {
         this.category = category;
         categoryCardTitle.setText(category.getCategory());
-
         categoryCardTotalTime.setText(format.FormatMillisIntoHMS(category.getTotalTime()));
-
 
         if (category.isFavorite()) {
             categoryCardFavicon.setChecked(true);
         } else {
             categoryCardFavicon.setChecked(false);
         }
-
 
         final ScaleAnimation cardIconScaleAnimation =
                 new ScaleAnimation(0.9f, 1.1f, 0.9f, 1.1f,
@@ -98,13 +98,15 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
             }
         });
 
-        if(category.isTimerRunning()) {
-            categoryCardPlayButton.setEnabled(false);
-            categoryCardPauseButton.setEnabled(true);
-        } else {
-            categoryCardPlayButton.setEnabled(true);
-            categoryCardPauseButton.setEnabled(false);
-        }
+//        if(category.isTimerRunning()) {
+//            categoryCardPlayButton.setEnabled(false);
+//            categoryCardPauseButton.setEnabled(true);
+//        } else {
+//            categoryCardPlayButton.setEnabled(true);
+//            categoryCardPauseButton.setEnabled(false);
+//        }
+
+        //TODO: Make the progress bar work - https://stackoverflow.com/questions/16893209/how-to-customize-a-progress-bar-in-android
 
 
         categoryCardPlayButton.setOnClickListener(new View.OnClickListener() {

@@ -59,6 +59,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progress="25"
+            android:indeterminateDrawable="@drawable/custom_progress_bar"
+            android:progressTint="@color/primaryLightColor"
+            android:progressBackgroundTint="@color/card_body_background"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -128,7 +138,6 @@
                 android:textOn=""
                 android:layout_gravity="center"
                 android:backgroundTint="@color/timer_button_color"  />
-
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
