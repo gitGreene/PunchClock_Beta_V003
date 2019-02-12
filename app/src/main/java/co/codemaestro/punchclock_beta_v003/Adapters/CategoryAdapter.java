@@ -70,7 +70,7 @@ public class CategoryAdapter extends RecyclerView.Adapter {
                 viewHolder = new CategoryViewHolder(view1, categories, context, categoryCardListener);
                 break;
             case PLUS_CARD_LAYOUT_TAG:
-                View view2 = inflater.inflate(R.layout.add_category_card, viewGroup, false);
+                View view2 = inflater.inflate(R.layout.plus_card, viewGroup, false);
                 viewHolder = new PlusCardViewHolder(view2, context, plusCardListener);
                 break;
         }

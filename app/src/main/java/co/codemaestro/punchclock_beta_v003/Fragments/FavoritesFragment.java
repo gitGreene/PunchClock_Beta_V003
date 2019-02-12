@@ -28,14 +28,14 @@ import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
  */
 public class FavoritesFragment extends Fragment {
     private CategoryViewModel categoryViewModel;
-    private static CategoryViewHolder.CategoryCardListener listener1;
+    private static CategoryViewHolder.CategoryCardListener favCategoryCardListener;
 
     public FavoritesFragment() {
         // Required empty public constructor
     }
 
-    public static FavoritesFragment newInstance(CategoryViewHolder.CategoryCardListener listener) {
-        listener1 = listener;
+    public static FavoritesFragment newInstance(CategoryViewHolder.CategoryCardListener categoryCardListener) {
+        favCategoryCardListener = categoryCardListener;
         return new FavoritesFragment();
     }
 
@@ -46,7 +46,7 @@ public class FavoritesFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_favorites, container, false);
         final RecyclerView favoritesRecycler = view.findViewById(R.id.favorites_recyclerview);
-        final FavoritesAdapter favoritesAdapter = new FavoritesAdapter(getContext(), listener1);
+        final FavoritesAdapter favoritesAdapter = new FavoritesAdapter(getContext(), favCategoryCardListener);
         favoritesRecycler.setLayoutManager(new GridLayoutManager(getContext(), 1));
         favoritesRecycler.setAdapter(favoritesAdapter);
 

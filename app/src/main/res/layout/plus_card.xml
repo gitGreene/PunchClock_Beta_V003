@@ -21,8 +21,8 @@
             android:id="@+id/category_card_title_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryColor"
-            android:backgroundTint="@color/primaryColor"
+            android:background="@color/category_title_container_background"
+            android:backgroundTint="@color/category_title_container_background"
             android:elevation="3dp">
             <ToggleButton
                 android:id="@+id/add_category_button"
@@ -46,7 +46,7 @@
             android:layout_height="60dp"
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal"
-            android:backgroundTint="@color/light_gray"
+            android:background="@color/card_body_background"
             android:paddingStart="5dp"
             android:paddingLeft="5dp"
             android:paddingEnd="5dp"
