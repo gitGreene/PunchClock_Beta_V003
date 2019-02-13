@@ -16,6 +16,7 @@ public class DetailFrameAdapter extends FragmentPagerAdapter {
         super(fragmentManager);
     }
 
+
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = null;
