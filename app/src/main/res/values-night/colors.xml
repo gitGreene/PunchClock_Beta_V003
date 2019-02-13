@@ -4,16 +4,15 @@
     <color name="primaryLightColor">#bf82ff</color>
     <color name="primaryDarkColor">#5525b5</color>
     <color name="colorBackground">#2e1172</color>
-
     <color name="secondaryColor">#2f36bf</color>
     <color name="secondaryLightColor">#8a53e8</color>
     <color name="secondaryDarkColor">#000f8d</color>
 
     <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#8a53e8</color>
-
+    <color name="secondaryTextColor">#ffffff</color>
+    <color name="dark_gray">#606368</color>
     <color name="category_title_container_background">#1c173d</color>
-    <color name="fragment_background_color">#101011</color>
+    <color name="background_color">#101011</color>
     <color name="timer_button_color">#ffffff</color>
     <color name="total_time_text_color">#ffffff</color>
     <color name="card_body_background">#2e1172</color>

@@ -5,7 +5,7 @@
     android:id="@+id/activity_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/background_color"
     android:orientation="vertical"
     tools:context=".Activities.DetailActivity"
     android:transitionName="@string/category_title_transition">
@@ -15,8 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@color/colorBackground"
-        android:backgroundTint="@color/primaryColor">
+        android:background="@color/category_title_container_background">
 
         <TextView
             android:id="@+id/detail_activity_category_title"
@@ -58,6 +57,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/default_timer"
+        android:textColor="@color/secondaryTextColor"
         android:textSize="50sp"
         android:textStyle="bold" />
 
@@ -65,7 +65,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/category_title_container_background">
 
         <ToggleButton
             android:id="@+id/startButton"
