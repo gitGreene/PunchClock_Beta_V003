@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_gray">
+    android:background="@color/background_color">
 
 
     <android.support.v7.widget.CardView
@@ -23,14 +23,15 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/detail_activity_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:background="@color/card_body_background">
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/detail_activity_title_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/primaryColor"
-                android:backgroundTint="@color/primaryColor"
+                android:background="@color/category_title_container_background"
+                android:backgroundTint="@color/category_title_container_background"
                 app:layout_constraintEnd_toEndOf="@id/detail_activity_container"
                 app:layout_constraintStart_toStartOf="@id/detail_activity_container"
                 app:layout_constraintTop_toTopOf="@+id/detail_activity_container">
@@ -81,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/default_timer"
-                    android:textColor="@color/primaryColor"
+                    android:textColor="@color/secondaryTextColor"
                     android:textSize="50sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"

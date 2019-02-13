@@ -44,6 +44,7 @@ public class DetailTimeBankAdapter extends RecyclerView.Adapter<DetailTimeBankAd
         detailTimeBankHolder.textViewDate.setText(currentTimeBank.getDate());
     }
 
+
     @Override
     public int getItemCount() {
         // Return the size of the data array
