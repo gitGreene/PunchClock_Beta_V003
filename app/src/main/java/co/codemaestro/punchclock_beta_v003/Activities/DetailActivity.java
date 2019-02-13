@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
@@ -29,6 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import co.codemaestro.punchclock_beta_v003.Adapters.DetailFrameAdapter;
 import co.codemaestro.punchclock_beta_v003.Adapters.DetailTimeBankAdapter;
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
@@ -66,6 +70,8 @@ public class DetailActivity extends AppCompatActivity {
     private long initialTime;
     private long displayTime;
 
+    FragmentPagerAdapter adapterViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -93,14 +99,14 @@ public class DetailActivity extends AppCompatActivity {
         // Get intent extra and set the timerView with formatted long to string
         categoryID = getIntent().getIntExtra("category_id", 0);
 
+
         /**
-         * RecyclerView
+         * ViewPager and ViewPager Adapter
          */
-        // RecyclerView
-        detailRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        detailRecyclerView.setHasFixedSize(false);
-        final DetailTimeBankAdapter adapter = new DetailTimeBankAdapter();
-        detailRecyclerView.setAdapter(adapter);
+        ViewPager viewPager = findViewById(R.id.detail_frame_viewpager);
+        adapterViewPager = new DetailFrameAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapterViewPager);
+        viewPager.getCurrentItem();
 
         // Runnable for timer
         handler = new Handler();
@@ -152,12 +158,12 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         // Observer - Updates data set for detailRecyclerView
-        categoryVM.getCategoryTimeBanks(categoryID).observe(this, new Observer<List<TimeBank>>() {
-            @Override
-            public void onChanged(@Nullable List<TimeBank> timeBanks) {
-                adapter.setTimeBanks(timeBanks);
-            }
-        });
+//        categoryVM.getCategoryTimeBanks(categoryID).observe(this, new Observer<List<TimeBank>>() {
+//            @Override
+//            public void onChanged(@Nullable List<TimeBank> timeBanks) {
+//                adapter.setTimeBanks(timeBanks);
+//            }
+//        });
 
         timerVM.getTimerTime().observe(DetailActivity.this , new Observer<Long>() {
             @Override
