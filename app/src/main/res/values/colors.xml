@@ -20,4 +20,6 @@
   <color name="white">#ffffff</color>
   <color name="app_bar_background_color">#6f42c1</color>
   <color name="bottom_nav_background_color">#6f42c1</color>
+
+  <color name="square_color_one">#8a53e8</color>
 </resources>

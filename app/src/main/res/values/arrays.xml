@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="calendar_squares_array">
+        <item>@drawable/calendar_square_one</item>
+        <item>@drawable/calendar_square_one</item>
+        <item>@drawable/calendar_square_one</item>
+        <item>@drawable/calendar_square_one</item>
+        <item>@drawable/calendar_square_one</item>
+        <item>@drawable/calendar_square_one</item>
+        <item>@drawable/calendar_square_one</item>
+    </array>
+</resources>
