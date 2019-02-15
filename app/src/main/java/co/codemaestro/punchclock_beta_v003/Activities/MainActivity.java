@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements
     private int startingPosition = 1;
     SharedPreferences prefs;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -211,5 +212,10 @@ public class MainActivity extends AppCompatActivity implements
     public void onPlusCardAction() {
         AddCategoryFragment addCategoryFragment = AddCategoryFragment.newInstance();
         addCategoryFragment.show(getSupportFragmentManager(), "add category fragment");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
