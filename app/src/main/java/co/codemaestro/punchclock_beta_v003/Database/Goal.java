@@ -36,9 +36,6 @@ public class Goal {
     @ColumnInfo(name = "goalCycleValue")
     private String goalCycleValue;
 
-
-
-
     /**
      * Constructor for a Goal
      * Takes the follow parameters for initialization
@@ -59,10 +56,18 @@ public class Goal {
         this.goalCycleValue = goalCycleValue;
     }
 
+    @Ignore
+    public Goal(int parentCategoryId, String goalName, Long timeSpent, Long desiredGoalTime, String goalCycleValue) {
+        this.parentCategoryId = parentCategoryId;
+        this.goalName = goalName;
+        this.timeSpent = timeSpent;
+        this.desiredGoalTime = desiredGoalTime;
+        this.goalCycleValue = goalCycleValue;
+    }
+
     /**
      * Alternate Constructors
      */
-
 
     @Ignore
     public Goal(int goalId) {

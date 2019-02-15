@@ -24,6 +24,7 @@ import android.widget.ToggleButton;
 import java.util.List;
 
 import co.codemaestro.punchclock_beta_v003.Activities.DetailActivity;
+import co.codemaestro.punchclock_beta_v003.Activities.MainActivity;
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.R;
@@ -40,7 +41,6 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
     private List<Category> categories;
     private Context context;
     private CategoryCardListener listener;
-
 
 
     public interface CategoryCardListener {

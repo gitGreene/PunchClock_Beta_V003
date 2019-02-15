@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,7 @@ public class CategoryGoalsFragment extends Fragment {
     private static int parentCategoryId;
     private CategoryViewModel categoryViewModel;
     private Goal tempGoal;
+    private TextView goalIdTv, parentCategoryIdTv, goalNameTv, timeSpentTv, desiredGoalTimeTv, goalCycleValueTv;
 
 
     public CategoryGoalsFragment() {
@@ -50,7 +52,16 @@ public class CategoryGoalsFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_category_goals, container, false);
 
+        goalIdTv = view.findViewById(R.id.goal_Id);
+        parentCategoryIdTv = view.findViewById(R.id.parent_category_Id);
+        goalNameTv = view.findViewById(R.id.goal_name);
+        timeSpentTv = view.findViewById(R.id.time_spent);
+        desiredGoalTimeTv = view.findViewById(R.id.desired_goal_time);
+        goalCycleValueTv = view.findViewById(R.id.goal_cycle_value);
+
+
         addGoalButton = view.findViewById(R.id.add_goal_button);
+
 
         addGoalButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,18 +71,24 @@ public class CategoryGoalsFragment extends Fragment {
             }
         });
 
+
         categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
         categoryViewModel.getAllCategoryGoals(parentCategoryId).observe(this, new Observer<List<Goal>>() {
             @Override
             public void onChanged(@Nullable List<Goal> goals) {
-//                if(goals != null){
-//                    tempGoal = goals.get(0);
-//                } else {
-//                    Toast.makeText(getContext(), "No Goals set yet fool", Toast.LENGTH_LONG).show();
-//                }
-                Toast.makeText(getContext(), "No Goals set yet fool", Toast.LENGTH_LONG).show();
+//                tempGoal = goals.get(0);
+//                goalIdTv.setText(tempGoal.getGoalId());
+//                parentCategoryIdTv.setText(tempGoal.getParentCategoryId());
+//                goalNameTv.setText(tempGoal.getGoalName());
+//                timeSpentTv.setText(tempGoal.getTimeSpent() + "");
+//                desiredGoalTimeTv.setText(tempGoal.getDesiredGoalTime() + "");
+//                goalCycleValueTv.setText(tempGoal.getGoalCycleValue());
+
             }
+
+
+
         });
 
 
@@ -82,7 +99,5 @@ public class CategoryGoalsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
-
     }
 }
