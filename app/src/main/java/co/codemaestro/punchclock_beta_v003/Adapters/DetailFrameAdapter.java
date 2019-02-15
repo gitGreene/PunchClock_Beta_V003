@@ -11,9 +11,11 @@ import co.codemaestro.punchclock_beta_v003.Fragments.TimeBankEntriesFragment;
 
 public class DetailFrameAdapter extends FragmentPagerAdapter {
     private static int NUM_OF_FRAMES = 3;
+    private int parentCategoryId;
 
-    public DetailFrameAdapter(FragmentManager fragmentManager) {
+    public DetailFrameAdapter(FragmentManager fragmentManager, int parentCategoryId) {
         super(fragmentManager);
+        this.parentCategoryId = parentCategoryId;
     }
 
 
@@ -24,13 +26,13 @@ public class DetailFrameAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                fragment = TimeBankEntriesFragment.newInstance(1);
+                fragment = TimeBankEntriesFragment.newInstance(parentCategoryId);
                 break;
             case 1:
-                fragment = CategoryCalendarFragment.newInstance(2);
+                fragment = CategoryCalendarFragment.newInstance(parentCategoryId);
                 break;
             case 2:
-                fragment = CategoryGoalsFragment.newInstance(3);
+                fragment = CategoryGoalsFragment.newInstance(parentCategoryId);
                 break;
             default:
                 return null;

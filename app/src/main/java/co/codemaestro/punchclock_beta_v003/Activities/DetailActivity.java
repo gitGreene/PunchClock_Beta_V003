@@ -104,7 +104,7 @@ public class DetailActivity extends AppCompatActivity {
          * ViewPager and ViewPager Adapter
          */
         ViewPager viewPager = findViewById(R.id.detail_frame_viewpager);
-        adapterViewPager = new DetailFrameAdapter(getSupportFragmentManager());
+        adapterViewPager = new DetailFrameAdapter(getSupportFragmentManager(), categoryID);
         viewPager.setAdapter(adapterViewPager);
         viewPager.getCurrentItem();
 
