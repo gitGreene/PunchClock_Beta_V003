@@ -24,15 +24,15 @@ import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
  */
 public class TimeBankEntriesFragment extends Fragment {
     CategoryViewModel categoryVM;
-    static int categoryID;
+    private static int parentCategoryID;
 
 
     public TimeBankEntriesFragment() {
         // Required empty public constructor
     }
 
-    public static TimeBankEntriesFragment newInstance(int position) {
-        categoryID = position;
+    public static TimeBankEntriesFragment newInstance(int categoryID) {
+        parentCategoryID = categoryID;
         return new TimeBankEntriesFragment();
 
     }
@@ -50,7 +50,7 @@ public class TimeBankEntriesFragment extends Fragment {
 
         categoryVM = ViewModelProviders.of(this).get(CategoryViewModel.class);
 
-        categoryVM.getCategoryTimeBanks(categoryID).observe(this, new Observer<List<TimeBank>>() {
+        categoryVM.getCategoryTimeBanks(parentCategoryID).observe(this, new Observer<List<TimeBank>>() {
             @Override
             public void onChanged(@Nullable List<TimeBank> timeBanks) {
                 detailTimeBankAdapter.setTimeBanks(timeBanks);

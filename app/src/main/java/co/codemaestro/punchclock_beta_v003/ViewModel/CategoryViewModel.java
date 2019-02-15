@@ -9,6 +9,7 @@ import java.util.List;
 
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Database.CategoryRepository;
+import co.codemaestro.punchclock_beta_v003.Database.Goal;
 import co.codemaestro.punchclock_beta_v003.Database.TimeBank;
 
 
@@ -24,6 +25,11 @@ public class CategoryViewModel extends AndroidViewModel {
     //Timebank variables
     private LiveData<List<TimeBank>> allTimeBanks;
     private LiveData<List<TimeBank>> categoryTimeBanks;
+
+    //Goal variables
+    private LiveData<List<Goal>> allCategoryGoals;
+    private LiveData<Goal> goal;
+
 
     public CategoryViewModel(@NonNull Application application) {
         super(application);
@@ -72,4 +78,16 @@ public class CategoryViewModel extends AndroidViewModel {
         repository.insertTimeBank(timeBank);
     }
 
+
+    /**
+     * Goal Methods
+     */
+    public void insertGoal(Goal goal) {
+        repository.insertGoal(goal);
+    }
+
+    public LiveData<List<Goal>> getAllCategoryGoals(int parentCategoryId) {
+        allCategoryGoals = repository.getAllCategoryGoals(parentCategoryId);
+        return allCategoryGoals;
+    }
 }

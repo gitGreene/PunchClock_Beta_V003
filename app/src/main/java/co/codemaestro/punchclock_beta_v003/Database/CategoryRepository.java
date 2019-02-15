@@ -9,6 +9,7 @@ import java.util.List;
 public class CategoryRepository {
     private CategoryDao categoryDao;
     private TimeBankDao timeBankDao;
+    private GoalDao goalDao;
 
     private LiveData<List<Category>> allCategories;
     private LiveData<List<Category>> favorites;
@@ -17,14 +18,23 @@ public class CategoryRepository {
     private LiveData<List<TimeBank>> categoryTimeBanks;
     private LiveData<Long> categoryTimeSum;
 
+    private LiveData<List<Goal>> allCategoryGoals;
+
     /**
      * @param application
      * Constructor for the Repository
+     * Initializes:
+     * CategoryDao
+     * TimeBankDao
+     * GoalDao
+     * allCategories List
+     * allTimeBanks List
      */
     public CategoryRepository(Application application) {
         CategoryDatabase db = CategoryDatabase.getDatabase(application);
         categoryDao = db.categoryDao();
         timeBankDao = db.timeBankDao();
+        goalDao = db.goalDao();
         allCategories = categoryDao.getAllCategories();
         allTimeBanks = timeBankDao.getAllTimeBanks();
     }
@@ -85,6 +95,22 @@ public class CategoryRepository {
     public void deleteTimeBank(TimeBank timeBank) {
         new DeleteTimeBankTask(timeBankDao).execute(timeBank);
     }
+
+    /**
+     * Goal Methods
+     */
+    public void insertGoal(Goal goal) {
+        new InsertGoalAsyncTask(goalDao).execute(goal);
+    }
+
+    public LiveData<List<Goal>> getAllCategoryGoals(int parentCategoryId) {
+        allCategoryGoals = goalDao.getAllGoalsByParentId(parentCategoryId);
+        return allCategoryGoals;
+    }
+
+
+
+
 
 
     /**
@@ -161,6 +187,25 @@ public class CategoryRepository {
         @Override
         protected Void doInBackground(TimeBank... timeBanks) {
             timeBankDao.deleteTimeBank(timeBanks[0]);
+            return null;
+        }
+    }
+
+
+    /**
+     * Goal Async Tasks
+     */
+
+    private static class InsertGoalAsyncTask extends  AsyncTask<Goal, Void, Void>{
+        private GoalDao goalDao;
+
+        public InsertGoalAsyncTask(GoalDao goalDao) {
+            this.goalDao = goalDao;
+        }
+
+        @Override
+        protected Void doInBackground(Goal... goals) {
+            goalDao.insertGoal(goals[0]);
             return null;
         }
     }

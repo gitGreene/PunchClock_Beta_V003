@@ -17,12 +17,14 @@ import co.codemaestro.punchclock_beta_v003.R;
  */
 public class CategoryCalendarFragment extends Fragment {
     private ImageView square1, square2, square3, square4, square5, square6, square7;
+    private static int parentCategoryId;
 
     public CategoryCalendarFragment() {
         // Required empty public constructor
     }
 
-    public static CategoryCalendarFragment newInstance(int position) {
+    public static CategoryCalendarFragment newInstance(int categoryId) {
+        parentCategoryId = categoryId;
         return new CategoryCalendarFragment();
     }
 

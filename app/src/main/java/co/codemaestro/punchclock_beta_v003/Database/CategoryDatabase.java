@@ -13,13 +13,14 @@ import java.text.Format;
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 
 
-@Database(entities = {Category.class, TimeBank.class }, version = 57, exportSchema = false)
+@Database(entities = {Category.class, TimeBank.class, Goal.class }, version = 59, exportSchema = false)
 
 public abstract class CategoryDatabase extends RoomDatabase {
 
     // Dao abstract methods
     public abstract CategoryDao categoryDao();
     public abstract TimeBankDao timeBankDao();
+    public abstract GoalDao goalDao();
 
     // Singleton
     private static volatile CategoryDatabase INSTANCE;
