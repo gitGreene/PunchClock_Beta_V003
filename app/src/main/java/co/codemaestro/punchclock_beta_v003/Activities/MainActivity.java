@@ -21,6 +21,7 @@ import co.codemaestro.punchclock_beta_v003.Adapters.CategoryViewHolder;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 import co.codemaestro.punchclock_beta_v003.Fragments.AddCategoryFragment;
 import co.codemaestro.punchclock_beta_v003.Fragments.FavoritesFragment;
+import co.codemaestro.punchclock_beta_v003.Fragments.GoalsFragment;
 import co.codemaestro.punchclock_beta_v003.Fragments.HomeFragment;
 import co.codemaestro.punchclock_beta_v003.Fragments.TimerFragment;
 import co.codemaestro.punchclock_beta_v003.R;
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements
                 getSupportActionBar().setTitle(R.string.bottom_nav_favorites);
                 break;
             case 3:
+                getSupportActionBar().setTitle(R.string.bottom_nav_goals);
+                break;
+            case 4:
                 getSupportActionBar().setTitle(R.string.bottom_nav_timer);
                 break;
             default:
@@ -97,10 +101,17 @@ public class MainActivity extends AppCompatActivity implements
                                     return loadFragment(newPosition);
                                 }
                                 break;
-                            case R.id.bottom_nav_timer:
+                            case R.id.bottom_nav_goals:
                                 if (startingPosition != 3) {
-                                    getSupportActionBar().setTitle(R.string.bottom_nav_timer);
+                                    getSupportActionBar().setTitle(R.string.bottom_nav_goals);
                                     newPosition = 3;
+                                    return loadFragment(newPosition);
+                                }
+                                break;
+                            case R.id.bottom_nav_timer:
+                                if (startingPosition != 4) {
+                                    getSupportActionBar().setTitle(R.string.bottom_nav_timer);
+                                    newPosition = 4;
                                     return loadFragment(newPosition);
                                 }
                                 break;
@@ -123,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements
                 fragment = FavoritesFragment.newInstance(this);
                 break;
             case 3:
+                fragment = new GoalsFragment();
+                break;
+            case 4:
                 fragment = new TimerFragment();
                 break;
         }

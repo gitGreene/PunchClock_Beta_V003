@@ -2,11 +2,13 @@ package co.codemaestro.punchclock_beta_v003.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
@@ -31,14 +33,41 @@ public class CategoryAdapter extends RecyclerView.Adapter {
         this.inflater = LayoutInflater.from(context);
         this.categoryCardListener = categoryCardListener;
         this.plusCardListener = plusCardListener;
+        this.categories = new ArrayList<>();
     }
 
     // Passes the list of categories we received from the Observer
     //
-    public void setCategories(List<Category> categories) {
+    public void setCategories(final List<Category> categories) {
         this.categories = categories;
+//        final List<Category> oldCategories = new ArrayList<>(this.categories);
+//        this.categories.clear();
+//        this.categories.addAll(categories);
+//
+//
+//        DiffUtil.calculateDiff(new DiffUtil.Callback() {
+//            @Override
+//            public int getOldListSize() {
+//                return oldCategories.size();
+//            }
+//
+//            @Override
+//            public int getNewListSize() {
+//                return categories.size();
+//            }
+//
+//            @Override
+//            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+//                return oldCategories.get(oldItemPosition).equals(categories.get(newItemPosition));
+//            }
+//
+//            @Override
+//            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+//                return oldCategories.get(oldItemPosition).equals(categories.get(newItemPosition));
+//            }
+//        }).dispatchUpdatesTo(this);
 
-        // Notifies the adapter that the underlying data has changed
+         // Notifies the adapter that the underlying data has changed
         // Therefore causing the Adapter to refresh
         notifyDataSetChanged();
 
