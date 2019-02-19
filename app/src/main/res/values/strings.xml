@@ -4,6 +4,7 @@
     <!-- Bottom Nav Labels -->
     <string name="bottom_nav_home">Home</string>
     <string name="bottom_nav_favorites">Favorites</string>
+    <string name="bottom_nav_goals">Goals</string>
     <string name="bottom_nav_settings">Settings</string>
 
     <!-- Add Category Fragment -->

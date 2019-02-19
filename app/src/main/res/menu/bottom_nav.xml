@@ -12,6 +12,11 @@
         android:icon="@drawable/ic_favorite_heart" />
 
     <item
+        android:id="@+id/bottom_nav_goals"
+        android:title="@string/bottom_nav_goals"
+        android:icon="@drawable/ic_goals_bottom_nav" />
+
+    <item
         android:id="@+id/bottom_nav_timer"
         android:title="@string/bottom_nav_timer"
         android:icon="@drawable/ic_timer_bottom_nav" />
