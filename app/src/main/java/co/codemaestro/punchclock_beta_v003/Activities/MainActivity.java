@@ -24,16 +24,17 @@ import co.codemaestro.punchclock_beta_v003.Fragments.FavoritesFragment;
 import co.codemaestro.punchclock_beta_v003.Fragments.GoalsFragment;
 import co.codemaestro.punchclock_beta_v003.Fragments.HomeFragment;
 import co.codemaestro.punchclock_beta_v003.Fragments.TimerFragment;
+import co.codemaestro.punchclock_beta_v003.Interfaces.ListenFromMainActivity;
 import co.codemaestro.punchclock_beta_v003.R;
 import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 
 public class MainActivity extends AppCompatActivity implements
-        AddCategoryFragment.AddCategoryFragmentListener, CategoryViewHolder.CategoryCardListener, PlusCardViewHolder.PlusCardListener {
+        AddCategoryFragment.AddCategoryFragmentListener, CategoryViewHolder.CategoryCardListener, PlusCardViewHolder.PlusCardListener{
 
     private CategoryViewModel catViewModel;
     private BottomNavigationView bottomNav;
+    private ListenFromMainActivity activityListener;
 
-    //Shared Preferences key for night mode boolean and sharedPref object + boolean for nightMode
     private static final String PREFS_FILE = "SharedPreferences";
     private static final int PREFS_MODE = Context.MODE_PRIVATE;
     private static final String nightModeBooleanKey = "co.codemaestro.punchclock_beta_v003.nightModeKey";
@@ -42,11 +43,16 @@ public class MainActivity extends AppCompatActivity implements
     private int startingPosition = 1;
     SharedPreferences prefs;
 
+    public void setActivityListener(ListenFromMainActivity activityListener) {
+        this.activityListener = activityListener;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // Use sharedprefs to reactivate nightMode
         prefs = getSharedPreferences(PREFS_FILE, PREFS_MODE);
         nightModeEnabled = prefs.getBoolean(nightModeBooleanKey, false);
@@ -168,14 +174,6 @@ public class MainActivity extends AppCompatActivity implements
         return false;
     }
 
-    @Override
-    public void onChoice(boolean choice, String newCategory) {
-        // Add category to database
-        Log.d("LOG", newCategory);
-        Category addedCategory = new Category(newCategory, 0, 0, "00:00 AM", false, false, 0);
-        catViewModel.insert(addedCategory);
-    }
-
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate menu
         MenuInflater inflater = getMenuInflater();
@@ -218,6 +216,15 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onChoice(boolean choice, String newCategory) {
+        // Add category to database
+        Log.d("LOG", newCategory);
+        activityListener.RecallNotifyDataSetChanged();
+        Category addedCategory = new Category(newCategory, 0, 0, 0, "00:00 AM", false, false);
+        catViewModel.insert(addedCategory);
+    }
+
+    @Override
     public void onCardAction(Category category) {
         catViewModel.updateCategory(category);
     }
@@ -232,4 +239,5 @@ public class MainActivity extends AppCompatActivity implements
     protected void onDestroy() {
         super.onDestroy();
     }
+
 }

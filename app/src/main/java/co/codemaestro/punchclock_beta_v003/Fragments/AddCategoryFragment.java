@@ -15,7 +15,7 @@ import co.codemaestro.punchclock_beta_v003.R;
 
 
 /**
- * Add Category Fragment
+ * Add Category Fragment - Fragment for adding a new category to the database, activated using the plus card on the main activity
  */
 public class AddCategoryFragment extends AppCompatDialogFragment {
     AddCategoryFragmentListener listener;
