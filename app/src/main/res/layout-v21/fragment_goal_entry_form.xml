@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="5dp"
@@ -78,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/date_range" />
         </LinearLayout>
-
+        
         <LinearLayout
             android:id="@+id/goal_details_entry_form_container"
             android:layout_width="match_parent"
@@ -91,13 +92,9 @@
 
             <EditText
                 android:id="@+id/enter_goal_value_et"
-                android:layout_width="80dp"
-                android:layout_height="90dp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:textSize="45sp"
-                android:textAlignment="center"
-                android:hint="1"
-                android:textColorHint="@color/primaryColor"
                 android:layout_gravity="center"
                 android:inputType="number" />
 
@@ -106,7 +103,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/primaryColor" />
 
@@ -115,33 +112,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
                 android:text="Every"
                 android:textColor="@color/primaryColor"
                 android:textSize="30sp" />
-
-            <EditText
-                android:id="@+id/enter_goal_cycle_value_et"
-                android:layout_width="80dp"
-                android:layout_height="90dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:hint="24"
-                android:textColorHint="@color/primaryColor"
-                android:textSize="45sp"
-                android:textAlignment="center"
-                android:layout_gravity="center"
-                android:inputType="number" />
-
-            <Spinner
-                android:id="@+id/goal_cycle_value_spinner"
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/primaryColor" />
-
 
         </LinearLayout>
 
