@@ -78,7 +78,6 @@ public class CategoryViewModel extends AndroidViewModel {
         repository.insertTimeBank(timeBank);
     }
 
-
     /**
      * Goal Methods
      */

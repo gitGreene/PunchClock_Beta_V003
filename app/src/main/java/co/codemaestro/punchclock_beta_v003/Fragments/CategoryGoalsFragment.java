@@ -12,6 +12,7 @@ import android.renderscript.Sampler;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,14 +63,16 @@ public class CategoryGoalsFragment extends Fragment {
 
         addGoalButton = view.findViewById(R.id.add_goal_button);
 
-
-        addGoalButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GoalEntryFormFragment goalEntryForm = GoalEntryFormFragment.newInstance(parentCategoryId);
-                goalEntryForm.show(getFragmentManager(), "goal entry form fragment");
-            }
-        });
+        //TODO: Fix the goal entry form fragment size. Not respecting the views on screen
+//        addGoalButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                GoalEntryFormFragment goalEntryForm = GoalEntryFormFragment.newInstance(parentCategoryId);
+//                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(R.id.category_goals_container, goalEntryForm);
+//                fragmentTransaction.commit();
+//            }
+//        });
 
 
         categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
@@ -77,18 +80,18 @@ public class CategoryGoalsFragment extends Fragment {
         categoryViewModel.getAllCategoryGoals(parentCategoryId).observe(this, new Observer<List<Goal>>() {
             @Override
             public void onChanged(@Nullable List<Goal> goals) {
-//                tempGoal = goals.get(0);
-//                goalIdTv.setText(tempGoal.getGoalId());
-//                parentCategoryIdTv.setText(tempGoal.getParentCategoryId());
-//                goalNameTv.setText(tempGoal.getGoalName());
-//                timeSpentTv.setText(tempGoal.getTimeSpent() + "");
-//                desiredGoalTimeTv.setText(tempGoal.getDesiredGoalTime() + "");
-//                goalCycleValueTv.setText(tempGoal.getGoalCycleValue());
-
+                if(goals.size() != 0) {
+                    tempGoal = goals.get(0);
+                    goalIdTv.setText(tempGoal.getGoalId());
+                    parentCategoryIdTv.setText(tempGoal.getParentCategoryId());
+                    goalNameTv.setText(tempGoal.getGoalName());
+                    timeSpentTv.setText(tempGoal.getTimeSpent() + "");
+                    desiredGoalTimeTv.setText(tempGoal.getDesiredGoalTime() + "");
+                    goalCycleValueTv.setText(tempGoal.getGoalCycleValue());
+                } else {
+                    goalIdTv.setText("null");
+                }
             }
-
-
-
         });
 
 
