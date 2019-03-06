@@ -45,26 +45,26 @@ public class Category {
      */
 
     @Ignore
-    public Category(String category, long totalTime, long displayTime, String startTime, boolean timerRunning, boolean isFavorite, long timeAtDeath) {
+    public Category(String category, long totalTime, long displayTime, long timeAtDeath, String startTime, boolean timerRunning, boolean isFavorite) {
         this.category = category;
         this.totalTime = totalTime;
         this.displayTime = displayTime;
+        this.timeAtDeath = timeAtDeath;
         this.timerRunning = timerRunning;
         this.startTime = startTime;
         this.isFavorite = isFavorite;
-        this.timeAtDeath = timeAtDeath;
+
     }
 
-    public Category(int id, @NonNull String category, long totalTime, long displayTime, String startTime, boolean timerRunning, boolean isFavorite, long timeAtDeath) {
+    public Category(int id, @NonNull String category, long totalTime, long displayTime, long timeAtDeath, String startTime, boolean timerRunning, boolean isFavorite) {
         this.id = id;
         this.category = category;
         this.totalTime = totalTime;
         this.displayTime = displayTime;
+        this.timeAtDeath = timeAtDeath;
         this.startTime = startTime;
         this.timerRunning = timerRunning;
         this.isFavorite = isFavorite;
-        this.timeAtDeath = timeAtDeath;
-
     }
 
 
@@ -111,6 +111,15 @@ public class Category {
         this.displayTime = displayTime;
     }
 
+    //timeAtDeath
+    public long getTimeAtDeath() {
+        return timeAtDeath;
+    }
+
+    public void setTimeAtDeath(long timeAtDeath) {
+        this.timeAtDeath = timeAtDeath;
+    }
+
     //startTime
     public String getStartTime() {
         return startTime;
@@ -138,13 +147,7 @@ public class Category {
         isFavorite = favorite;
     }
 
-    public long getTimeAtDeath() {
-        return timeAtDeath;
-    }
 
-    public void setTimeAtDeath(long timeAtDeath) {
-        this.timeAtDeath = timeAtDeath;
-    }
 }
 
 

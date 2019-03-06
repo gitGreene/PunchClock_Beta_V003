@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +18,14 @@ import co.codemaestro.punchclock_beta_v003.R;
 
 public class CategoryAdapter extends RecyclerView.Adapter {
 
-    FormatMillis format = new FormatMillis();
     private List<Category> categories;
     private LayoutInflater inflater;
     private Context context;
     private CategoryViewHolder.CategoryCardListener categoryCardListener;
     private PlusCardViewHolder.PlusCardListener plusCardListener;
-
     private static final int CATEGORY_CARD_LAYOUT_TAG = 1;
     private static final int PLUS_CARD_LAYOUT_TAG = 2;
+    private static final String TAG = "CategoryAdapter";
 
 
     public CategoryAdapter(Context context, CategoryViewHolder.CategoryCardListener categoryCardListener, PlusCardViewHolder.PlusCardListener plusCardListener) {
@@ -37,40 +37,10 @@ public class CategoryAdapter extends RecyclerView.Adapter {
     }
 
     // Passes the list of categories we received from the Observer
-    //
     public void setCategories(final List<Category> categories) {
         this.categories = categories;
-//        final List<Category> oldCategories = new ArrayList<>(this.categories);
-//        this.categories.clear();
-//        this.categories.addAll(categories);
-//
-//
-//        DiffUtil.calculateDiff(new DiffUtil.Callback() {
-//            @Override
-//            public int getOldListSize() {
-//                return oldCategories.size();
-//            }
-//
-//            @Override
-//            public int getNewListSize() {
-//                return categories.size();
-//            }
-//
-//            @Override
-//            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-//                return oldCategories.get(oldItemPosition).equals(categories.get(newItemPosition));
-//            }
-//
-//            @Override
-//            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-//                return oldCategories.get(oldItemPosition).equals(categories.get(newItemPosition));
-//            }
-//        }).dispatchUpdatesTo(this);
-
-         // Notifies the adapter that the underlying data has changed
-        // Therefore causing the Adapter to refresh
         notifyDataSetChanged();
-
+        Log.e(TAG, "setCategories: Called " );
     }
 
     @Override
