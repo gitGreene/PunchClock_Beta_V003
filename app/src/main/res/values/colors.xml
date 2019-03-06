@@ -22,4 +22,17 @@
   <color name="bottom_nav_background_color">#6f42c1</color>
 
   <color name="square_color_one">#8a53e8</color>
+
+
+    <color name="goal_progress_bar_track_gradient1">#DFD6E9</color>
+    <color name="goal_progress_bar_track_gradient2">#C3BBCA</color>
+    <color name="goal_progress_bar_track_gradient3">#A7A0AC</color>
+
+    <color name="goal_progress_met_gradient1">#FDE534</color>
+    <color name="goal_progress_met_gradient2">#FFE2CD2A</color>
+    <color name="goal_progress_met_gradient3">#C0AF24</color>
+
+    <color name="goal_progress_bar_gradient1">#5525b5</color>
+    <color name="goal_progress_bar_gradient2">#4D21A2</color>
+    <color name="goal_progress_bar_gradient3">#431D91</color>
 </resources>

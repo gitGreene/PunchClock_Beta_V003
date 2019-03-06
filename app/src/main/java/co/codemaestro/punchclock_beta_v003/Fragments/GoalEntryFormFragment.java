@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -23,7 +25,7 @@ import co.codemaestro.punchclock_beta_v003.ViewModel.CategoryViewModel;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GoalEntryFormFragment extends AppCompatDialogFragment {
+public class GoalEntryFormFragment extends Fragment {
 
     private CategoryViewModel categoryViewModel;
     private static int parentCategoryId;
@@ -46,22 +48,15 @@ public class GoalEntryFormFragment extends AppCompatDialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        Dialog dialog = getDialog();
-        if (dialog != null)
-        {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            dialog.getWindow().setLayout(width, height);
-        }
     }
 
+    @Nullable
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.fragment_goal_entry_form,null );
         final AlertDialog.Builder newGoalFormBuilder = new AlertDialog.Builder(getActivity());
         newGoalFormBuilder.setView(view);
-
 
 //        int width = getResources().getDimensionPixelSize(R.dimen.popup_width);
 //        int height = getResources().getDimensionPixelSize(R.dimen.popup_height);
@@ -73,10 +68,6 @@ public class GoalEntryFormFragment extends AppCompatDialogFragment {
         enterGoalValue = view.findViewById(R.id.enter_goal_value_et);
         enterGoalCycleValue = view.findViewById(R.id.enter_goal_cycle_value_et);
 
-        // TODO: Make the spinners exist and work properly
-
-
-
-        return newGoalFormBuilder.create();
+        return view;
     }
 }
