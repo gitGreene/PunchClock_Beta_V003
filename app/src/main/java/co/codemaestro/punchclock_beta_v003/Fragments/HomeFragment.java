@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import co.codemaestro.punchclock_beta_v003.Activities.DetailActivity;
 import co.codemaestro.punchclock_beta_v003.Activities.MainActivity;
 import co.codemaestro.punchclock_beta_v003.Adapters.PlusCardViewHolder;
 import co.codemaestro.punchclock_beta_v003.Adapters.CategoryAdapter;
@@ -55,7 +56,7 @@ public class HomeFragment extends Fragment implements ListenFromMainActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         recyclerView.setAdapter(adapter);
 
-        ((MainActivity) getActivity()).setActivityListener(HomeFragment.this);
+        ((MainActivity) getActivity()).setMainActivityListener(HomeFragment.this);
         catViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
         cardDataIsSet = false;
 
@@ -72,8 +73,8 @@ public class HomeFragment extends Fragment implements ListenFromMainActivity {
     }
 
     @Override
-    public void RecallNotifyDataSetChanged() {
+    public void ActionFromMain() {
         cardDataIsSet = false;
-        Log.e(TAG, "RecallNotifyDataChanged: Called");
+        Log.e(TAG, "ActionFromMain: Called");
     }
 }

@@ -9,11 +9,13 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import co.codemaestro.punchclock_beta_v003.Classes.FormatMillis;
 import co.codemaestro.punchclock_beta_v003.Database.Category;
 
 //TODO: STAY ON TRACK
 public class TimerViewModel extends AndroidViewModel {
     private static final String TAG = "TimerViewModel";
+    private static final FormatMillis form = new FormatMillis();
     /**
      * Variables for the transient data we need in Detail Activity
      */
@@ -30,6 +32,6 @@ public class TimerViewModel extends AndroidViewModel {
     // Method for setting the timer value
     public void setTimer(long displayTime) {
         ((MutableLiveData<Long>) timeToShow).setValue(displayTime);
-        Log.e(TAG, "setTimer: " + (displayTime));
+        Log.e(TAG, "DetailTimer: " + (form.FormatMillisIntoHMS(displayTime)));
     }
 }

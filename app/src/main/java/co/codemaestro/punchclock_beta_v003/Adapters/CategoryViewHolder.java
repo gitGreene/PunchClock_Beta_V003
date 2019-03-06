@@ -1,13 +1,17 @@
 package co.codemaestro.punchclock_beta_v003.Adapters;
 
 import android.app.Activity;
+import android.arch.persistence.room.Ignore;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
@@ -41,6 +45,8 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
     private List<Category> categories;
     private Context context;
     private CategoryCardListener listener;
+    private UltimateRunnable ultimateRunnable;
+    private Handler handler = new Handler();
 
 
     public interface CategoryCardListener {
@@ -61,14 +67,38 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         categoryCardCommitButton = itemView.findViewById(R.id.category_card_commit_button);
         categoryCardLayout = itemView.findViewById(R.id.card_layout);
         categoryCardFavicon = itemView.findViewById(R.id.detail_activity_favicon);
+        ultimateRunnable = new UltimateRunnable(handler, categoryCardTimer, SystemClock.elapsedRealtime());
         itemView.setOnClickListener(this);
     }
 
-    public void setCategory(final Category category) {
+    public void setCategory(final Category category, final int position) {
+        // Stop runnable and get currentCategory
+        if (ultimateRunnable != null) {
+            handler.removeCallbacks(ultimateRunnable);
+        }
+
         this.category = category;
         categoryCardTitle.setText(category.getCategory());
         categoryCardTimer.setText(form.FormatMillisIntoHMS(category.getDisplayTime()));
         categoryCardTotalTime.setText(form.FormatMillisIntoDHM(category.getTotalTime()));
+
+        // If timer was running before, start a new one
+        if (category.isTimerRunning()) {
+            ultimateRunnable.holderTV = categoryCardTimer;
+            long timeAfterLife = SystemClock.elapsedRealtime() - category.getTimeAtDeath();
+            ultimateRunnable.initialTime = SystemClock.elapsedRealtime() - category.getDisplayTime() - timeAfterLife;
+            ultimateRunnable.displayResultToLog = category.getCategory();
+            ultimateRunnable.currentCategory = category;
+            ultimateRunnable.position = position;
+            handler.postDelayed(ultimateRunnable, 100);
+            StartEnabledButtons();
+        } else {
+            if (category.getDisplayTime() > 0) {
+                PauseEnabledButtons();
+            } else {
+                DefaultEnabledButtons();
+            }
+        }
 
         if (category.isFavorite()) {
             categoryCardFavicon.setChecked(true);
@@ -100,69 +130,127 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
             }
         });
 
-//        if(category.isTimerRunning()) {
-//            categoryCardPlayButton.setEnabled(false);
-//            categoryCardPauseButton.setEnabled(true);
-//        } else {
-//            categoryCardPlayButton.setEnabled(true);
-//            categoryCardPauseButton.setEnabled(false);
-//        }
-
         //TODO: Make the progress bar work - https://stackoverflow.com/questions/16893209/how-to-customize-a-progress-bar-in-android
 
 
         categoryCardPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                categoryCardPlayButton.startAnimation(cardIconScaleAnimation);
-                Toast.makeText(context, "Start Button Clicked Yo", Toast.LENGTH_LONG).show();
-                //category.setTimerRunning(true);
-                listener.onCardAction(category);
+            public void onClick(View view) {
                 StartEnabledButtons();
+                category.setTimerRunning(true);
+                categories.set(position, category);
+
+                ultimateRunnable.holderTV = categoryCardTimer;
+                ultimateRunnable.initialTime = SystemClock.elapsedRealtime() - category.getDisplayTime();
+                ultimateRunnable.displayResultToLog = category.getCategory();
+                ultimateRunnable.currentCategory = category;
+                ultimateRunnable.position = position;
+                handler.postDelayed(ultimateRunnable, 100);
+
+                // Update category
+                listener.onCardAction(category);
             }
         });
 
         categoryCardPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                categoryCardPauseButton.startAnimation(cardIconScaleAnimation);
-                Toast.makeText(context, "Pause Button Clicked Yo", Toast.LENGTH_LONG).show();
-                //category.setTimerRunning(false);
-                listener.onCardAction(category);
+            public void onClick(View view) {
                 PauseEnabledButtons();
+                handler.removeCallbacks(ultimateRunnable);
+                category.setTimerRunning(false);
+                categories.set(position, category);
+
+                // Update category and redraw card
+                listener.onCardAction(category);
             }
         });
 
         categoryCardResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryCardPauseButton.startAnimation(cardIconScaleAnimation);
-                Toast.makeText(context, "Reset Button Clicked Yo", Toast.LENGTH_LONG).show();
-                listener.onCardAction(category);
                 DefaultEnabledButtons();
+                category.setTimerRunning(false);
+                category.setDisplayTime(0);
+                category.setTimeAtDeath(0);
+                categoryCardTimer.setText(R.string.default_timer);
+                categories.set(position, category);
+
+                // Update category and redraw card
+                listener.onCardAction(category);
             }
         });
 
         categoryCardCommitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryCardPauseButton.startAnimation(cardIconScaleAnimation);
-                Toast.makeText(context, "Commit Button Clicked Yo", Toast.LENGTH_LONG).show();
-                listener.onCardAction(category);
-                DefaultEnabledButtons();
+                //DefaultEnabledButtons();
             }
         });
     }
 
     @Override
     public void onClick(View v) {
+        // Kill the timer threads
+        clearAll();
         // Create category object to hold category
         Intent detailIntent = new Intent(context, DetailActivity.class);
-        detailIntent.putExtra("category_id", category.getId());
+        detailIntent.putExtra("category", category);
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, categoryCardLayout, ViewCompat.getTransitionName(categoryCardLayout));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             context.startActivity(detailIntent, options.toBundle());
+        }
+    }
+
+    /**
+     * UltimateRunnable
+     */
+
+    public void clearAll() {
+        handler.removeCallbacksAndMessages(null);
+    }
+
+    // Runnable that updates the timerView text, the value in categories and the category database table every tick
+    public class UltimateRunnable implements Runnable {
+
+        private Handler handler;
+        private TextView holderTV;
+        private long initialTime;
+        private Category currentCategory;
+        private int position;
+        private long displayMillis;
+        private String displayResultToLog;
+        private FormatMillis form = new FormatMillis();
+        private final static String TAG = "CustomRunnable";
+
+        @Ignore
+        public UltimateRunnable(Handler handler, TextView holderTV, long initialTime) {
+            this.handler = handler;
+            this.holderTV = holderTV;
+            this.initialTime = initialTime;
+        }
+
+        //Unused
+        public UltimateRunnable(Handler handler, TextView holderTV, long initialTime, Category currentCategory, int position) {
+            this.handler = handler;
+            this.holderTV = holderTV;
+            this.initialTime = initialTime;
+            this.currentCategory = currentCategory;
+            this.position = position;
+        }
+
+        @Override
+        public void run() {
+            //android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+            displayMillis = SystemClock.elapsedRealtime() - initialTime;
+            holderTV.setText(form.FormatMillisIntoHMS(displayMillis));
+            currentCategory.setDisplayTime(displayMillis);
+            currentCategory.setTimeAtDeath(SystemClock.elapsedRealtime());
+            categories.set(position, currentCategory);
+            listener.onCardAction(currentCategory);
+
+            Log.e(TAG, "CustomRunnable--" + displayResultToLog + " DisplayTime: " + form.FormatMillisIntoHMS(SystemClock.elapsedRealtime() - initialTime));
+            handler.postDelayed(this, 1000);
         }
     }
 

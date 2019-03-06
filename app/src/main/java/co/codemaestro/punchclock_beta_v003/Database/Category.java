@@ -6,8 +6,12 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
+// Serialible class allows us to pass custom objects through intents
+@SuppressWarnings("serial")
 @Entity(tableName = "category_table")
-public class Category {
+public class Category implements Serializable {
 
     /**
      * Column Names

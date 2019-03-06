@@ -42,8 +42,9 @@ public class MainActivity extends AppCompatActivity implements
     private boolean nightModeEnabled = false;
     private int startingPosition = 1;
     SharedPreferences prefs;
+    private static final String TAG = "MainActivity";
 
-    public void setActivityListener(ListenFromMainActivity activityListener) {
+    public void setMainActivityListener(ListenFromMainActivity activityListener) {
         this.activityListener = activityListener;
     }
 
@@ -219,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onChoice(boolean choice, String newCategory) {
         // Add category to database
         Log.d("LOG", newCategory);
-        activityListener.RecallNotifyDataSetChanged();
+        activityListener.ActionFromMain();
         Category addedCategory = new Category(newCategory, 0, 0, 0, "00:00 AM", false, false);
         catViewModel.insert(addedCategory);
     }
@@ -238,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e(TAG, "onDestroy: MainActivity");
     }
 
 }

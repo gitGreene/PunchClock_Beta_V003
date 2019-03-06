@@ -49,7 +49,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         CategoryViewHolder viewHolder1 = (CategoryViewHolder) viewHolder;
-        viewHolder1.setCategory(categories.get(position));
+        viewHolder1.setCategory(categories.get(position), position);
     }
 
     @Override

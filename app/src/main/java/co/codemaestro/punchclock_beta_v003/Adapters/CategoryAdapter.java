@@ -1,6 +1,9 @@
 package co.codemaestro.punchclock_beta_v003.Adapters;
 
+import android.arch.persistence.room.Ignore;
 import android.content.Context;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,10 @@ public class CategoryAdapter extends RecyclerView.Adapter {
     private static final int CATEGORY_CARD_LAYOUT_TAG = 1;
     private static final int PLUS_CARD_LAYOUT_TAG = 2;
     private static final String TAG = "CategoryAdapter";
+
+    private Handler handler = new Handler();
+    private FormatMillis form = new FormatMillis();
+
 
 
     public CategoryAdapter(Context context, CategoryViewHolder.CategoryCardListener categoryCardListener, PlusCardViewHolder.PlusCardListener plusCardListener) {
@@ -81,7 +89,7 @@ public class CategoryAdapter extends RecyclerView.Adapter {
         switch (viewHolder.getItemViewType()) {
             case CATEGORY_CARD_LAYOUT_TAG:
                 CategoryViewHolder viewHolder1 = (CategoryViewHolder) viewHolder;
-                viewHolder1.setCategory(categories.get(position));
+                viewHolder1.setCategory(categories.get(position), position);
                 break;
             case PLUS_CARD_LAYOUT_TAG:
                 PlusCardViewHolder viewHolder2 = (PlusCardViewHolder) viewHolder;
